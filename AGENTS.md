@@ -10,6 +10,7 @@
 ## Application layout
 
 - This is a single Angular application: `src/main.ts` bootstraps `App` with providers from `src/app/app.config.ts`; routes are in `src/app/app.routes.ts`.
+- The home route lazy-loads `calculator/`; keep the framework-independent combat engine in `src/app/probability/`. See `docs/probability-model.md` for army-count semantics and the opening-only recommendation scope.
 - `public/` is copied into build assets. Global CSS imports Tailwind v4 in `src/styles.css`, with PostCSS configured in `.postcssrc.json`.
 - Production builds enforce initial bundle budgets of 500 kB warning / 1 MB error and component-style budgets of 4 kB warning / 8 kB error.
 

@@ -1,0 +1,379 @@
+<div class="mode-switch" role="group" aria-label="Calculator mode">
+  <button
+    type="button"
+    [class.active]="mode() === 'battle'"
+    [attr.aria-pressed]="mode() === 'battle'"
+    (click)="mode.set('battle')"
+  >
+    01 / Territory battle
+  </button>
+  <button
+    type="button"
+    [class.active]="mode() === 'roll'"
+    [attr.aria-pressed]="mode() === 'roll'"
+    (click)="mode.set('roll')"
+  >
+    02 / Individual roll
+  </button>
+</div>
+
+@if (mode() === 'battle') {
+  <section aria-labelledby="battle-title">
+    <div class="section-heading">
+      <h2 id="battle-title">The balance of forces</h2>
+      <span>FULL BATTLE</span>
+    </div>
+    <div class="army-grid">
+      <div class="army attacker">
+        <label for="attacker-armies"><span class="dot"></span> Attacking armies</label>
+        <div class="counter">
+          <button
+            type="button"
+            aria-label="Remove attacking army"
+            [disabled]="+attacker() <= 1"
+            (click)="step('attacker', -1)"
+          >
+            −
+          </button>
+          <input
+            id="attacker-armies"
+            type="number"
+            min="1"
+            [max]="maxArmies"
+            step="1"
+            inputmode="numeric"
+            [value]="attacker()"
+            (input)="updateArmy('attacker', $event)"
+            aria-describedby="attacker-hint army-error"
+            [attr.aria-invalid]="!armies()"
+          />
+          <button
+            type="button"
+            aria-label="Add attacking army"
+            [disabled]="+attacker() >= maxArmies"
+            (click)="step('attacker', 1)"
+          >
+            +
+          </button>
+        </div>
+        <p id="attacker-hint">Total in the origin territory. One must stay behind.</p>
+      </div>
+      <div class="army defender">
+        <label for="defender-armies"><span class="dot"></span> Defending armies</label>
+        <div class="counter">
+          <button
+            type="button"
+            aria-label="Remove defending army"
+            [disabled]="+defender() <= 0"
+            (click)="step('defender', -1)"
+          >
+            −
+          </button>
+          <input
+            id="defender-armies"
+            type="number"
+            min="0"
+            [max]="maxArmies"
+            step="1"
+            inputmode="numeric"
+            [value]="defender()"
+            (input)="updateArmy('defender', $event)"
+            aria-describedby="defender-hint army-error"
+            [attr.aria-invalid]="!armies()"
+          />
+          <button
+            type="button"
+            aria-label="Add defending army"
+            [disabled]="+defender() >= maxArmies"
+            (click)="step('defender', 1)"
+          >
+            +
+          </button>
+        </div>
+        <p id="defender-hint">Total in the territory you want to conquer.</p>
+      </div>
+    </div>
+    <p id="army-error" class="validation" role="status">
+      @if (!armies()) {
+        Enter whole numbers: 1–{{ maxArmies }} attacking armies and 0–{{ maxArmies }} defending
+        armies.
+      }
+    </p>
+
+    @if (forecast(); as result) {
+      <div class="forecast" aria-live="polite" aria-atomic="true">
+        <p class="eyebrow">TERRITORY FORECAST</p>
+        <div class="odds-grid">
+          <div>
+            <span class="result-label">Attacker conquers</span
+            ><strong class="attack-text">{{ battlePercentages()[0] }}</strong>
+          </div>
+          <div>
+            <span class="result-label">Defender holds</span
+            ><strong class="defend-text">{{ battlePercentages()[1] }}</strong>
+          </div>
+        </div>
+        <div class="probability-bar" aria-hidden="true">
+          <span [style.width.%]="result.conquest * 100"></span>
+        </div>
+        <div class="loss-grid">
+          <p>
+            Expected attacker losses <b>{{ result.expectedAttackerLoss | number: '1.2-2' }}</b>
+          </p>
+          <p>
+            Expected defender losses <b>{{ result.expectedDefenderLoss | number: '1.2-2' }}</b>
+          </p>
+        </div>
+      </div>
+      <p class="note">
+        <b>Forecast assumptions:</b> both sides always roll the maximum legal dice. The attacker
+        continues until conquest or only one army remains. Expected losses are averaged across all
+        wins and losses.
+      </p>
+
+      @if (recommendation(); as advice) {
+        <section class="strategy" aria-labelledby="strategy-title">
+          <div class="section-heading">
+            <h2 id="strategy-title">Your opening move</h2>
+            <span>STRATEGY NOTES</span>
+          </div>
+          @if (advice.choices.length) {
+            <div class="advice-grid">
+              <p>
+                <span class="attack-text">ATTACK</span
+                ><b
+                  >Roll {{ advice.attackingDice }}
+                  {{ advice.attackingDice === 1 ? 'die' : 'dice' }}.</b
+                >Best worst-case chance of conquest across the defender’s legal opening choices.
+              </p>
+              <p>
+                <span class="defend-text">DEFEND</span
+                ><b
+                  >Roll {{ advice.defendingDice }}
+                  {{ advice.defendingDice === 1 ? 'die' : 'dice' }}.</b
+                >Best worst-case chance of holding across the attacker’s legal opening choices.
+              </p>
+            </div>
+            <p class="note">
+              These are independent, pre-roll choices. Only the opening roll varies below; every
+              later roll uses maximum dice. This is not an optimized policy for every future turn.
+              Equal success odds favor more dice.
+            </p>
+            <div
+              class="table-scroll"
+              tabindex="0"
+              role="region"
+              aria-label="Opening dice comparison, horizontally scrollable"
+            >
+              <table>
+                <caption>
+                  Compare every legal opening — fewer immediate casualties do not necessarily mean
+                  better battle odds.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Attack / defend dice</th>
+                    <th scope="col">Conquer</th>
+                    <th scope="col">Hold</th>
+                    <th scope="col">Roll losses<br />A / D</th>
+                    <th scope="col">Battle losses<br />A / D</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (
+                    choice of advice.choices;
+                    track choice.attackingDice + ':' + choice.defendingDice
+                  ) {
+                    <tr
+                      [class.recommended]="
+                        choice.attackingDice === advice.attackingDice &&
+                        choice.defendingDice === advice.defendingDice
+                      "
+                    >
+                      <th scope="row">
+                        {{ choice.attackingDice }} / {{ choice.defendingDice }}
+                        @if (
+                          choice.attackingDice === advice.attackingDice &&
+                          choice.defendingDice === advice.defendingDice
+                        ) {
+                          <span aria-label="Recommended opening">★</span>
+                        }
+                      </th>
+                      <td>{{ choice.percentages[0] }}</td>
+                      <td>{{ choice.percentages[1] }}</td>
+                      <td>
+                        {{ choice.roll.expectedAttackerLoss | number: '1.2-2' }} /
+                        {{ choice.roll.expectedDefenderLoss | number: '1.2-2' }}
+                      </td>
+                      <td>
+                        {{ choice.expectedAttackerLoss | number: '1.2-2' }} /
+                        {{ choice.expectedDefenderLoss | number: '1.2-2' }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <p class="note">
+              {{
+                armies()?.d === 0
+                  ? 'No defenders remain: the territory is already conquered.'
+                  : 'No attack is possible: the last army must remain in the origin territory.'
+              }}
+            </p>
+          }
+        </section>
+      }
+    }
+  </section>
+} @else {
+  <section aria-labelledby="roll-title">
+    <div class="section-heading">
+      <h2 id="roll-title">Read an individual roll</h2>
+      <span>HYPOTHETICAL ANALYSIS</span>
+    </div>
+    <p class="notice">
+      <b>Choose before rolling.</b> In a real game, the defender chooses their dice before seeing
+      the attacker’s results. Known attacker values below are for hypothetical analysis, not a legal
+      opportunity to change defense.
+    </p>
+    <div class="army-grid">
+      <fieldset class="army attacker">
+        <legend>Attacking dice</legend>
+        <div class="dice-buttons">
+          @for (count of dieOptions; track count) {
+            <button
+              type="button"
+              [attr.aria-pressed]="attackingDice() === count"
+              [class.selected]="attackingDice() === count"
+              (click)="attackingDice.set(count)"
+            >
+              {{ count }} {{ count === 1 ? 'die' : 'dice' }}
+            </button>
+          }
+        </div>
+        <p>Requires at least {{ attackingDice() + 1 }} armies in the origin territory.</p>
+      </fieldset>
+      <fieldset class="army defender">
+        <legend>Defending dice</legend>
+        <div class="dice-buttons">
+          @for (count of defenderOptions; track count) {
+            <button
+              type="button"
+              [attr.aria-pressed]="defendingDice() === count"
+              [class.selected]="defendingDice() === count"
+              (click)="defendingDice.set(count)"
+            >
+              {{ count }} {{ count === 1 ? 'die' : 'dice' }}
+            </button>
+          }
+        </div>
+        <p>
+          Requires at least {{ defendingDice() }} defending
+          {{ defendingDice() === 1 ? 'army' : 'armies' }}.
+        </p>
+      </fieldset>
+    </div>
+    <fieldset class="known-roll">
+      <legend>Known attacker results</legend>
+      <div class="face-selectors">
+        @for (face of knownDice(); track $index; let i = $index) {
+          <label [for]="'die-' + i"
+            >Die {{ i + 1
+            }}<select [id]="'die-' + i" [value]="face" (change)="setFace(i, $event)">
+              @for (value of faceOptions; track value) {
+                <option [value]="value">{{ value }}</option>
+              }
+            </select></label
+          >
+        }
+      </div>
+      <p class="note">Enter in any order. Dice are sorted highest first; the defender wins ties.</p>
+    </fieldset>
+    <div class="forecast" aria-live="polite" aria-atomic="true">
+      <p class="eyebrow">CONDITIONAL CASUALTY PROBABILITIES</p>
+      <table class="casualties">
+        <caption>
+          Given attacker values
+          {{
+            knownDice().join(', ')
+          }}, over
+          {{
+            conditional().totalOutcomes
+          }}
+          equally likely defender rolls.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Armies lost</th>
+            <th scope="col">Attacker</th>
+            <th scope="col">Defender</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of casualtyRows(); track row.loss) {
+            <tr>
+              <th scope="row">{{ row.loss }}</th>
+              <td class="attack-text">{{ row.attacker }}</td>
+              <td class="defend-text">{{ row.defender }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div class="loss-grid">
+        <p>
+          Expected attacker losses
+          <b>{{ conditional().expectedAttackerLoss | number: '1.2-2' }}</b>
+        </p>
+        <p>
+          Expected defender losses
+          <b>{{ conditional().expectedDefenderLoss | number: '1.2-2' }}</b>
+        </p>
+      </div>
+    </div>
+    <p class="note">
+      Each column is a distribution over losses for that side, not independent events. Every roll
+      eliminates exactly
+      {{ attackingDice() < defendingDice() ? attackingDice() : defendingDice() }}
+      {{
+        (attackingDice() < defendingDice() && attackingDice() === 1) || defendingDice() === 1
+          ? 'army'
+          : 'armies'
+      }}
+      in total.
+    </p>
+    <div class="pre-roll">
+      <h3>Before either side rolls</h3>
+      <p>
+        For {{ attackingDice() }} vs {{ defendingDice() }} dice, unconditional expected losses are
+        <b>{{ preRoll().expectedAttackerLoss | number: '1.2-2' }} attacker</b> and
+        <b>{{ preRoll().expectedDefenderLoss | number: '1.2-2' }} defender</b> armies. Use Territory
+        battle to compare legal opening choices by conquest and resistance chances.
+      </p>
+    </div>
+  </section>
+}
+
+<details class="method">
+  <summary>Behind the numbers</summary>
+  <div>
+    <h3>All outcomes. No simulations.</h3>
+    <p>
+      Each die has six equally likely faces. We enumerate all 6<sup>A + D</sup> ordered outcomes for
+      an unknown roll, or 6<sup>D</sup> defender outcomes when attacker dice are known. Sorted dice
+      are compared in pairs, and ties go to the defender.
+    </p>
+    <p>
+      For a battle, each possible loss leads to a smaller battle. Dynamic programming memoizes these
+      states and combines their probabilities until the defender has no armies or the attacker has
+      only one. The origin’s final army is never risked or counted as a casualty.
+    </p>
+    <p>
+      These are exact combinatorial models evaluated with floating-point arithmetic, not
+      arbitrary-precision fractions. Percentages are rounded to one decimal; complete distributions
+      are rounded together to total 100%. A displayed 0.0% or 100.0% may be a rounded value. Army
+      inputs are limited to {{ maxArmies }} per side to keep calculations responsive.
+    </p>
+  </div>
+</details>

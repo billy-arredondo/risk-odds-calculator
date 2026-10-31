@@ -1,3 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+:root {
+  --ink: #252b25;
+  --muted: #596052;
+  --line: #c9ccbd;
+  --paper: #faf9f2;
+  --attack: #a43423;
+  --defend: #315b50;
+  --mono: 'Consolas', 'Liberation Mono', monospace;
+  font-family: 'Trebuchet MS', 'Verdana', sans-serif;
+  color: var(--ink);
+  background: #f1f0e6;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 3px solid #805913;
+  outline-offset: 4px;
+}
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -100px;
+  z-index: 10;
+  padding: 12px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.skip-link:focus {
+  top: 12px;
+}

@@ -1,24 +1,36 @@
-# Current architecture
+# Architecture
 
-The repository contains a single Angular application. It is at an early stage: it displays the
-Angular starter page, has no routes defined, and does not yet implement probability calculations.
+The repository contains a single client-side Angular 22 application. There is no backend, external
+data source, or state-management dependency.
 
-## Bootstrap and navigation
+## Execution flow
 
-1. `src/main.ts` bootstraps the root `App` component using `bootstrapApplication`.
-2. `src/app/app.config.ts` configures the application providers and router.
-3. `src/app/app.routes.ts` contains the currently empty route list.
-4. `src/app/app.ts` defines the root component, which uses `app.html`, `app.css`, and `RouterOutlet`.
+1. `src/main.ts` bootstraps `App` using providers in `src/app/app.config.ts`.
+2. `App` renders the page shell and a router outlet. `src/app/app.routes.ts` lazy-loads `Calculator`
+   at the home route and redirects unknown paths there.
+3. `src/app/calculator/calculator.ts` holds UI state in signals. Computed signals derive validated
+   inputs, battle forecasts, opening comparisons, and conditional casualty distributions.
+4. `src/app/probability/combat.ts` exposes framework-independent functions. It caches the six legal
+   roll distributions and memoizes maximum-dice battle states by army counts.
 
-## Files and tools
+The calculator uses native number/select controls and button events without an Angular form model.
+Invalid army inputs hide forecasts and display validation feedback rather than running the engine.
+Switching modes preserves the selections in each mode.
 
-| Location          | Responsibility                                            |
-| ----------------- | --------------------------------------------------------- |
-| `src/app/`        | Application components, configuration, routes, and tests. |
-| `src/styles.css`  | Global styles and Tailwind CSS v4 import.                 |
-| `public/`         | Static files copied to the build assets.                  |
-| `angular.json`    | Build, server, test, and size budget configuration.       |
-| `.postcssrc.json` | Tailwind PostCSS plugin configuration.                    |
-| `docs/`           | Project documentation.                                    |
+## Boundaries
 
-Implementation conventions for agents are maintained in [`AGENTS.md`](../AGENTS.md).
+| Location               | Responsibility                                                        |
+| ---------------------- | --------------------------------------------------------------------- |
+| `src/app/app.*`        | Page shell and routing integration tests.                             |
+| `src/app/calculator/`  | Responsive UI, input validation, presentation, and interaction tests. |
+| `src/app/probability/` | Pure combat calculations, bounded caches, and mathematical tests.     |
+| `src/styles.css`       | Global theme, Tailwind v4 import, keyboard focus, and base styles.    |
+| `public/`              | Static files copied to build assets.                                  |
+| `angular.json`         | Build, server, test, and size budget configuration.                   |
+| `.postcssrc.json`      | Tailwind PostCSS plugin configuration.                                |
+| `docs/`                | Project documentation.                                                |
+
+The engine validates its public combat inputs independently of the UI. Keep Angular imports and
+formatting out of the combat calculations; fractional expectations must not be rounded before
+they are combined. See [the probability model](probability-model.md) for the recurrence and strategy
+assumptions, and [`AGENTS.md`](../AGENTS.md) for implementation conventions.

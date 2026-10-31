@@ -1,0 +1,316 @@
+:host {
+  display: block;
+}
+.eyebrow,
+.section-heading > span {
+  font: 11px/1.5 var(--mono);
+  letter-spacing: 0.12em;
+}
+.eyebrow {
+  color: var(--muted);
+  margin: 0 0 15px;
+}
+.mode-switch {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 30px;
+}
+.mode-switch button {
+  padding: 17px 20px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+}
+.mode-switch .active {
+  color: var(--ink);
+  border-color: var(--attack);
+  font-weight: 700;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0 18px;
+}
+h2 {
+  font:
+    26px Georgia,
+    serif;
+  margin: 0;
+}
+.section-heading > span {
+  color: var(--muted);
+}
+.army-grid,
+.odds-grid,
+.loss-grid,
+.advice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.army {
+  padding: 22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--side);
+  min-width: 0;
+}
+.attacker {
+  --side: var(--attack);
+}
+.defender {
+  --side: var(--defend);
+}
+.army label,
+.army legend {
+  font-weight: 700;
+}
+.army p,
+.note {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.army p {
+  margin: 13px 0 0;
+}
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--side);
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.counter button {
+  flex: 0 0 44px;
+  height: 44px;
+  font-size: 24px;
+  border: 1px solid var(--line);
+  background: transparent;
+}
+.counter input {
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+  font: 48px var(--mono);
+  color: var(--side);
+  background: transparent;
+  border: 0;
+  appearance: textfield;
+}
+.counter input::-webkit-inner-spin-button {
+  appearance: none;
+}
+.validation {
+  color: var(--attack);
+  font-size: 13px;
+  margin: 8px 0;
+}
+.forecast {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 28px;
+  margin-top: 20px;
+}
+.result-label {
+  display: block;
+  font-size: 14px;
+}
+.odds-grid strong {
+  font: clamp(36px, 6vw, 64px) var(--mono);
+  letter-spacing: -0.07em;
+}
+.attack-text {
+  color: var(--attack);
+}
+.defend-text {
+  color: var(--defend);
+}
+.probability-bar {
+  height: 12px;
+  background: var(--defend);
+  margin: 22px 0;
+}
+.probability-bar span {
+  display: block;
+  height: 100%;
+  background: var(--attack);
+}
+.loss-grid {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  font-size: 13px;
+}
+.loss-grid p {
+  margin: 0;
+}
+.loss-grid b {
+  display: block;
+  font: 24px var(--mono);
+  margin-top: 5px;
+}
+.strategy {
+  margin: 36px 0;
+}
+.advice-grid p {
+  margin: 0;
+  line-height: 1.65;
+  font-size: 14px;
+}
+.advice-grid span {
+  font: 11px var(--mono);
+  display: block;
+  letter-spacing: 0.1em;
+}
+.advice-grid b {
+  display: block;
+  font:
+    25px Georgia,
+    serif;
+  margin: 6px 0;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+caption {
+  text-align: left;
+  color: var(--muted);
+  line-height: 1.6;
+  padding: 12px 0;
+}
+th,
+td {
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 10px;
+}
+thead th {
+  font-size: 11px;
+  color: var(--muted);
+}
+td {
+  font-family: var(--mono);
+}
+.recommended {
+  background: #e4e9df;
+}
+.table-scroll {
+  overflow-x: auto;
+}
+.table-scroll table {
+  min-width: 600px;
+}
+.notice {
+  background: #f0e4ce;
+  border-left: 3px solid #88601c;
+  padding: 16px;
+  line-height: 1.65;
+  font-size: 14px;
+}
+.dice-buttons,
+.face-selectors {
+  display: flex;
+  gap: 10px;
+}
+.dice-buttons button {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  background: transparent;
+}
+.dice-buttons .selected {
+  background: var(--side);
+  color: white;
+  border-color: var(--side);
+}
+.known-roll {
+  border: 0;
+  padding: 20px 0 0;
+  margin-top: 18px;
+}
+.known-roll legend {
+  font:
+    24px Georgia,
+    serif;
+}
+.face-selectors label {
+  font-size: 12px;
+  color: var(--muted);
+}
+.face-selectors select {
+  display: block;
+  width: 76px;
+  min-height: 56px;
+  font: 28px var(--mono);
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 6px;
+  color: var(--attack);
+}
+.casualties td {
+  font-size: 24px;
+}
+.pre-roll p,
+.method p {
+  line-height: 1.7;
+  font-size: 14px;
+}
+h3 {
+  font:
+    22px Georgia,
+    serif;
+}
+.method {
+  border-block: 1px solid var(--line);
+  margin: 36px 0;
+}
+.method summary {
+  padding: 20px 0;
+  cursor: pointer;
+  font-weight: 700;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+@media (max-width: 600px) {
+  .army-grid {
+    gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  .forecast {
+    padding: 20px;
+  }
+  .odds-grid,
+  .loss-grid,
+  .advice-grid {
+    gap: 16px;
+  }
+  .section-heading > span {
+    display: none;
+  }
+  .mode-switch button {
+    padding: 14px 10px;
+    font-size: 13px;
+  }
+  .casualties td {
+    font-size: 20px;
+  }
+  .counter input {
+    font-size: 40px;
+  }
+}
