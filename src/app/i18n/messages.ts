@@ -1,3 +1,113 @@
+type Messages = {
+  skip: string;
+  home: string;
+  edition: string;
+  tagline: string;
+  title: string;
+  subtitle: string;
+  intro: string;
+  footer: string;
+  fan: string;
+  language: string;
+  theme: string;
+  lightTheme: string;
+  darkTheme: string;
+  mode: string;
+  battleMode: string;
+  rollMode: string;
+  balance: string;
+  fullBattle: string;
+  attackArmies: string;
+  defendArmies: string;
+  removeAttack: string;
+  addAttack: string;
+  removeDefend: string;
+  addDefend: string;
+  attackHint: string;
+  defendHint: string;
+  invalid: (max: number) => string;
+  forecast: string;
+  conquer: string;
+  hold: string;
+  attackLoss: string;
+  defendLoss: string;
+  assumptionsTitle: string;
+  assumptions: string;
+  forecastScope: string;
+  roundingNotice: string;
+  opening: string;
+  strategy: string;
+  attack: string;
+  defend: string;
+  rollDice: (n: number) => string;
+  attackAdvice: string;
+  defendAdvice: string;
+  strategyNote: string;
+  strategyDetails: string;
+  comparisonLabel: string;
+  comparison: string;
+  dicePair: string;
+  conquerShort: string;
+  holdShort: string;
+  rollLoss: string;
+  battleLoss: string;
+  sides: string;
+  recommended: string;
+  alreadyConquered: string;
+  cannotAttack: string;
+  individual: string;
+  hypothetical: string;
+  chooseFirst: string;
+  notice: string;
+  attackDice: string;
+  defendDice: string;
+  dice: (n: number) => string;
+  requiresAttack: (n: number) => string;
+  requiresDefense: (n: number) => string;
+  known: string;
+  entryMode: string;
+  entryModeHint: string;
+  descending: string;
+  freeEntry: string;
+  faceValue: (n: number) => string;
+  descendingHint: string;
+  incompleteDice: string;
+  die: (n: number) => string;
+  sortHint: string;
+  conditional: string;
+  rollResultsTitle: string;
+  rollDetailTitle: string;
+  showBreakdown: string;
+  preRollOutcomes: string;
+  rollWinExplanation: string;
+  outcomeDescription: (a: number, d: number) => string;
+  outcomeShort: (a: number, d: number) => string;
+  outcomeLosses: (a: number, d: number) => string;
+  favorableCases: (count: number, total: number) => string;
+  partitionRounding: string;
+  mostLikely: string;
+  expectedExplanation: string;
+  rollDetails: string;
+  marginalCaption: string;
+  jointCaption: string;
+  outcomeCount: string;
+  probability: string;
+  caption: (values: string, total: number) => string;
+  armiesLost: string;
+  attacker: string;
+  defender: string;
+  lossNote: (n: number) => string;
+  beforeRoll: string;
+  preRoll: (a: number, d: number, al: string, dl: string) => string;
+  method: string;
+  methodTitle: string;
+  methodOne: string;
+  methodTwo: string;
+  methodThree: (max: number) => string;
+  pageTitle: string;
+  description: string;
+};
+
 export const en = {
   skip: 'Skip to calculator',
   home: 'Risk Odds Calculator home',
@@ -26,7 +136,7 @@ export const en = {
   addDefend: 'Add defending army',
   attackHint: 'Total in the origin territory. One must stay behind.',
   defendHint: 'Total in the territory you want to conquer.',
-  invalid: (max: number) =>
+  invalid: (max) =>
     `Enter whole numbers: 1–${max} attacking armies and 0–${max} defending armies.`,
   forecast: 'CHANCES OF CONQUEST OR RESISTANCE',
   conquer: 'Attacker conquers',
@@ -42,7 +152,7 @@ export const en = {
   strategy: 'STRATEGY NOTES',
   attack: 'ATTACK',
   defend: 'DEFEND',
-  rollDice: (n: number) => `Roll ${n} ${n === 1 ? 'die' : 'dice'}.`,
+  rollDice: (n) => `Roll ${n} ${n === 1 ? 'die' : 'dice'}.`,
   attackAdvice: 'Choose the strongest chance of conquest even against the defender’s most unfavorable opening.',
   defendAdvice: 'Choose the strongest chance of holding even against the attacker’s most unfavorable opening.',
   strategyNote:
@@ -67,20 +177,20 @@ export const en = {
     'In a real game, the defender chooses their dice before seeing the attacker’s results. Known attacker values below are for hypothetical analysis, not a legal opportunity to change defense.',
   attackDice: 'Attacking dice',
   defendDice: 'Defending dice',
-  dice: (n: number) => `${n} ${n === 1 ? 'die' : 'dice'}`,
-  requiresAttack: (n: number) => `Requires at least ${n} armies in the origin territory.`,
-  requiresDefense: (n: number) =>
+  dice: (n) => `${n} ${n === 1 ? 'die' : 'dice'}`,
+  requiresAttack: (n) => `Requires at least ${n} armies in the origin territory.`,
+  requiresDefense: (n) =>
     `Requires at least ${n} defending ${n === 1 ? 'army' : 'armies'}.`,
   known: 'Known attacker results',
   entryMode: 'Dice entry order',
   entryModeHint: 'Each entry mode remembers its own dice values; switching modes restores its previous values.',
   descending: 'Descending',
   freeEntry: 'Any order',
-  faceValue: (n: number) => `Value ${n}`,
+  faceValue: (n) => `Value ${n}`,
   descendingHint:
     'Each die must be no higher than the previous one. Later dice default to the highest allowed value.',
   incompleteDice: 'Choose a value for each attacking die to see conditional probabilities.',
-  die: (n: number) => `Die ${n}`,
+  die: (n) => `Die ${n}`,
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
   conditional: 'CONDITIONAL ROLL PROBABILITIES',
   rollResultsTitle: 'Chances of winning the roll',
@@ -89,12 +199,12 @@ export const en = {
   preRollOutcomes: 'Possible outcomes before either side rolls',
   rollWinExplanation:
     'A side wins the roll if it inflicts more losses than it takes. Shared losses do not decide the roll. A die tie favors the defender.',
-  outcomeDescription: (a: number, d: number) =>
+  outcomeDescription: (a, d) =>
     a && d ? 'Shared losses' : a ? 'The defender wins the roll' : 'The attacker wins the roll',
-  outcomeShort: (a: number, d: number) =>
+  outcomeShort: (a, d) =>
     a && d ? 'Shared losses' : a ? 'Defender wins' : 'Attacker wins',
-  outcomeLosses: (a: number, d: number) => `Attacker: ${a} lost · Defender: ${d} lost`,
-  favorableCases: (count: number, total: number) => `${count} of ${total} possible defender rolls`,
+  outcomeLosses: (a, d) => `Attacker: ${a} lost · Defender: ${d} lost`,
+  favorableCases: (count, total) => `${count} of ${total} possible defender rolls`,
   partitionRounding: 'Percentages are adjusted to total 100%; equally likely outcomes can differ by 0.1 percentage points. The case counts show their exact probabilities.',
   mostLikely: 'Most likely outcome',
   expectedExplanation: 'Expected losses are averages, not a prediction of the losses in one roll.',
@@ -103,15 +213,15 @@ export const en = {
   jointCaption: 'Joint outcomes: armies lost by each side',
   outcomeCount: 'Defender rolls',
   probability: 'Probability',
-  caption: (values: string, total: number) =>
+  caption: (values, total) =>
     `Given attacker values ${values}, over ${total} equally likely defender rolls.`,
   armiesLost: 'Armies lost',
   attacker: 'Attacker',
   defender: 'Defender',
-  lossNote: (n: number) =>
+  lossNote: (n) =>
     `Each column is a distribution over losses for that side, not independent events. Every roll eliminates exactly ${n} ${n === 1 ? 'army' : 'armies'} in total.`,
   beforeRoll: 'Before either side rolls',
-  preRoll: (a: number, d: number, al: string, dl: string) =>
+  preRoll: (a, d, al, dl) =>
     `For ${a} vs ${d} dice, unconditional expected losses are ${al} attacker and ${dl} defender armies. Use Territory battle to compare legal opening choices by conquest and resistance chances.`,
   method: 'Behind the numbers',
   methodTitle: 'All outcomes. No simulations.',
@@ -119,18 +229,14 @@ export const en = {
     'Each die has six equally likely faces. We enumerate all 6^(A + D) ordered outcomes for an unknown roll, or 6^D defender outcomes when attacker dice are known. Sorted dice are compared in pairs, and ties go to the defender.',
   methodTwo:
     'For a battle, each possible loss leads to a smaller battle. Dynamic programming memoizes these states and combines their probabilities until the defender has no armies or the attacker has only one. The origin’s final army is never risked or counted as a casualty.',
-  methodThree: (max: number) =>
+  methodThree: (max) =>
     `These are exact combinatorial models evaluated with floating-point arithmetic, not arbitrary-precision fractions. Percentages are rounded to one decimal; complete distributions are rounded together to total 100%. A displayed 0.0% or 100.0% may be a rounded value. Army inputs are limited to ${max} per side to keep calculations responsive.`,
   pageTitle: 'Risk Odds Calculator — Know your odds',
   description:
     'Exact dice and territorial battle probabilities for classic Risk. Compare legal dice choices, conquest odds, and expected casualties.',
-};
+} satisfies Messages;
 
-export const es: {
-  [K in keyof typeof en]: (typeof en)[K] extends (...args: infer P) => string
-    ? (...args: P) => string
-    : string;
-} = {
+export const es = {
   skip: 'Ir a la calculadora',
   home: 'Inicio de la calculadora de probabilidades Risk',
   edition: 'GUÍA DE CAMPO — REGLAS CLÁSICAS',
@@ -261,4 +367,4 @@ export const es: {
   pageTitle: 'Calculadora de probabilidades Risk — Conoce tus probabilidades',
   description:
     'Probabilidades exactas de dados y batallas territoriales en el Risk clásico. Compara dados, probabilidades de conquista y bajas esperadas.',
-};
+} satisfies Messages;
