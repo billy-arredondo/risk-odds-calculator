@@ -1,26 +1,17 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { LanguageService } from '../i18n/language';
-import { RollResults } from './roll-results';
-import {
-  battle,
-  conditionalRoll,
-  MAX_ARMIES,
-  percentagePartition,
-  rollDistribution,
-  strategy,
-} from '../probability/combat';
+import { LanguageService } from '../../i18n/language';
+import { conditionalRoll, rollDistribution } from '../../probability/combat';
+import { RollResults } from '../roll-results/roll-results';
+import { RollSummary } from '../roll-summary/roll-summary';
 
 @Component({
-  selector: 'app-calculator',
-  imports: [RollResults],
-  templateUrl: './calculator.html',
-  styleUrl: './calculator.css',
+  selector: 'app-individual-roll',
+  imports: [RollResults, RollSummary],
+  templateUrl: './individual-roll.html',
+  styleUrl: './individual-roll.css',
 })
-export class Calculator {
+export class IndividualRoll {
   protected readonly i18n = inject(LanguageService);
-  protected readonly mode = signal<'battle' | 'roll'>('battle');
-  protected readonly attacker = signal('10');
-  protected readonly defender = signal('7');
   protected readonly attackingDice = signal(3);
   protected readonly defendingDice = signal(2);
   protected readonly entryMode = signal<'descending' | 'free'>('descending');
@@ -62,43 +53,6 @@ export class Calculator {
       [18, 18],
     ],
   ];
-  protected readonly maxArmies = MAX_ARMIES;
-  protected readonly armies = computed(() => {
-    const a = Number(this.attacker());
-    const d = Number(this.defender());
-    if (
-      !this.attacker().trim() ||
-      !this.defender().trim() ||
-      !Number.isInteger(a) ||
-      !Number.isInteger(d) ||
-      a < 1 ||
-      d < 0 ||
-      a > MAX_ARMIES ||
-      d > MAX_ARMIES
-    )
-      return null;
-    return { a, d };
-  });
-  protected readonly forecast = computed(() => {
-    const armies = this.armies();
-    return armies ? battle(armies.a, armies.d) : null;
-  });
-  protected readonly recommendation = computed(() => {
-    const armies = this.armies();
-    if (!armies) return null;
-    const result = strategy(armies.a, armies.d);
-    return {
-      ...result,
-      choices: result.choices.map((choice) => ({
-        ...choice,
-        percentages: percentagePartition([choice.conquest, choice.resistance]),
-      })),
-    };
-  });
-  protected readonly battlePercentages = computed(() => {
-    const result = this.forecast();
-    return result ? percentagePartition([result.conquest, result.resistance]) : [];
-  });
   protected readonly displayedFaces = computed(() =>
     (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces()).slice(
       0,
@@ -118,22 +72,6 @@ export class Calculator {
   protected readonly preRoll = computed(() =>
     rollDistribution(this.attackingDice(), this.defendingDice()),
   );
-
-  protected updateArmy(side: 'attacker' | 'defender', event: Event): void {
-    const input = event.target;
-    if (input instanceof HTMLInputElement) this[side].set(input.value);
-  }
-
-  protected step(side: 'attacker' | 'defender', delta: number): void {
-    const min = side === 'attacker' ? 1 : 0;
-    const current = Number(this[side]());
-    this[side].set(
-      String(
-        Math.max(min, Math.min(MAX_ARMIES, (Number.isFinite(current) ? current : min) + delta)),
-      ),
-    );
-  }
-
   protected setFace(index: number, value: number): void {
     if (this.entryMode() === 'free') {
       this.freeFaces.update((faces) => faces.map((face, i) => (i === index ? value : face)));

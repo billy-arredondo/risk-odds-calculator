@@ -8,8 +8,10 @@ data source, or state-management dependency.
 1. `src/main.ts` bootstraps `App` using providers in `src/app/app.config.ts`.
 2. `App` renders the page shell and a router outlet. `src/app/app.routes.ts` lazy-loads `Calculator`
    at the home route and redirects unknown paths there.
-3. `src/app/calculator/calculator.ts` holds UI state in signals. Computed signals derive validated
-   inputs, battle forecasts, opening comparisons, and conditional casualty distributions.
+3. `src/app/calculator/calculator/calculator.ts` switches between the `TerritoryBattle` and `IndividualRoll`
+   components. Each view owns its state in signals; computed signals derive validated inputs,
+   battle forecasts, opening comparisons, and conditional casualty distributions. Both views stay
+   mounted while switching so their selections are retained.
 4. `src/app/probability/combat.ts` exposes framework-independent functions. It caches the six legal
    roll distributions and memoizes maximum-dice battle states by army counts.
 5. `src/app/i18n/` contains typed English and Spanish messages and a shared signal-based language
@@ -18,7 +20,7 @@ data source, or state-management dependency.
 6. `src/app/theme/` stores the light or dark theme in a shared signal, applies it to the document
    root, and persists the choice in browser storage when available. Light is the default.
 
-The calculator uses native number/select controls and button events without an Angular form model.
+The calculator uses native number and radio controls and button events without an Angular form model.
 Invalid army inputs hide forecasts and display validation feedback rather than running the engine.
 Switching modes preserves the selections in each mode.
 

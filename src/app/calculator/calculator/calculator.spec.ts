@@ -152,5 +152,11 @@ describe('Calculator', () => {
     button('Any order').click();
     await fixture.whenStable();
     expect(dice().map((die) => die.value)).toEqual(['1', '6', '2']);
+    button('Territory battle').click();
+    await fixture.whenStable();
+    button('Individual roll').click();
+    await fixture.whenStable();
+    expect(dice().map((die) => die.value)).toEqual(['1', '6', '2']);
+    expect(button('Any order').getAttribute('aria-pressed')).toBe('true');
   });
 });

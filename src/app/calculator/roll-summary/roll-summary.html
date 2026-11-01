@@ -1,0 +1,28 @@
+@let t = i18n.messages();
+<section class="roll-summary" aria-labelledby="roll-summary-title">
+  <p class="eyebrow">{{ t.conditional }}</p>
+  <h3 id="roll-summary-title">{{ t.rollResultsTitle }}</h3>
+  <div class="segments" aria-hidden="true">
+    @for (result of results(); track result.attackerLoss; let i = $index) {
+      <span [class]="result.kind" [style.flex-grow]="animatedResults.values()[i]"></span>
+    }
+  </div>
+  <ul class="summary-list">
+    @for (result of results(); track result.attackerLoss; let i = $index) {
+      <li [class]="result.kind">
+        <strong
+          ><span class="sr-only">{{ i18n.percentage(result.percentage) }}</span
+          ><span aria-hidden="true">{{
+            i18n.percentage(animatedResults.percentages()[i])
+          }}</span></strong
+        >
+        <span class="full-label">{{
+          t.outcomeDescription(result.attackerLoss, result.defenderLoss)
+        }}</span>
+        <span class="short-label">{{
+          t.outcomeShort(result.attackerLoss, result.defenderLoss)
+        }}</span>
+      </li>
+    }
+  </ul>
+</section>

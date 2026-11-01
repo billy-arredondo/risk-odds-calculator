@@ -10,24 +10,6 @@
   color: var(--muted);
   margin: 0 0 15px;
 }
-.mode-switch {
-  display: flex;
-  gap: 6px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 30px;
-}
-.mode-switch button {
-  padding: 17px 20px;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  border-bottom: 3px solid transparent;
-}
-.mode-switch .active {
-  color: var(--ink);
-  border-color: var(--attack);
-  font-weight: 700;
-}
 .section-heading {
   display: flex;
   align-items: center;
@@ -65,8 +47,7 @@ h2 {
 .defender {
   --side: var(--defend);
 }
-.army label,
-.army legend {
+.army label {
   font-weight: 700;
 }
 .army p,
@@ -130,6 +111,9 @@ h2 {
 .odds-grid strong {
   font: clamp(36px, 6vw, 64px) var(--mono);
   letter-spacing: -0.07em;
+}
+.odds-grid > div:last-child {
+  text-align: right;
 }
 .attack-text {
   color: var(--attack);
@@ -210,60 +194,6 @@ td {
 .table-scroll table {
   min-width: 600px;
 }
-.notice {
-  background: var(--notice);
-  border-left: 3px solid var(--notice-border);
-  padding: 16px;
-  line-height: 1.65;
-  font-size: 14px;
-}
-.dice-buttons,
-.face-selectors {
-  display: flex;
-  gap: 10px;
-}
-.dice-buttons button {
-  min-height: 44px;
-  padding: 8px 14px;
-  border: 1px solid var(--line);
-  background: transparent;
-}
-.dice-buttons .selected {
-  background: var(--side);
-  color: var(--side-on);
-}
-.known-roll {
-  border: 0;
-  padding: 20px 0 0;
-  margin-top: 18px;
-}
-.known-roll > legend {
-  font:
-    24px Georgia,
-    serif;
-}
-.casualties td {
-  font-size: 24px;
-}
-.pre-roll p,
-.method p {
-  line-height: 1.7;
-  font-size: 14px;
-}
-h3 {
-  font:
-    22px Georgia,
-    serif;
-}
-.method {
-  border-block: 1px solid var(--line);
-  margin: 36px 0;
-}
-.method summary {
-  padding: 20px 0;
-  cursor: pointer;
-  font-weight: 700;
-}
 button:disabled {
   opacity: 0.4;
   cursor: default;
@@ -283,13 +213,6 @@ button:disabled {
   }
   .section-heading > span {
     display: none;
-  }
-  .mode-switch button {
-    padding: 14px 10px;
-    font-size: 13px;
-  }
-  .casualties td {
-    font-size: 20px;
   }
   .counter input {
     font-size: 40px;
