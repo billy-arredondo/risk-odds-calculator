@@ -33,6 +33,16 @@ describe('RollSummary', () => {
     const labels = () =>
       [...root.querySelectorAll('.short-label')].map((el) => el.textContent?.trim());
     expect(labels()).toEqual(['Attacker wins', 'Shared losses', 'Defender wins']);
+    expect([...root.querySelectorAll('.summary-list li')].map((el) => el.className)).toEqual([
+      'attacker',
+      'both',
+      'defender',
+    ]);
+    expect([...root.querySelectorAll('.segments span')].map((el) => el.className)).toEqual([
+      'attacker',
+      'both',
+      'defender',
+    ]);
     TestBed.inject(LanguageService).setLanguage('es');
     await fixture.whenStable();
     expect(labels()).toEqual(['Gana atacante', 'Bajas repartidas', 'Gana defensor']);

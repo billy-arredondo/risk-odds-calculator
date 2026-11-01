@@ -37,9 +37,9 @@ export function rollResults(distribution: RollDistribution): RollResultsData {
     percentage: percentages[index],
     mostLikely: outcome.count === highest,
     kind: (outcome.attackerLoss === 0
-      ? 'defender'
+      ? 'attacker'
       : outcome.defenderLoss === 0
-        ? 'attacker'
+        ? 'defender'
         : 'both') as RollResultKind,
   }));
   return { results, comparisons };

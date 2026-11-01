@@ -39,6 +39,11 @@ describe('RollResults', () => {
     await fixture.whenStable();
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelectorAll('.results li')).toHaveLength(3);
+    expect([...root.querySelectorAll('.results li')].map((el) => el.className)).toEqual([
+      'attacker',
+      'both',
+      'defender',
+    ]);
     expect(root.querySelector('.results li')?.textContent).toContain(
       '25 of 36 possible defender rolls',
     );

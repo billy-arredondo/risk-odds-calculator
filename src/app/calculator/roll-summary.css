@@ -35,15 +35,7 @@ h3 {
   --result-color: var(--attack);
 }
 .both {
-  --result-color: var(--ink);
-}
-.segments .both {
-  background: repeating-linear-gradient(
-    135deg,
-    var(--attack) 0 4px,
-    var(--paper) 4px 6px,
-    var(--defend) 6px 10px
-  );
+  --result-color: var(--shared);
 }
 .summary-list {
   list-style: none;

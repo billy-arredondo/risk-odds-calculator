@@ -26,7 +26,7 @@ details p {
   --result-color: var(--attack);
 }
 .both {
-  --result-color: var(--ink);
+  --result-color: var(--shared);
 }
 .results {
   list-style: none;
