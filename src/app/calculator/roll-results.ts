@@ -13,7 +13,18 @@ export class RollResults {
   readonly attackerValues = input.required<readonly number[]>();
 
   protected readonly results = computed(() => {
-    const outcomes = this.distribution().outcomes;
+    const distribution = this.distribution();
+    const comparisons = this.comparisons();
+    const outcomes = Array.from(
+      { length: comparisons + 1 },
+      (_, attackerLoss) =>
+        distribution.outcomes.find((outcome) => outcome.attackerLoss === attackerLoss) ?? {
+          attackerLoss,
+          defenderLoss: comparisons - attackerLoss,
+          count: 0,
+          probability: 0,
+        },
+    );
     const percentages = percentagePartition(outcomes.map((outcome) => outcome.probability));
     const highest = Math.max(...outcomes.map((outcome) => outcome.count));
     return outcomes.map((outcome, index) => ({

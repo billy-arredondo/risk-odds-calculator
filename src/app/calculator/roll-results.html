@@ -4,6 +4,7 @@
   <p class="eyebrow">{{ t.conditional }}</p>
   <h3 id="roll-results-title">{{ t.rollResultsTitle }}</h3>
   <p class="context">{{ t.caption(attackerValues().join(', '), roll.totalOutcomes) }}</p>
+  <p class="context">{{ t.rollWinExplanation }}</p>
   <div class="segments" aria-hidden="true">
     @for (result of results(); track result.attackerLoss) {
       <span [class]="result.kind" [style.flex-grow]="result.probability"></span>

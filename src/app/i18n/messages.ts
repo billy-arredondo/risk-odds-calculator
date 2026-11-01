@@ -28,7 +28,7 @@ export const en = {
   defendHint: 'Total in the territory you want to conquer.',
   invalid: (max: number) =>
     `Enter whole numbers: 1–${max} attacking armies and 0–${max} defending armies.`,
-  forecast: 'TERRITORY FORECAST',
+  forecast: 'CHANCES OF CONQUEST OR RESISTANCE',
   conquer: 'Attacker conquers',
   hold: 'Defender holds',
   attackLoss: 'Expected attacker losses',
@@ -78,14 +78,12 @@ export const en = {
   incompleteDice: 'Choose a value for each attacking die to see conditional probabilities.',
   die: (n: number) => `Die ${n}`,
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
-  conditional: 'CONDITIONAL CASUALTY PROBABILITIES',
-  rollResultsTitle: 'Possible losses',
+  conditional: 'CONDITIONAL ROLL PROBABILITIES',
+  rollResultsTitle: 'Chances of winning the roll',
+  rollWinExplanation:
+    'A side wins the roll if it inflicts more losses than it takes. Shared losses do not decide the roll. A die tie favors the defender.',
   outcomeDescription: (a: number, d: number) =>
-    a && d
-      ? 'Both sides lose armies'
-      : a
-        ? `The attacker loses ${a} ${a === 1 ? 'army' : 'armies'}`
-        : `The defender loses ${d} ${d === 1 ? 'army' : 'armies'}`,
+    a && d ? 'Shared losses' : a ? 'The defender wins the roll' : 'The attacker wins the roll',
   outcomeLosses: (a: number, d: number) => `Attacker: ${a} lost · Defender: ${d} lost`,
   favorableCases: (count: number, total: number) => `${count} of ${total} possible defender rolls`,
   mostLikely: 'Most likely outcome',
@@ -152,7 +150,7 @@ export const es: {
   defendHint: 'Total en el territorio que deseas conquistar.',
   invalid: (max) =>
     `Introduce números enteros: 1–${max} ejércitos atacantes y 0–${max} defensores.`,
-  forecast: 'PRONÓSTICO TERRITORIAL',
+  forecast: 'PROBABILIDADES DE CONQUISTAR O RESISTIR',
   conquer: 'El atacante conquista',
   hold: 'El defensor resiste',
   attackLoss: 'Bajas esperadas del atacante',
@@ -207,14 +205,12 @@ export const es: {
   die: (n) => `Dado ${n}`,
   sortHint:
     'Introduce los valores en cualquier orden. Los dados se ordenan de mayor a menor; el defensor gana los empates.',
-  conditional: 'PROBABILIDADES CONDICIONALES DE BAJAS',
-  rollResultsTitle: 'Posibles bajas',
+  conditional: 'PROBABILIDADES CONDICIONALES DE LA TIRADA',
+  rollResultsTitle: 'Probabilidades de ganar la tirada',
+  rollWinExplanation:
+    'Un bando gana la tirada si causa más bajas de las que recibe. Las bajas repartidas no deciden la tirada. En cada comparación, los empates favorecen al defensor.',
   outcomeDescription: (a, d) =>
-    a && d
-      ? 'Ambos bandos pierden ejércitos'
-      : a
-        ? `El atacante pierde ${a} ${a === 1 ? 'ejército' : 'ejércitos'}`
-        : `El defensor pierde ${d} ${d === 1 ? 'ejército' : 'ejércitos'}`,
+    a && d ? 'Bajas repartidas' : a ? 'El defensor gana la tirada' : 'El atacante gana la tirada',
   outcomeLosses: (a, d) => `Atacante: ${a} bajas · Defensor: ${d} bajas`,
   favorableCases: (count, total) => `${count} de ${total} tiradas defensoras posibles`,
   mostLikely: 'Resultado más probable',
