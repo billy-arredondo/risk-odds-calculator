@@ -6,8 +6,8 @@
   <p class="context">{{ t.caption(attackerValues().join(', '), roll.totalOutcomes) }}</p>
   <p class="context">{{ t.rollWinExplanation }}</p>
   <div class="segments" aria-hidden="true">
-    @for (result of results(); track result.attackerLoss) {
-      <span [class]="result.kind" [style.flex-grow]="result.probability"></span>
+    @for (result of results(); track result.attackerLoss; let i = $index) {
+      <span [class]="result.kind" [style.flex-grow]="animatedResults.values()[i]"></span>
     }
   </div>
   <ol class="results">
@@ -15,7 +15,12 @@
       <li [class]="result.kind">
         <span class="marker" aria-hidden="true">{{ i + 1 }}</span>
         <div>
-          <strong>{{ i18n.percentage(result.percentage) }}</strong>
+          <strong
+            ><span class="sr-only">{{ i18n.percentage(result.percentage) }}</span
+            ><span aria-hidden="true">{{
+              i18n.percentage(animatedResults.percentages()[i])
+            }}</span></strong
+          >
           <span class="description">{{
             t.outcomeDescription(result.attackerLoss, result.defenderLoss)
           }}</span>

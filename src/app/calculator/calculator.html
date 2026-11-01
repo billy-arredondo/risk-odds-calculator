@@ -104,15 +104,25 @@
         <div class="odds-grid">
           <div>
             <span class="result-label">{{ t.conquer }}</span
-            ><strong class="attack-text">{{ i18n.percentage(battlePercentages()[0]) }}</strong>
+            ><strong class="attack-text"
+              ><span class="sr-only">{{ i18n.percentage(battlePercentages()[0]) }}</span
+              ><span aria-hidden="true">{{
+                i18n.percentage(animatedBattle.percentages()[0])
+              }}</span></strong
+            >
           </div>
           <div>
             <span class="result-label">{{ t.hold }}</span
-            ><strong class="defend-text">{{ i18n.percentage(battlePercentages()[1]) }}</strong>
+            ><strong class="defend-text"
+              ><span class="sr-only">{{ i18n.percentage(battlePercentages()[1]) }}</span
+              ><span aria-hidden="true">{{
+                i18n.percentage(animatedBattle.percentages()[1])
+              }}</span></strong
+            >
           </div>
         </div>
         <div class="probability-bar" aria-hidden="true">
-          <span [style.width.%]="result.conquest * 100"></span>
+          <span [style.width.%]="animatedBattle.values()[0] * 100"></span>
         </div>
         <div class="loss-grid">
           <p>

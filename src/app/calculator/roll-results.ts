@@ -1,6 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { LanguageService } from '../i18n/language';
 import { percentagePartition, RollDistribution } from '../probability/combat';
+import { AnimatedPartition } from './animated-partition';
 
 @Component({
   selector: 'app-roll-results',
@@ -50,6 +51,9 @@ export class RollResults {
     );
     return [0, 1, 2].map((loss) => ({ loss, attacker: attacker[loss], defender: defender[loss] }));
   });
+  protected readonly animatedResults = new AnimatedPartition(() =>
+    this.results().map((result) => result.probability),
+  );
 
   protected readonly comparisons = computed(() => {
     const first = this.distribution().outcomes[0];

@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../i18n/language';
+import { AnimatedPartition } from './animated-partition';
 import { RollResults } from './roll-results';
 import {
   battle,
@@ -98,6 +99,10 @@ export class Calculator {
   protected readonly battlePercentages = computed(() => {
     const result = this.forecast();
     return result ? percentagePartition([result.conquest, result.resistance]) : [];
+  });
+  protected readonly animatedBattle = new AnimatedPartition(() => {
+    const result = this.forecast();
+    return result ? [result.conquest, result.resistance] : [];
   });
   protected readonly displayedFaces = computed(() =>
     (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces()).slice(
