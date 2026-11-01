@@ -13,6 +13,12 @@ export class TerritoryBattle {
   protected readonly attacker = signal('5');
   protected readonly defender = signal('3');
   protected readonly maxArmies = MAX_ARMIES;
+  protected readonly attackerValid = computed(() => this.validArmy(this.attacker(), 1));
+  protected readonly defenderValid = computed(() => this.validArmy(this.defender(), 0));
+  private validArmy(value: string, min: number): boolean {
+    const count = Number(value);
+    return !!value.trim() && Number.isInteger(count) && count >= min && count <= MAX_ARMIES;
+  }
   protected readonly armies = computed(() => {
     const a = Number(this.attacker());
     const d = Number(this.defender());
