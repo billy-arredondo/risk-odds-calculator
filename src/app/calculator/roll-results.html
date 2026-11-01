@@ -1,26 +1,15 @@
 @let t = i18n.messages();
 @let roll = distribution();
 <section class="roll-results" aria-labelledby="roll-results-title">
-  <p class="eyebrow">{{ t.conditional }}</p>
-  <h3 id="roll-results-title">{{ t.rollResultsTitle }}</h3>
+  <h3 id="roll-results-title">{{ t.rollDetailTitle }}</h3>
   <p class="context">{{ t.caption(attackerValues().join(', '), roll.totalOutcomes) }}</p>
   <p class="context">{{ t.rollWinExplanation }}</p>
-  <div class="segments" aria-hidden="true">
-    @for (result of results(); track result.attackerLoss; let i = $index) {
-      <span [class]="result.kind" [style.flex-grow]="animatedResults.values()[i]"></span>
-    }
-  </div>
   <ol class="results">
     @for (result of results(); track result.attackerLoss; let i = $index) {
       <li [class]="result.kind">
         <span class="marker" aria-hidden="true">{{ i + 1 }}</span>
         <div>
-          <strong
-            ><span class="sr-only">{{ i18n.percentage(result.percentage) }}</span
-            ><span aria-hidden="true">{{
-              i18n.percentage(animatedResults.percentages()[i])
-            }}</span></strong
-          >
+          <span class="percentage">{{ i18n.percentage(result.percentage) }}</span>
           <span class="description">{{
             t.outcomeDescription(result.attackerLoss, result.defenderLoss)
           }}</span>

@@ -27,7 +27,7 @@ describe('RollResults', () => {
     TestBed.inject(LanguageService).setLanguage('es');
     await fixture.whenStable();
     expect(results[0].textContent).toContain('66,7%');
-    expect(root.querySelector('h3')?.textContent).toContain('Probabilidades de ganar la tirada');
+    expect(root.querySelector('h3')?.textContent).toContain('Desglose de resultados');
     expect(results[0].textContent).toContain('El atacante gana la tirada');
     expect(results[0].textContent).toContain('4 de 6 tiradas defensoras posibles');
   });

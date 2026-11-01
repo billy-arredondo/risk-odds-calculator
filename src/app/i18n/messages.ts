@@ -80,10 +80,13 @@ export const en = {
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
   conditional: 'CONDITIONAL ROLL PROBABILITIES',
   rollResultsTitle: 'Chances of winning the roll',
+  rollDetailTitle: 'Outcome breakdown',
   rollWinExplanation:
     'A side wins the roll if it inflicts more losses than it takes. Shared losses do not decide the roll. A die tie favors the defender.',
   outcomeDescription: (a: number, d: number) =>
     a && d ? 'Shared losses' : a ? 'The defender wins the roll' : 'The attacker wins the roll',
+  outcomeShort: (a: number, d: number) =>
+    a && d ? 'Shared losses' : a ? 'Defender wins' : 'Attacker wins',
   outcomeLosses: (a: number, d: number) => `Attacker: ${a} lost · Defender: ${d} lost`,
   favorableCases: (count: number, total: number) => `${count} of ${total} possible defender rolls`,
   mostLikely: 'Most likely outcome',
@@ -207,10 +210,12 @@ export const es: {
     'Introduce los valores en cualquier orden. Los dados se ordenan de mayor a menor; el defensor gana los empates.',
   conditional: 'PROBABILIDADES CONDICIONALES DE LA TIRADA',
   rollResultsTitle: 'Probabilidades de ganar la tirada',
+  rollDetailTitle: 'Desglose de resultados',
   rollWinExplanation:
     'Un bando gana la tirada si causa más bajas de las que recibe. Las bajas repartidas no deciden la tirada. En cada comparación, los empates favorecen al defensor.',
   outcomeDescription: (a, d) =>
     a && d ? 'Bajas repartidas' : a ? 'El defensor gana la tirada' : 'El atacante gana la tirada',
+  outcomeShort: (a, d) => (a && d ? 'Bajas repartidas' : a ? 'Gana defensor' : 'Gana atacante'),
   outcomeLosses: (a, d) => `Atacante: ${a} bajas · Defensor: ${d} bajas`,
   favorableCases: (count, total) => `${count} de ${total} tiradas defensoras posibles`,
   mostLikely: 'Resultado más probable',

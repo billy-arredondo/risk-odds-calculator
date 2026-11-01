@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { LanguageService } from '../i18n/language';
 import { percentagePartition, RollDistribution } from '../probability/combat';
-import { AnimatedPartition } from './animated-partition';
+import { rollResults } from './roll-outcome';
 
 @Component({
   selector: 'app-roll-results',
@@ -13,29 +13,7 @@ export class RollResults {
   readonly distribution = input.required<RollDistribution>();
   readonly attackerValues = input.required<readonly number[]>();
 
-  protected readonly results = computed(() => {
-    const distribution = this.distribution();
-    const comparisons = this.comparisons();
-    const outcomes = Array.from(
-      { length: comparisons + 1 },
-      (_, attackerLoss) =>
-        distribution.outcomes.find((outcome) => outcome.attackerLoss === attackerLoss) ?? {
-          attackerLoss,
-          defenderLoss: comparisons - attackerLoss,
-          count: 0,
-          probability: 0,
-        },
-    );
-    const percentages = percentagePartition(outcomes.map((outcome) => outcome.probability));
-    const highest = Math.max(...outcomes.map((outcome) => outcome.count));
-    return outcomes.map((outcome, index) => ({
-      ...outcome,
-      percentage: percentages[index],
-      mostLikely: outcome.count === highest,
-      kind:
-        outcome.attackerLoss === 0 ? 'defender' : outcome.defenderLoss === 0 ? 'attacker' : 'both',
-    }));
-  });
+  protected readonly results = computed(() => rollResults(this.distribution()).results);
 
   protected readonly casualtyRows = computed(() => {
     const outcomes = this.distribution().outcomes;
@@ -51,12 +29,6 @@ export class RollResults {
     );
     return [0, 1, 2].map((loss) => ({ loss, attacker: attacker[loss], defender: defender[loss] }));
   });
-  protected readonly animatedResults = new AnimatedPartition(() =>
-    this.results().map((result) => result.probability),
-  );
 
-  protected readonly comparisons = computed(() => {
-    const first = this.distribution().outcomes[0];
-    return first.attackerLoss + first.defenderLoss;
-  });
+  protected readonly comparisons = computed(() => rollResults(this.distribution()).comparisons);
 }

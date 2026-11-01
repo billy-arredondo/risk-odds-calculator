@@ -112,6 +112,17 @@ h3 {
   display: flex;
   gap: 10px;
 }
+.roll-body {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+}
+.incomplete {
+  border: 1px dashed var(--line);
+  padding: 18px;
+  margin: 0;
+}
 .dice-buttons button {
   min-height: 44px;
   padding: 8px 14px;
@@ -153,6 +164,25 @@ h3 {
 .pre-roll p {
   line-height: 1.7;
   font-size: 14px;
+}
+@media (max-width: 760px) {
+  .roll-body {
+    gap: 12px;
+  }
+  .roll-body app-roll-summary {
+    align-self: center;
+  }
+  .incomplete {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 300px) {
+  .roll-body {
+    grid-template-columns: 1fr;
+  }
+  .roll-body app-roll-summary {
+    display: none;
+  }
 }
 @media (max-width: 600px) {
   .army-grid {

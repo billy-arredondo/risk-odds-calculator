@@ -4,35 +4,20 @@
 .roll-results {
   background: var(--paper);
   border: 1px solid var(--line);
-  padding: 28px;
-  margin-top: 20px;
-}
-.eyebrow {
-  color: var(--muted);
-  font: 11px/1.5 var(--mono);
-  letter-spacing: 0.12em;
-  margin: 0 0 10px;
+  padding: 24px 28px;
+  margin-top: 16px;
 }
 h3 {
   font:
-    25px Georgia,
+    20px Georgia,
     serif;
-  margin: 0;
+  margin: 0 0 6px;
 }
 .context,
 details p {
   font-size: 13px;
   line-height: 1.6;
   color: var(--muted);
-}
-.segments {
-  display: flex;
-  height: 12px;
-  margin: 20px 0;
-  overflow: hidden;
-}
-.segments span {
-  flex-basis: 0;
 }
 .defender {
   --result-color: var(--defend);
@@ -43,38 +28,27 @@ details p {
 .both {
   --result-color: var(--ink);
 }
-.segments span {
-  background: var(--result-color);
-}
-.segments .both {
-  background: repeating-linear-gradient(
-    135deg,
-    var(--attack) 0 4px,
-    var(--paper) 4px 6px,
-    var(--defend) 6px 10px
-  );
-}
 .results {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 16px 0 0;
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 .results li {
   display: flex;
   gap: 12px;
   border-left: 3px solid var(--result-color);
-  padding: 8px 12px;
+  padding: 6px 12px;
 }
 .marker {
   flex: none;
   font: 12px var(--mono);
   color: var(--muted);
-  padding-top: 5px;
+  padding-top: 4px;
 }
-.results strong {
-  font: 26px var(--mono);
+.percentage {
+  font: 16px var(--mono);
   color: var(--result-color);
   margin-right: 10px;
 }
@@ -95,7 +69,7 @@ details p {
   flex-wrap: wrap;
   gap: 8px 36px;
   border-top: 1px solid var(--line);
-  margin-top: 20px;
+  margin-top: 18px;
   padding-top: 12px;
 }
 .expected p {
@@ -108,7 +82,7 @@ details p {
 }
 details {
   border-top: 1px solid var(--line);
-  margin-top: 20px;
+  margin-top: 18px;
   padding-top: 14px;
 }
 summary {
@@ -138,5 +112,9 @@ td {
   }
   .description {
     display: block;
+  }
+  .percentage {
+    display: block;
+    margin: 0 0 2px;
   }
 }

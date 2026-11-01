@@ -2,10 +2,11 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../i18n/language';
 import { conditionalRoll, rollDistribution } from '../probability/combat';
 import { RollResults } from './roll-results';
+import { RollSummary } from './roll-summary';
 
 @Component({
   selector: 'app-individual-roll',
-  imports: [RollResults],
+  imports: [RollResults, RollSummary],
   templateUrl: './individual-roll.html',
   styleUrl: './individual-roll.css',
 })
