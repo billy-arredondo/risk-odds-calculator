@@ -10,8 +10,8 @@ import { AnimatedPartition } from '../shared/animated-partition';
 })
 export class TerritoryBattle {
   protected readonly i18n = inject(LanguageService);
-  protected readonly attacker = signal('10');
-  protected readonly defender = signal('7');
+  protected readonly attacker = signal('5');
+  protected readonly defender = signal('3');
   protected readonly maxArmies = MAX_ARMIES;
   protected readonly armies = computed(() => {
     const a = Number(this.attacker());
