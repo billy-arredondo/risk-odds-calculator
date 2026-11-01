@@ -1,13 +1,15 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
 import { conditionalRoll, rollDistribution } from '../../probability/combat';
+import { DiceFaceSelector } from '../dice-face-selector/dice-face-selector';
 import { RollResults } from '../roll-results/roll-results';
 import { RollSummary } from '../roll-summary/roll-summary';
 import { rollResults } from '../shared/roll-outcome';
+import { updateDescendingFaces } from './descending-faces';
 
 @Component({
   selector: 'app-individual-roll',
-  imports: [RollResults, RollSummary],
+  imports: [DiceFaceSelector, RollResults, RollSummary],
   templateUrl: './individual-roll.html',
   styleUrl: './individual-roll.css',
 })
@@ -20,40 +22,6 @@ export class IndividualRoll {
   protected readonly descendingFaces = signal<readonly (number | null)[]>([null, null, null]);
   protected readonly dieOptions = [1, 2, 3];
   protected readonly defenderOptions = [1, 2];
-  protected readonly faceOptions = [6, 5, 4, 3, 2, 1];
-  protected readonly pips = [
-    [[12, 12]],
-    [
-      [6, 6],
-      [18, 18],
-    ],
-    [
-      [6, 6],
-      [12, 12],
-      [18, 18],
-    ],
-    [
-      [6, 6],
-      [18, 6],
-      [6, 18],
-      [18, 18],
-    ],
-    [
-      [6, 6],
-      [18, 6],
-      [12, 12],
-      [6, 18],
-      [18, 18],
-    ],
-    [
-      [6, 6],
-      [18, 6],
-      [6, 12],
-      [18, 12],
-      [6, 18],
-      [18, 18],
-    ],
-  ];
   protected readonly displayedFaces = computed(() =>
     (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces()).slice(
       0,
@@ -86,13 +54,6 @@ export class IndividualRoll {
       this.freeFaces.update((faces) => faces.map((face, i) => (i === index ? value : face)));
       return;
     }
-    this.descendingFaces.update((faces) => {
-      const next = [...faces];
-      next[index] = value;
-      for (let i = index + 1; i < next.length; i++) {
-        if (next[i] === null || next[i]! > next[i - 1]!) next[i] = next[i - 1];
-      }
-      return next;
-    });
+    this.descendingFaces.update((faces) => updateDescendingFaces(faces, index, value));
   }
 }
