@@ -1,5 +1,5 @@
-import { DecimalPipe } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { LanguageService } from '../i18n/language';
 import {
   battle,
   conditionalRoll,
@@ -11,11 +11,11 @@ import {
 
 @Component({
   selector: 'app-calculator',
-  imports: [DecimalPipe],
   templateUrl: './calculator.html',
   styleUrl: './calculator.css',
 })
 export class Calculator {
+  protected readonly i18n = inject(LanguageService);
   protected readonly mode = signal<'battle' | 'roll'>('battle');
   protected readonly attacker = signal('10');
   protected readonly defender = signal('7');

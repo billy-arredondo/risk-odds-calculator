@@ -12,6 +12,9 @@ data source, or state-management dependency.
    inputs, battle forecasts, opening comparisons, and conditional casualty distributions.
 4. `src/app/probability/combat.ts` exposes framework-independent functions. It caches the six legal
    roll distributions and memoizes maximum-dice battle states by army counts.
+5. `src/app/i18n/` contains typed English and Spanish messages and a shared signal-based language
+   service. It remembers the selection in browser storage when available, updates document language
+   and metadata, and formats displayed numbers without changing probability calculations.
 
 The calculator uses native number/select controls and button events without an Angular form model.
 Invalid army inputs hide forecasts and display validation feedback rather than running the engine.
@@ -24,6 +27,7 @@ Switching modes preserves the selections in each mode.
 | `src/app/app.*`        | Page shell and routing integration tests.                             |
 | `src/app/calculator/`  | Responsive UI, input validation, presentation, and interaction tests. |
 | `src/app/probability/` | Pure combat calculations, bounded caches, and mathematical tests.     |
+| `src/app/i18n/`        | Runtime language selection, message catalogs, and locale formatting.  |
 | `src/styles.css`       | Global theme, Tailwind v4 import, keyboard focus, and base styles.    |
 | `public/`              | Static files copied to build assets.                                  |
 | `angular.json`         | Build, server, test, and size budget configuration.                   |

@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { App } from './app';
 import { routes } from './app.routes';
 
 describe('App', () => {
+  beforeEach(() => localStorage.removeItem('risk-odds-language'));
+  afterEach(() => localStorage.removeItem('risk-odds-language'));
   it('creates the application shell', async () => {
     await TestBed.configureTestingModule({
       imports: [App],
@@ -19,5 +21,73 @@ describe('App', () => {
     expect(harness.routeNativeElement?.querySelector('h2')?.textContent).toContain(
       'The balance of forces',
     );
+  });
+
+  it('switches both modes without resetting inputs and updates accessible labels', async () => {
+    TestBed.configureTestingModule({ imports: [App], providers: [provideRouter(routes)] });
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await TestBed.inject(Router).navigateByUrl('/');
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const findButton = (text: string) => {
+      const button = [...root.querySelectorAll('button')].find(
+        (b) => b.textContent?.trim() === text,
+      );
+      if (!button) throw new Error(`Missing button: ${text}`);
+      return button;
+    };
+    const attacker = root.querySelector<HTMLInputElement>('#attacker-armies')!;
+    const defender = root.querySelector<HTMLInputElement>('#defender-armies')!;
+    attacker.value = '2';
+    attacker.dispatchEvent(new Event('input'));
+    defender.value = '1';
+    defender.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    findButton('Español').click();
+    await fixture.whenStable();
+    expect(document.documentElement.lang).toBe('es');
+    expect(document.title).toContain('Calculadora de probabilidades');
+    expect(findButton('Español').getAttribute('aria-pressed')).toBe('true');
+    expect(root.querySelector('#attacker-armies')?.getAttribute('aria-invalid')).toBe('false');
+    expect(root.querySelector<HTMLInputElement>('#attacker-armies')?.value).toBe('2');
+    expect(root.querySelector('.forecast')?.textContent).toContain('41,7%');
+    expect(root.querySelector('[aria-label="Añadir un ejército atacante"]')).toBeTruthy();
+    expect(localStorage.getItem('risk-odds-language')).toBe('es');
+    attacker.value = '';
+    attacker.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    expect(root.querySelector('#army-error')?.textContent).toContain('Introduce números enteros');
+    attacker.value = '2';
+    attacker.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    findButton('02 / Tirada individual').click();
+    await fixture.whenStable();
+    expect(root.querySelector('.notice')?.textContent).toContain('antes de ver');
+    findButton('1 dado').click();
+    await fixture.whenStable();
+    const die = root.querySelector<HTMLSelectElement>('#die-0')!;
+    die.value = '1';
+    die.dispatchEvent(new Event('change'));
+    await fixture.whenStable();
+    expect(root.textContent).toContain('exactamente 1 ejército');
+    findButton('English').click();
+    await fixture.whenStable();
+    expect(document.documentElement.lang).toBe('en');
+    expect(root.textContent).toContain('exactly 1 army');
+    expect(root.querySelector<HTMLSelectElement>('#die-0')?.value).toBe('1');
+    expect(root.querySelector('.casualties')?.textContent).toContain('100.0%');
+    findButton('01 / Territory battle').click();
+    await fixture.whenStable();
+    expect(root.querySelector<HTMLInputElement>('#attacker-armies')?.value).toBe('2');
+    expect(root.querySelector('.forecast')?.textContent).toContain('41.7%');
+  });
+
+  it('restores a saved language at startup', async () => {
+    localStorage.setItem('risk-odds-language', 'es');
+    TestBed.configureTestingModule({ providers: [provideRouter(routes)] });
+    const harness = await RouterTestingHarness.create('/');
+    expect(document.documentElement.lang).toBe('es');
+    expect(harness.routeNativeElement?.textContent).toContain('El balance de fuerzas');
   });
 });
