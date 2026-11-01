@@ -69,6 +69,12 @@ export const en = {
   requiresDefense: (n: number) =>
     `Requires at least ${n} defending ${n === 1 ? 'army' : 'armies'}.`,
   known: 'Known attacker results',
+  entryMode: 'Dice entry order',
+  descending: 'Descending',
+  freeEntry: 'Any order',
+  chooseFace: 'Choose',
+  descendingHint: 'Choose each die in order. Each value must be no higher than the previous die.',
+  incompleteDice: 'Choose a value for each attacking die to see conditional probabilities.',
   die: (n: number) => `Die ${n}`,
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
   conditional: 'CONDITIONAL CASUALTY PROBABILITIES',
@@ -173,6 +179,13 @@ export const es: {
   requiresDefense: (n) =>
     `Requiere al menos ${n} ${n === 1 ? 'ejército defensor' : 'ejércitos defensores'}.`,
   known: 'Resultados conocidos del atacante',
+  entryMode: 'Orden de entrada de dados',
+  descending: 'Descendente',
+  freeEntry: 'Orden libre',
+  chooseFace: 'Elegir',
+  descendingHint: 'Elige cada dado en orden. Cada valor debe ser menor o igual al dado anterior.',
+  incompleteDice:
+    'Elige un valor para cada dado atacante para ver las probabilidades condicionales.',
   die: (n) => `Dado ${n}`,
   sortHint:
     'Introduce los valores en cualquier orden. Los dados se ordenan de mayor a menor; el defensor gana los empates.',

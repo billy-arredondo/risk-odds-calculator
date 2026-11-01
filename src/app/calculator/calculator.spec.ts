@@ -70,4 +70,80 @@ describe('Calculator', () => {
     expect(rows[1].querySelectorAll('td')[0].textContent).toContain('100.0%');
     expect(element.querySelector('caption')?.textContent).toContain('36 equally likely');
   });
+
+  it('defaults to progressive descending dice, enforcing limits and preserving valid later values', async () => {
+    const { fixture, element, button } = await setup();
+    button('Individual roll').click();
+    await fixture.whenStable();
+    expect(button('Descending').getAttribute('aria-pressed')).toBe('true');
+    const dice = () => [...element.querySelectorAll<HTMLSelectElement>('.face-selectors select')];
+    const select = async (index: number, value: string) => {
+      const die = dice()[index];
+      die.value = value;
+      die.dispatchEvent(new Event('change'));
+      await fixture.whenStable();
+    };
+    expect(dice().map((die) => die.disabled)).toEqual([false, true, true]);
+    expect(element.querySelector('.casualties')).toBeNull();
+    expect(element.textContent).toContain('Choose a value for each attacking die');
+    await select(0, '5');
+    expect(dice().map((die) => die.disabled)).toEqual([false, false, true]);
+    expect([...dice()[1].options].map((option) => option.value)).toEqual([
+      '',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+    ]);
+    await select(1, '5');
+    expect(dice()[2].disabled).toBe(false);
+    await select(2, '4');
+    expect(element.querySelector('.casualties caption')?.textContent).toContain('5, 5, 4');
+    await select(0, '6');
+    expect(dice().map((die) => die.value)).toEqual(['6', '5', '4']);
+    await select(1, '3');
+    expect(dice().map((die) => die.value)).toEqual(['6', '3', '']);
+    expect(element.querySelector('.casualties')).toBeNull();
+    await select(2, '3');
+    await select(0, '2');
+    expect(dice().map((die) => die.value)).toEqual(['2', '', '']);
+    expect(dice()[2].disabled).toBe(true);
+    await select(0, '');
+    expect(dice().map((die) => die.disabled)).toEqual([false, true, true]);
+  });
+
+  it('keeps free and descending entries independent across mode and dice-count changes', async () => {
+    const { fixture, element, button } = await setup();
+    button('Individual roll').click();
+    await fixture.whenStable();
+    const dice = () => [...element.querySelectorAll<HTMLSelectElement>('.face-selectors select')];
+    const select = async (index: number, value: string) => {
+      dice()[index].value = value;
+      dice()[index].dispatchEvent(new Event('change'));
+      await fixture.whenStable();
+    };
+    await select(0, '4');
+    await select(1, '3');
+    await select(2, '2');
+    button('1 die').click();
+    await fixture.whenStable();
+    expect(dice().map((die) => die.value)).toEqual(['4']);
+    expect(element.querySelector('.casualties')).toBeTruthy();
+    button('3 dice').click();
+    await fixture.whenStable();
+    expect(dice().map((die) => die.value)).toEqual(['4', '3', '2']);
+    button('Any order').click();
+    await fixture.whenStable();
+    expect(dice().map((die) => die.value)).toEqual(['6', '4', '2']);
+    await select(0, '1');
+    await select(1, '6');
+    expect(element.querySelector('.casualties caption')?.textContent).toContain('1, 6, 2');
+    button('Descending').click();
+    await fixture.whenStable();
+    expect(dice().map((die) => die.value)).toEqual(['4', '3', '2']);
+    button('Any order').click();
+    await fixture.whenStable();
+    expect(dice().map((die) => die.value)).toEqual(['1', '6', '2']);
+  });
 });

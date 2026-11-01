@@ -21,7 +21,9 @@ export class Calculator {
   protected readonly defender = signal('7');
   protected readonly attackingDice = signal(3);
   protected readonly defendingDice = signal(2);
-  protected readonly faces = signal<readonly number[]>([6, 4, 2]);
+  protected readonly entryMode = signal<'descending' | 'free'>('descending');
+  protected readonly freeFaces = signal<readonly number[]>([6, 4, 2]);
+  protected readonly descendingFaces = signal<readonly (number | null)[]>([null, null, null]);
   protected readonly dieOptions = [1, 2, 3];
   protected readonly defenderOptions = [1, 2];
   protected readonly faceOptions = [1, 2, 3, 4, 5, 6];
@@ -62,15 +64,28 @@ export class Calculator {
     const result = this.forecast();
     return result ? percentagePartition([result.conquest, result.resistance]) : [];
   });
-  protected readonly knownDice = computed(() => this.faces().slice(0, this.attackingDice()));
-  protected readonly conditional = computed(() =>
-    conditionalRoll(this.knownDice(), this.defendingDice()),
+  protected readonly displayedFaces = computed(() =>
+    (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces()).slice(
+      0,
+      this.attackingDice(),
+    ),
   );
+  protected readonly knownDice = computed(() => {
+    const faces = this.displayedFaces();
+    return faces.every((face) => face !== null)
+      ? faces.filter((face): face is number => face !== null)
+      : null;
+  });
+  protected readonly conditional = computed(() => {
+    const dice = this.knownDice();
+    return dice ? conditionalRoll(dice, this.defendingDice()) : null;
+  });
   protected readonly preRoll = computed(() =>
     rollDistribution(this.attackingDice(), this.defendingDice()),
   );
   protected readonly casualtyRows = computed(() => {
-    const outcomes = this.conditional().outcomes;
+    const outcomes = this.conditional()?.outcomes;
+    if (!outcomes) return [];
     const attacker = percentagePartition(
       [0, 1, 2].map((loss) =>
         outcomes.filter((o) => o.attackerLoss === loss).reduce((sum, o) => sum + o.probability, 0),
@@ -101,10 +116,20 @@ export class Calculator {
 
   protected setFace(index: number, event: Event): void {
     const select = event.target;
-    if (select instanceof HTMLSelectElement) {
-      this.faces.update((faces) =>
-        faces.map((face, i) => (i === index ? Number(select.value) : face)),
-      );
+    if (!(select instanceof HTMLSelectElement)) return;
+    const value = select.value === '' ? null : Number(select.value);
+    if (this.entryMode() === 'free') {
+      if (value !== null)
+        this.freeFaces.update((faces) => faces.map((face, i) => (i === index ? value : face)));
+      return;
     }
+    this.descendingFaces.update((faces) => {
+      const next = [...faces];
+      next[index] = value;
+      for (let i = index + 1; i < next.length; i++) {
+        if (next[i - 1] === null || (next[i] !== null && next[i]! > next[i - 1]!)) next[i] = null;
+      }
+      return next;
+    });
   }
 }
