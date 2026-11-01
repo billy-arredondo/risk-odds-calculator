@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { LanguageService } from '../i18n/language';
-import { MAX_ARMIES } from '../probability/combat';
-import { IndividualRoll } from './individual-roll';
-import { TerritoryBattle } from './territory-battle';
+import { LanguageService } from '../../i18n/language';
+import { MAX_ARMIES } from '../../probability/combat';
+import { IndividualRoll } from '../individual-roll/individual-roll';
+import { TerritoryBattle } from '../territory-battle/territory-battle';
 
 @Component({
   selector: 'app-calculator',

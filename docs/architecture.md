@@ -8,7 +8,7 @@ data source, or state-management dependency.
 1. `src/main.ts` bootstraps `App` using providers in `src/app/app.config.ts`.
 2. `App` renders the page shell and a router outlet. `src/app/app.routes.ts` lazy-loads `Calculator`
    at the home route and redirects unknown paths there.
-3. `src/app/calculator/calculator.ts` switches between the `TerritoryBattle` and `IndividualRoll`
+3. `src/app/calculator/calculator/calculator.ts` switches between the `TerritoryBattle` and `IndividualRoll`
    components. Each view owns its state in signals; computed signals derive validated inputs,
    battle forecasts, opening comparisons, and conditional casualty distributions. Both views stay
    mounted while switching so their selections are retained.

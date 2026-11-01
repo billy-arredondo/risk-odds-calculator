@@ -1,4 +1,4 @@
-import { percentagePartition, RollDistribution } from '../probability/combat';
+import { percentagePartition, RollDistribution } from '../../probability/combat';
 
 export type RollResultKind = 'attacker' | 'defender' | 'both';
 

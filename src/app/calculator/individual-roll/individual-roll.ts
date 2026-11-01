@@ -1,8 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { LanguageService } from '../i18n/language';
-import { conditionalRoll, rollDistribution } from '../probability/combat';
-import { RollResults } from './roll-results';
-import { RollSummary } from './roll-summary';
+import { LanguageService } from '../../i18n/language';
+import { conditionalRoll, rollDistribution } from '../../probability/combat';
+import { RollResults } from '../roll-results/roll-results';
+import { RollSummary } from '../roll-summary/roll-summary';
 
 @Component({
   selector: 'app-individual-roll',

@@ -1,8 +1,8 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { LanguageService } from '../i18n/language';
-import { RollDistribution } from '../probability/combat';
-import { AnimatedPartition } from './animated-partition';
-import { rollResults } from './roll-outcome';
+import { LanguageService } from '../../i18n/language';
+import { RollDistribution } from '../../probability/combat';
+import { AnimatedPartition } from '../shared/animated-partition';
+import { rollResults } from '../shared/roll-outcome';
 
 @Component({
   selector: 'app-roll-summary',

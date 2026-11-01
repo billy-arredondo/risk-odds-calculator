@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { computed, DestroyRef, effect, inject, signal, untracked } from '@angular/core';
-import { percentagePartition } from '../probability/combat';
+import { percentagePartition } from '../../probability/combat';
 
 /** Animates a complete distribution without changing the calculated probabilities. */
 export class AnimatedPartition {

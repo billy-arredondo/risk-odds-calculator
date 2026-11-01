@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { LanguageService } from '../i18n/language';
-import { percentagePartition, RollDistribution } from '../probability/combat';
-import { rollResults } from './roll-outcome';
+import { LanguageService } from '../../i18n/language';
+import { percentagePartition, RollDistribution } from '../../probability/combat';
+import { rollResults } from '../shared/roll-outcome';
 
 @Component({
   selector: 'app-roll-results',

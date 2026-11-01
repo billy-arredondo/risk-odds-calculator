@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { LanguageService } from '../i18n/language';
-import { conditionalRoll } from '../probability/combat';
+import { LanguageService } from '../../i18n/language';
+import { conditionalRoll } from '../../probability/combat';
 import { RollResults } from './roll-results';
 
 describe('RollResults', () => {

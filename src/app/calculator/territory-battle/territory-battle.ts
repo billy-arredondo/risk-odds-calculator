@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { LanguageService } from '../i18n/language';
-import { battle, MAX_ARMIES, percentagePartition, strategy } from '../probability/combat';
-import { AnimatedPartition } from './animated-partition';
+import { LanguageService } from '../../i18n/language';
+import { battle, MAX_ARMIES, percentagePartition, strategy } from '../../probability/combat';
+import { AnimatedPartition } from '../shared/animated-partition';
 
 @Component({
   selector: 'app-territory-battle',
