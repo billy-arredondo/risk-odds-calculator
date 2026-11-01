@@ -1,0 +1,93 @@
+@let t = i18n.messages();
+@let roll = distribution();
+<section class="roll-results" aria-labelledby="roll-results-title">
+  <p class="eyebrow">{{ t.conditional }}</p>
+  <h3 id="roll-results-title">{{ t.rollResultsTitle }}</h3>
+  <p class="context">{{ t.caption(attackerValues().join(', '), roll.totalOutcomes) }}</p>
+  <div class="segments" aria-hidden="true">
+    @for (result of results(); track result.attackerLoss) {
+      <span [class]="result.kind" [style.flex-grow]="result.probability"></span>
+    }
+  </div>
+  <ol class="results">
+    @for (result of results(); track result.attackerLoss; let i = $index) {
+      <li [class]="result.kind">
+        <span class="marker" aria-hidden="true">{{ i + 1 }}</span>
+        <div>
+          <strong>{{ i18n.percentage(result.percentage) }}</strong>
+          <span class="description">{{
+            t.outcomeDescription(result.attackerLoss, result.defenderLoss)
+          }}</span>
+          <span class="losses">{{
+            t.outcomeLosses(result.attackerLoss, result.defenderLoss)
+          }}</span>
+          <span class="losses">{{ t.favorableCases(result.count, roll.totalOutcomes) }}</span>
+          @if (result.mostLikely) {
+            <span class="most-likely">{{ t.mostLikely }}</span>
+          }
+        </div>
+      </li>
+    }
+  </ol>
+  <div class="expected">
+    <p>
+      {{ t.attackLoss }} <b>{{ i18n.number(roll.expectedAttackerLoss) }}</b>
+    </p>
+    <p>
+      {{ t.defendLoss }} <b>{{ i18n.number(roll.expectedDefenderLoss) }}</b>
+    </p>
+  </div>
+  <p class="context">{{ t.expectedExplanation }}</p>
+  <details>
+    <summary>{{ t.rollDetails }}</summary>
+    <p>{{ t.lossNote(comparisons()) }}</p>
+    <table class="casualties">
+      <caption>
+        {{
+          t.marginalCaption
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ t.armiesLost }}</th>
+          <th scope="col">{{ t.attacker }}</th>
+          <th scope="col">{{ t.defender }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of casualtyRows(); track row.loss) {
+          <tr>
+            <th scope="row">{{ row.loss }}</th>
+            <td>{{ i18n.percentage(row.attacker) }}</td>
+            <td>{{ i18n.percentage(row.defender) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <table>
+      <caption>
+        {{
+          t.jointCaption
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ t.attacker }}</th>
+          <th scope="col">{{ t.defender }}</th>
+          <th scope="col">{{ t.outcomeCount }}</th>
+          <th scope="col">{{ t.probability }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (result of results(); track result.attackerLoss) {
+          <tr>
+            <td>{{ result.attackerLoss }}</td>
+            <td>{{ result.defenderLoss }}</td>
+            <td>{{ result.count }} / {{ roll.totalOutcomes }}</td>
+            <td>{{ i18n.percentage(result.percentage) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </details>
+</section>

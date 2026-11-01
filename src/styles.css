@@ -1,3 +1,116 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+:root {
+  --ink: #252b25;
+  --muted: #596052;
+  --line: #c9ccbd;
+  --paper: #faf9f2;
+  --attack: #a43423;
+  --defend: #315b50;
+  --canvas: #f1f0e6;
+  --recommended: #e4e9df;
+  --notice: #f0e4ce;
+  --notice-border: #88601c;
+  --side-on: #ffffff;
+  --focus: #805913;
+  --mono: 'Consolas', 'Liberation Mono', monospace;
+  font-family: 'Trebuchet MS', 'Verdana', sans-serif;
+  color: var(--ink);
+  background: var(--canvas);
+  font-synthesis: none;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --ink: #f1efe4;
+  --muted: #c0c8b9;
+  --line: #58645a;
+  --paper: #252e29;
+  --attack: #ff9d8a;
+  --defend: #93d4c1;
+  --canvas: #171e1a;
+  --recommended: #35483d;
+  --notice: #463b27;
+  --notice-border: #e0bd70;
+  --side-on: #17201b;
+  --focus: #f1cb7c;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+/* Known-roll dice controls */
+app-calculator .face-column {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+app-calculator .face-column legend {
+  font: 12px var(--mono);
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+app-calculator .face-option {
+  display: block;
+  position: relative;
+  margin-bottom: 6px;
+}
+app-calculator .face-option input {
+  position: absolute;
+  opacity: 0;
+}
+app-calculator .face-option span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--attack);
+  cursor: pointer;
+}
+app-calculator .face-option svg {
+  width: 27px;
+  fill: currentColor;
+}
+app-calculator .face-option input:checked + span {
+  background: var(--attack);
+  color: var(--side-on);
+  border-color: var(--attack);
+}
+app-calculator .face-option input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+app-calculator .face-option input:disabled + span {
+  opacity: 0.35;
+  cursor: default;
+}
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -100px;
+  z-index: 10;
+  padding: 12px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.skip-link:focus {
+  top: 12px;
+}

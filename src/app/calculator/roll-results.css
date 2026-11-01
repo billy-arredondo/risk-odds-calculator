@@ -1,0 +1,142 @@
+:host {
+  display: block;
+}
+.roll-results {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 28px;
+  margin-top: 20px;
+}
+.eyebrow {
+  color: var(--muted);
+  font: 11px/1.5 var(--mono);
+  letter-spacing: 0.12em;
+  margin: 0 0 10px;
+}
+h3 {
+  font:
+    25px Georgia,
+    serif;
+  margin: 0;
+}
+.context,
+details p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.segments {
+  display: flex;
+  height: 12px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+.segments span {
+  flex-basis: 0;
+}
+.defender {
+  --result-color: var(--defend);
+}
+.attacker {
+  --result-color: var(--attack);
+}
+.both {
+  --result-color: var(--ink);
+}
+.segments span {
+  background: var(--result-color);
+}
+.segments .both {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--attack) 0 4px,
+    var(--paper) 4px 6px,
+    var(--defend) 6px 10px
+  );
+}
+.results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.results li {
+  display: flex;
+  gap: 12px;
+  border-left: 3px solid var(--result-color);
+  padding: 8px 12px;
+}
+.marker {
+  flex: none;
+  font: 12px var(--mono);
+  color: var(--muted);
+  padding-top: 5px;
+}
+.results strong {
+  font: 26px var(--mono);
+  color: var(--result-color);
+  margin-right: 10px;
+}
+.description {
+  font-weight: 700;
+}
+.losses,
+.most-likely {
+  display: block;
+  font-size: 13px;
+  margin-top: 4px;
+}
+.most-likely {
+  color: var(--muted);
+}
+.expected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 36px;
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 12px;
+}
+.expected p {
+  margin: 0;
+  font-size: 13px;
+}
+.expected b {
+  display: block;
+  font: 22px var(--mono);
+}
+details {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 14px;
+}
+summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+}
+caption {
+  text-align: left;
+  font-weight: 700;
+  padding: 8px 0;
+}
+th,
+td {
+  text-align: left;
+  padding: 9px 5px;
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 600px) {
+  .roll-results {
+    padding: 20px;
+  }
+  .description {
+    display: block;
+  }
+}

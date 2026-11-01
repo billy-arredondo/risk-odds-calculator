@@ -47,14 +47,18 @@ Tests use Vitest and run in Node.js with jsdom by default:
 # Run the suite once
 npx ng test --watch=false
 
-# Run one file
-npx ng test --watch=false --include=src/app/app.spec.ts
+# Run the mathematical engine tests
+npx ng test --watch=false --include=src/app/probability/combat.spec.ts
 
 # Filter by suite or test name
-npx ng test --watch=false --filter="should create the app"
+npx ng test --watch=false --filter="matches the reference distribution"
 ```
 
 In the current PowerShell environment, `npm test -- ...` interprets options as npm arguments;
 use the `npx ng test` commands above to pass options to Angular.
 
 The project has no configured lint or end-to-end (e2e) targets.
+
+TypeScript strict mode and Angular strict template checking are enabled in `tsconfig.json`.
+Run both the test suite and `npm run build` after changing combat logic or the interface. Tests run
+in jsdom; they do not verify real-browser layout or visual accessibility.
