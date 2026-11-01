@@ -5,6 +5,22 @@
       ><span aria-hidden="true">⚄</span> RISK / ODDS</a
     >
     <span class="edition">{{ i18n.messages().edition }}</span>
+    <div class="theme-switch" role="group" [attr.aria-label]="i18n.messages().theme">
+      <button
+        type="button"
+        [attr.aria-pressed]="theme.theme() === 'light'"
+        (click)="theme.setTheme('light')"
+      >
+        <span aria-hidden="true">☀</span> {{ i18n.messages().lightTheme }}
+      </button>
+      <button
+        type="button"
+        [attr.aria-pressed]="theme.theme() === 'dark'"
+        (click)="theme.setTheme('dark')"
+      >
+        <span aria-hidden="true">☾</span> {{ i18n.messages().darkTheme }}
+      </button>
+    </div>
     <div class="language-switch" role="group" [attr.aria-label]="i18n.messages().language">
       <button
         type="button"

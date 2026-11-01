@@ -5,8 +5,15 @@ import { App } from './app';
 import { routes } from './app.routes';
 
 describe('App', () => {
-  beforeEach(() => localStorage.removeItem('risk-odds-language'));
-  afterEach(() => localStorage.removeItem('risk-odds-language'));
+  beforeEach(() => {
+    localStorage.removeItem('risk-odds-language');
+    localStorage.removeItem('risk-odds-theme');
+  });
+  afterEach(() => {
+    localStorage.removeItem('risk-odds-language');
+    localStorage.removeItem('risk-odds-theme');
+    document.documentElement.removeAttribute('data-theme');
+  });
   it('creates the application shell', async () => {
     await TestBed.configureTestingModule({
       imports: [App],
@@ -89,5 +96,42 @@ describe('App', () => {
     const harness = await RouterTestingHarness.create('/');
     expect(document.documentElement.lang).toBe('es');
     expect(harness.routeNativeElement?.textContent).toContain('El balance de fuerzas');
+  });
+
+  it('switches theme without resetting the calculator and translates the controls', async () => {
+    TestBed.configureTestingModule({ imports: [App], providers: [provideRouter(routes)] });
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await TestBed.inject(Router).navigateByUrl('/');
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const attacker = root.querySelector<HTMLInputElement>('#attacker-armies')!;
+    attacker.value = '2';
+    attacker.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    const themeGroup = root.querySelector<HTMLElement>('[aria-label="Color theme"]')!;
+    const [light, dark] = themeGroup.querySelectorAll('button');
+    expect(light.getAttribute('aria-pressed')).toBe('true');
+    dark.click();
+    await fixture.whenStable();
+    expect(dark.getAttribute('aria-pressed')).toBe('true');
+    expect(light.getAttribute('aria-pressed')).toBe('false');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    expect(localStorage.getItem('risk-odds-theme')).toBe('dark');
+    expect(attacker.value).toBe('2');
+    expect(root.querySelector('.forecast')?.textContent).toContain('Attacker conquers');
+    const spanish = [...root.querySelectorAll('button')].find(
+      (button) => button.textContent?.trim() === 'Español',
+    )!;
+    spanish.click();
+    await fixture.whenStable();
+    expect(themeGroup.getAttribute('aria-label')).toBe('Tema de color');
+    expect(dark.textContent).toContain('Oscuro');
+    expect(dark.getAttribute('aria-pressed')).toBe('true');
+    light.click();
+    await fixture.whenStable();
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    expect(localStorage.getItem('risk-odds-theme')).toBe('light');
+    expect(attacker.value).toBe('2');
   });
 });

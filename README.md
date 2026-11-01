@@ -11,6 +11,7 @@ territorial battle probabilities rather than Monte Carlo simulation.
 - Use responsive counters and dice selectors on mobile or desktop, without a backend.
 - Switch between English and Spanish without losing calculator state; the language choice is saved
   locally when browser storage is available.
+- Choose a light or dark theme; the preference is saved locally when browser storage is available.
 
 Battle forecasts assume maximum legal dice on every roll and attacks continuing until conquest or
 only one attacking army remains. Inputs support up to 200 armies per side. Known-attacker analysis

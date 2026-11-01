@@ -7,11 +7,34 @@
   --paper: #faf9f2;
   --attack: #a43423;
   --defend: #315b50;
+  --canvas: #f1f0e6;
+  --recommended: #e4e9df;
+  --notice: #f0e4ce;
+  --notice-border: #88601c;
+  --side-on: #ffffff;
+  --focus: #805913;
   --mono: 'Consolas', 'Liberation Mono', monospace;
   font-family: 'Trebuchet MS', 'Verdana', sans-serif;
   color: var(--ink);
-  background: #f1f0e6;
+  background: var(--canvas);
   font-synthesis: none;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --ink: #f1efe4;
+  --muted: #c0c8b9;
+  --line: #58645a;
+  --paper: #252e29;
+  --attack: #ff9d8a;
+  --defend: #93d4c1;
+  --canvas: #171e1a;
+  --recommended: #35483d;
+  --notice: #463b27;
+  --notice-border: #e0bd70;
+  --side-on: #17201b;
+  --focus: #f1cb7c;
+  color-scheme: dark;
 }
 
 * {
@@ -29,7 +52,7 @@ button {
   cursor: pointer;
 }
 :focus-visible {
-  outline: 3px solid #805913;
+  outline: 3px solid var(--focus);
   outline-offset: 4px;
 }
 .skip-link {

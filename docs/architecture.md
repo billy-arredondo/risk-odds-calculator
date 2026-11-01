@@ -15,6 +15,8 @@ data source, or state-management dependency.
 5. `src/app/i18n/` contains typed English and Spanish messages and a shared signal-based language
    service. It remembers the selection in browser storage when available, updates document language
    and metadata, and formats displayed numbers without changing probability calculations.
+6. `src/app/theme/` stores the light or dark theme in a shared signal, applies it to the document
+   root, and persists the choice in browser storage when available. Light is the default.
 
 The calculator uses native number/select controls and button events without an Angular form model.
 Invalid army inputs hide forecasts and display validation feedback rather than running the engine.

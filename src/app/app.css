@@ -15,11 +15,13 @@
   gap: 12px;
   flex-wrap: wrap;
 }
-.language-switch {
+.language-switch,
+.theme-switch {
   display: flex;
   border: 1px solid var(--line);
 }
-.language-switch button {
+.language-switch button,
+.theme-switch button {
   border: 0;
   padding: 10px 12px;
   min-height: 44px;
@@ -27,7 +29,8 @@
   color: var(--ink);
   font-size: 13px;
 }
-.language-switch button[aria-pressed='true'] {
+.language-switch button[aria-pressed='true'],
+.theme-switch button[aria-pressed='true'] {
   background: var(--ink);
   color: var(--paper);
 }
