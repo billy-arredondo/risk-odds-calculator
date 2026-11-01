@@ -79,6 +79,22 @@ export const en = {
   die: (n: number) => `Die ${n}`,
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
   conditional: 'CONDITIONAL CASUALTY PROBABILITIES',
+  rollResultsTitle: 'Possible losses',
+  outcomeDescription: (a: number, d: number) =>
+    a && d
+      ? 'Both sides lose armies'
+      : a
+        ? `The attacker loses ${a} ${a === 1 ? 'army' : 'armies'}`
+        : `The defender loses ${d} ${d === 1 ? 'army' : 'armies'}`,
+  outcomeLosses: (a: number, d: number) => `Attacker: ${a} lost · Defender: ${d} lost`,
+  favorableCases: (count: number, total: number) => `${count} of ${total} possible defender rolls`,
+  mostLikely: 'Most likely outcome',
+  expectedExplanation: 'Expected losses are averages, not a prediction of the losses in one roll.',
+  rollDetails: 'Mathematical details',
+  marginalCaption: 'Loss distribution for each side',
+  jointCaption: 'Joint outcomes: armies lost by each side',
+  outcomeCount: 'Defender rolls',
+  probability: 'Probability',
   caption: (values: string, total: number) =>
     `Given attacker values ${values}, over ${total} equally likely defender rolls.`,
   armiesLost: 'Armies lost',
@@ -192,6 +208,23 @@ export const es: {
   sortHint:
     'Introduce los valores en cualquier orden. Los dados se ordenan de mayor a menor; el defensor gana los empates.',
   conditional: 'PROBABILIDADES CONDICIONALES DE BAJAS',
+  rollResultsTitle: 'Posibles bajas',
+  outcomeDescription: (a, d) =>
+    a && d
+      ? 'Ambos bandos pierden ejércitos'
+      : a
+        ? `El atacante pierde ${a} ${a === 1 ? 'ejército' : 'ejércitos'}`
+        : `El defensor pierde ${d} ${d === 1 ? 'ejército' : 'ejércitos'}`,
+  outcomeLosses: (a, d) => `Atacante: ${a} bajas · Defensor: ${d} bajas`,
+  favorableCases: (count, total) => `${count} de ${total} tiradas defensoras posibles`,
+  mostLikely: 'Resultado más probable',
+  expectedExplanation:
+    'Las bajas esperadas son promedios, no una predicción de las bajas en una tirada.',
+  rollDetails: 'Detalles matemáticos',
+  marginalCaption: 'Distribución de bajas de cada bando',
+  jointCaption: 'Resultados conjuntos: ejércitos perdidos por cada bando',
+  outcomeCount: 'Tiradas defensoras',
+  probability: 'Probabilidad',
   caption: (values, total) =>
     `Con los valores atacantes ${values}, entre ${total} tiradas defensoras equiprobables.`,
   armiesLost: 'Ejércitos perdidos',

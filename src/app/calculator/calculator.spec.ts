@@ -65,7 +65,9 @@ describe('Calculator', () => {
     expect(element.querySelector('.casualties')?.textContent).toContain('100.0%');
     const rows = element.querySelectorAll('.casualties tbody tr');
     expect(rows[1].querySelectorAll('td')[0].textContent).toContain('100.0%');
-    expect(element.querySelector('caption')?.textContent).toContain('36 equally likely');
+    expect(element.querySelector('app-roll-results .context')?.textContent).toContain(
+      '36 equally likely',
+    );
   });
 
   it('defaults to descending dice and fills or preserves later values within their limits', async () => {
@@ -100,12 +102,12 @@ describe('Calculator', () => {
         .map((die) => die.value),
     ).toEqual(['6']);
     await select(2, '4');
-    expect(element.querySelector('.casualties caption')?.textContent).toContain('5, 5, 4');
+    expect(element.querySelector('app-roll-results .context')?.textContent).toContain('5, 5, 4');
     await select(0, '6');
     expect(selected()).toEqual(['6', '5', '4']);
     await select(1, '3');
     expect(selected()).toEqual(['6', '3', '3']);
-    expect(element.querySelector('.casualties caption')?.textContent).toContain('6, 3, 3');
+    expect(element.querySelector('app-roll-results .context')?.textContent).toContain('6, 3, 3');
     await select(0, '2');
     expect(selected()).toEqual(['2', '2', '2']);
     expect(
@@ -143,7 +145,7 @@ describe('Calculator', () => {
     expect(dice().map((die) => die.value)).toEqual(['6', '4', '2']);
     await select(0, '1');
     await select(1, '6');
-    expect(element.querySelector('.casualties caption')?.textContent).toContain('1, 6, 2');
+    expect(element.querySelector('app-roll-results .context')?.textContent).toContain('1, 6, 2');
     button('Descending').click();
     await fixture.whenStable();
     expect(dice().map((die) => die.value)).toEqual(['4', '3', '2']);

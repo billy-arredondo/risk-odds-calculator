@@ -303,43 +303,7 @@
       <p class="note">{{ entryMode() === 'descending' ? t.descendingHint : t.sortHint }}</p>
     </fieldset>
     @if (conditional(); as result) {
-      <div class="forecast" aria-live="polite" aria-atomic="true">
-        <p class="eyebrow">{{ t.conditional }}</p>
-        <table class="casualties">
-          <caption>
-            {{
-              t.caption(knownDice()!.join(', '), result.totalOutcomes)
-            }}
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">{{ t.armiesLost }}</th>
-              <th scope="col">{{ t.attacker }}</th>
-              <th scope="col">{{ t.defender }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of casualtyRows(); track row.loss) {
-              <tr>
-                <th scope="row">{{ row.loss }}</th>
-                <td class="attack-text">{{ i18n.percentage(row.attacker) }}</td>
-                <td class="defend-text">{{ i18n.percentage(row.defender) }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-        <div class="loss-grid">
-          <p>
-            {{ t.attackLoss }} <b>{{ i18n.number(result.expectedAttackerLoss) }}</b>
-          </p>
-          <p>
-            {{ t.defendLoss }} <b>{{ i18n.number(result.expectedDefenderLoss) }}</b>
-          </p>
-        </div>
-      </div>
-      <p class="note">
-        {{ t.lossNote(attackingDice() < defendingDice() ? attackingDice() : defendingDice()) }}
-      </p>
+      <app-roll-results [distribution]="result" [attackerValues]="knownDice()!" />
     } @else {
       <p class="note" role="status">{{ t.incompleteDice }}</p>
     }

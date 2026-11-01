@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../i18n/language';
+import { RollResults } from './roll-results';
 import {
   battle,
   conditionalRoll,
@@ -11,6 +12,7 @@ import {
 
 @Component({
   selector: 'app-calculator',
+  imports: [RollResults],
   templateUrl: './calculator.html',
   styleUrl: './calculator.css',
 })
@@ -116,21 +118,6 @@ export class Calculator {
   protected readonly preRoll = computed(() =>
     rollDistribution(this.attackingDice(), this.defendingDice()),
   );
-  protected readonly casualtyRows = computed(() => {
-    const outcomes = this.conditional()?.outcomes;
-    if (!outcomes) return [];
-    const attacker = percentagePartition(
-      [0, 1, 2].map((loss) =>
-        outcomes.filter((o) => o.attackerLoss === loss).reduce((sum, o) => sum + o.probability, 0),
-      ),
-    );
-    const defender = percentagePartition(
-      [0, 1, 2].map((loss) =>
-        outcomes.filter((o) => o.defenderLoss === loss).reduce((sum, o) => sum + o.probability, 0),
-      ),
-    );
-    return [0, 1, 2].map((loss) => ({ loss, attacker: attacker[loss], defender: defender[loss] }));
-  });
 
   protected updateArmy(side: 'attacker' | 'defender', event: Event): void {
     const input = event.target;
