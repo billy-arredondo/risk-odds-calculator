@@ -1,0 +1,202 @@
+@let t = i18n.messages();
+<section aria-labelledby="battle-title">
+  <div class="section-heading">
+    <h2 id="battle-title">{{ t.balance }}</h2>
+    <span>{{ t.fullBattle }}</span>
+  </div>
+  <div class="army-grid">
+    <div class="army attacker">
+      <label for="attacker-armies"><span class="dot"></span> {{ t.attackArmies }}</label>
+      <div class="counter">
+        <button
+          type="button"
+          [attr.aria-label]="t.removeAttack"
+          [disabled]="+attacker() <= 1"
+          (click)="step('attacker', -1)"
+        >
+          −
+        </button>
+        <input
+          id="attacker-armies"
+          type="number"
+          min="1"
+          [max]="maxArmies"
+          step="1"
+          inputmode="numeric"
+          [value]="attacker()"
+          (input)="updateArmy('attacker', $event)"
+          aria-describedby="attacker-hint army-error"
+          [attr.aria-invalid]="!armies()"
+        />
+        <button
+          type="button"
+          [attr.aria-label]="t.addAttack"
+          [disabled]="+attacker() >= maxArmies"
+          (click)="step('attacker', 1)"
+        >
+          +
+        </button>
+      </div>
+      <p id="attacker-hint">{{ t.attackHint }}</p>
+    </div>
+    <div class="army defender">
+      <label for="defender-armies"><span class="dot"></span> {{ t.defendArmies }}</label>
+      <div class="counter">
+        <button
+          type="button"
+          [attr.aria-label]="t.removeDefend"
+          [disabled]="+defender() <= 0"
+          (click)="step('defender', -1)"
+        >
+          −
+        </button>
+        <input
+          id="defender-armies"
+          type="number"
+          min="0"
+          [max]="maxArmies"
+          step="1"
+          inputmode="numeric"
+          [value]="defender()"
+          (input)="updateArmy('defender', $event)"
+          aria-describedby="defender-hint army-error"
+          [attr.aria-invalid]="!armies()"
+        />
+        <button
+          type="button"
+          [attr.aria-label]="t.addDefend"
+          [disabled]="+defender() >= maxArmies"
+          (click)="step('defender', 1)"
+        >
+          +
+        </button>
+      </div>
+      <p id="defender-hint">{{ t.defendHint }}</p>
+    </div>
+  </div>
+  <p id="army-error" class="validation" role="status">
+    @if (!armies()) {
+      {{ t.invalid(maxArmies) }}
+    }
+  </p>
+  @if (forecast(); as result) {
+    <div class="forecast" aria-live="polite" aria-atomic="true">
+      <p class="eyebrow">{{ t.forecast }}</p>
+      <div class="odds-grid">
+        <div>
+          <span class="result-label">{{ t.conquer }}</span
+          ><strong class="attack-text"
+            ><span class="sr-only">{{ i18n.percentage(battlePercentages()[0]) }}</span
+            ><span aria-hidden="true">{{
+              i18n.percentage(animatedBattle.percentages()[0])
+            }}</span></strong
+          >
+        </div>
+        <div>
+          <span class="result-label">{{ t.hold }}</span
+          ><strong class="defend-text"
+            ><span class="sr-only">{{ i18n.percentage(battlePercentages()[1]) }}</span
+            ><span aria-hidden="true">{{
+              i18n.percentage(animatedBattle.percentages()[1])
+            }}</span></strong
+          >
+        </div>
+      </div>
+      <div class="probability-bar" aria-hidden="true">
+        <span [style.width.%]="animatedBattle.values()[0] * 100"></span>
+      </div>
+      <div class="loss-grid">
+        <p>
+          {{ t.attackLoss }} <b>{{ i18n.number(result.expectedAttackerLoss) }}</b>
+        </p>
+        <p>
+          {{ t.defendLoss }} <b>{{ i18n.number(result.expectedDefenderLoss) }}</b>
+        </p>
+      </div>
+    </div>
+    <p class="note">
+      <b>{{ t.assumptionsTitle }}</b> {{ t.assumptions }}
+    </p>
+    @if (recommendation(); as advice) {
+      <section class="strategy" aria-labelledby="strategy-title">
+        <div class="section-heading">
+          <h2 id="strategy-title">{{ t.opening }}</h2>
+          <span>{{ t.strategy }}</span>
+        </div>
+        @if (advice.choices.length) {
+          <div class="advice-grid">
+            <p>
+              <span class="attack-text">{{ t.attack }}</span
+              ><b>{{ t.rollDice(advice.attackingDice) }}</b
+              >{{ t.attackAdvice }}
+            </p>
+            <p>
+              <span class="defend-text">{{ t.defend }}</span
+              ><b>{{ t.rollDice(advice.defendingDice) }}</b
+              >{{ t.defendAdvice }}
+            </p>
+          </div>
+          <p class="note">{{ t.strategyNote }}</p>
+          <div
+            class="table-scroll"
+            tabindex="0"
+            role="region"
+            [attr.aria-label]="t.comparisonLabel"
+          >
+            <table>
+              <caption>
+                {{
+                  t.comparison
+                }}
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">{{ t.dicePair }}</th>
+                  <th scope="col">{{ t.conquerShort }}</th>
+                  <th scope="col">{{ t.holdShort }}</th>
+                  <th scope="col">{{ t.rollLoss }}<br />{{ t.sides }}</th>
+                  <th scope="col">{{ t.battleLoss }}<br />{{ t.sides }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (
+                  choice of advice.choices;
+                  track choice.attackingDice + ':' + choice.defendingDice
+                ) {
+                  <tr
+                    [class.recommended]="
+                      choice.attackingDice === advice.attackingDice &&
+                      choice.defendingDice === advice.defendingDice
+                    "
+                  >
+                    <th scope="row">
+                      {{ choice.attackingDice }} / {{ choice.defendingDice }}
+                      @if (
+                        choice.attackingDice === advice.attackingDice &&
+                        choice.defendingDice === advice.defendingDice
+                      ) {
+                        <span [attr.aria-label]="t.recommended">★</span>
+                      }
+                    </th>
+                    <td>{{ i18n.percentage(choice.percentages[0]) }}</td>
+                    <td>{{ i18n.percentage(choice.percentages[1]) }}</td>
+                    <td>
+                      {{ i18n.number(choice.roll.expectedAttackerLoss) }} /
+                      {{ i18n.number(choice.roll.expectedDefenderLoss) }}
+                    </td>
+                    <td>
+                      {{ i18n.number(choice.expectedAttackerLoss) }} /
+                      {{ i18n.number(choice.expectedDefenderLoss) }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <p class="note">{{ armies()?.d === 0 ? t.alreadyConquered : t.cannotAttack }}</p>
+        }
+      </section>
+    }
+  }
+</section>

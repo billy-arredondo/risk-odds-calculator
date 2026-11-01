@@ -1,0 +1,169 @@
+:host {
+  display: block;
+}
+.face-column {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.face-column legend {
+  font: 12px var(--mono);
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.face-option {
+  display: block;
+  position: relative;
+  margin-bottom: 6px;
+}
+.face-option input {
+  position: absolute;
+  opacity: 0;
+}
+.face-option span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--attack);
+  cursor: pointer;
+}
+.face-option svg {
+  width: 27px;
+  fill: currentColor;
+}
+.face-option input:checked + span {
+  background: var(--attack);
+  color: var(--side-on);
+  border-color: var(--attack);
+}
+.face-option input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.face-option input:disabled + span {
+  opacity: 0.35;
+  cursor: default;
+}
+.section-heading > span {
+  font: 11px/1.5 var(--mono);
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0 18px;
+}
+h2 {
+  font:
+    26px Georgia,
+    serif;
+  margin: 0;
+}
+h3 {
+  font:
+    22px Georgia,
+    serif;
+}
+.army-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.army {
+  padding: 22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--side);
+  min-width: 0;
+}
+.attacker {
+  --side: var(--attack);
+}
+.defender {
+  --side: var(--defend);
+}
+.army legend {
+  font-weight: 700;
+}
+.army p,
+.note {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.army p {
+  margin: 13px 0 0;
+}
+.notice {
+  background: var(--notice);
+  border-left: 3px solid var(--notice-border);
+  padding: 16px;
+  line-height: 1.65;
+  font-size: 14px;
+}
+.dice-buttons,
+.face-selectors {
+  display: flex;
+  gap: 10px;
+}
+.dice-buttons button {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  background: transparent;
+}
+.dice-buttons .selected {
+  background: var(--side);
+  color: var(--side-on);
+}
+.known-roll {
+  border: 0;
+  padding: 20px 0 0;
+  margin-top: 18px;
+}
+.known-roll > legend {
+  font:
+    24px Georgia,
+    serif;
+}
+.mode-switch {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 30px;
+}
+.mode-switch button {
+  padding: 17px 20px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+}
+.mode-switch .active {
+  color: var(--ink);
+  border-color: var(--attack);
+  font-weight: 700;
+}
+.pre-roll p {
+  line-height: 1.7;
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .army-grid {
+    gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  .section-heading > span {
+    display: none;
+  }
+  .mode-switch button {
+    padding: 14px 10px;
+    font-size: 13px;
+  }
+}
