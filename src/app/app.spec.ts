@@ -73,16 +73,14 @@ describe('App', () => {
     expect(root.querySelector('.notice')?.textContent).toContain('antes de ver');
     findButton('1 dado').click();
     await fixture.whenStable();
-    const die = root.querySelector<HTMLSelectElement>('#die-0')!;
-    die.value = '1';
-    die.dispatchEvent(new Event('change'));
+    root.querySelector<HTMLInputElement>('input[name="die-0"][value="1"]')!.click();
     await fixture.whenStable();
     expect(root.textContent).toContain('exactamente 1 ejército');
     findButton('English').click();
     await fixture.whenStable();
     expect(document.documentElement.lang).toBe('en');
     expect(root.textContent).toContain('exactly 1 army');
-    expect(root.querySelector<HTMLSelectElement>('#die-0')?.value).toBe('1');
+    expect(root.querySelector<HTMLInputElement>('input[name="die-0"]:checked')?.value).toBe('1');
     expect(root.querySelector('.casualties')?.textContent).toContain('100.0%');
     findButton('01 / Territory battle').click();
     await fixture.whenStable();

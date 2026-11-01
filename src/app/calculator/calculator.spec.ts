@@ -59,11 +59,8 @@ describe('Calculator', () => {
     expect(element.querySelector('.notice')?.textContent).toContain('before seeing');
     button('1 die').click();
     await fixture.whenStable();
-    expect(element.querySelectorAll('select').length).toBe(1);
-    const select = element.querySelector('select');
-    if (!select) throw new Error('Missing die selector');
-    select.value = '1';
-    select.dispatchEvent(new Event('change'));
+    expect(element.querySelectorAll('.face-column').length).toBe(1);
+    element.querySelector<HTMLInputElement>('input[name="die-0"][value="1"]')!.click();
     await fixture.whenStable();
     expect(element.querySelector('.casualties')?.textContent).toContain('100.0%');
     const rows = element.querySelectorAll('.casualties tbody tr');
@@ -71,56 +68,64 @@ describe('Calculator', () => {
     expect(element.querySelector('caption')?.textContent).toContain('36 equally likely');
   });
 
-  it('defaults to progressive descending dice, enforcing limits and preserving valid later values', async () => {
+  it('defaults to descending dice and fills or preserves later values within their limits', async () => {
     const { fixture, element, button } = await setup();
     button('Individual roll').click();
     await fixture.whenStable();
     expect(button('Descending').getAttribute('aria-pressed')).toBe('true');
-    const dice = () => [...element.querySelectorAll<HTMLSelectElement>('.face-selectors select')];
+    const options = (index: number) => [
+      ...element.querySelectorAll<HTMLInputElement>(`input[name="die-${index}"]`),
+    ];
+    const selected = () =>
+      [...element.querySelectorAll<HTMLInputElement>('.face-option input:checked')].map(
+        (die) => die.value,
+      );
     const select = async (index: number, value: string) => {
-      const die = dice()[index];
-      die.value = value;
-      die.dispatchEvent(new Event('change'));
+      options(index)
+        .find((die) => die.value === value)!
+        .click();
       await fixture.whenStable();
     };
-    expect(dice().map((die) => die.disabled)).toEqual([false, true, true]);
+    expect(options(0).every((die) => !die.disabled)).toBe(true);
+    expect(options(1).every((die) => die.disabled)).toBe(true);
+    expect(options(2).every((die) => die.disabled)).toBe(true);
+    expect(element.querySelectorAll('.face-option svg').length).toBe(18);
     expect(element.querySelector('.casualties')).toBeNull();
     expect(element.textContent).toContain('Choose a value for each attacking die');
     await select(0, '5');
-    expect(dice().map((die) => die.disabled)).toEqual([false, false, true]);
-    expect([...dice()[1].options].map((option) => option.value)).toEqual([
-      '',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-    ]);
-    await select(1, '5');
-    expect(dice()[2].disabled).toBe(false);
+    expect(selected()).toEqual(['5', '5', '5']);
+    expect(
+      options(1)
+        .filter((die) => die.disabled)
+        .map((die) => die.value),
+    ).toEqual(['6']);
     await select(2, '4');
     expect(element.querySelector('.casualties caption')?.textContent).toContain('5, 5, 4');
     await select(0, '6');
-    expect(dice().map((die) => die.value)).toEqual(['6', '5', '4']);
+    expect(selected()).toEqual(['6', '5', '4']);
     await select(1, '3');
-    expect(dice().map((die) => die.value)).toEqual(['6', '3', '']);
-    expect(element.querySelector('.casualties')).toBeNull();
-    await select(2, '3');
+    expect(selected()).toEqual(['6', '3', '3']);
+    expect(element.querySelector('.casualties caption')?.textContent).toContain('6, 3, 3');
     await select(0, '2');
-    expect(dice().map((die) => die.value)).toEqual(['2', '', '']);
-    expect(dice()[2].disabled).toBe(true);
-    await select(0, '');
-    expect(dice().map((die) => die.disabled)).toEqual([false, true, true]);
+    expect(selected()).toEqual(['2', '2', '2']);
+    expect(
+      options(2)
+        .filter((die) => !die.disabled)
+        .map((die) => die.value),
+    ).toEqual(['2', '1']);
   });
 
   it('keeps free and descending entries independent across mode and dice-count changes', async () => {
     const { fixture, element, button } = await setup();
     button('Individual roll').click();
     await fixture.whenStable();
-    const dice = () => [...element.querySelectorAll<HTMLSelectElement>('.face-selectors select')];
+    const dice = () => [
+      ...element.querySelectorAll<HTMLInputElement>('.face-option input:checked'),
+    ];
     const select = async (index: number, value: string) => {
-      dice()[index].value = value;
-      dice()[index].dispatchEvent(new Event('change'));
+      element
+        .querySelector<HTMLInputElement>(`input[name="die-${index}"][value="${value}"]`)!
+        .click();
       await fixture.whenStable();
     };
     await select(0, '4');

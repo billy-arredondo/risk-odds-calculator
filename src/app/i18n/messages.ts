@@ -72,8 +72,9 @@ export const en = {
   entryMode: 'Dice entry order',
   descending: 'Descending',
   freeEntry: 'Any order',
-  chooseFace: 'Choose',
-  descendingHint: 'Choose each die in order. Each value must be no higher than the previous die.',
+  faceValue: (n: number) => `Value ${n}`,
+  descendingHint:
+    'Each die must be no higher than the previous one. Later dice default to the highest allowed value.',
   incompleteDice: 'Choose a value for each attacking die to see conditional probabilities.',
   die: (n: number) => `Die ${n}`,
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
@@ -182,8 +183,9 @@ export const es: {
   entryMode: 'Orden de entrada de dados',
   descending: 'Descendente',
   freeEntry: 'Orden libre',
-  chooseFace: 'Elegir',
-  descendingHint: 'Elige cada dado en orden. Cada valor debe ser menor o igual al dado anterior.',
+  faceValue: (n) => `Valor ${n}`,
+  descendingHint:
+    'Cada dado debe ser menor o igual al anterior. Los dados siguientes toman el valor máximo permitido por defecto.',
   incompleteDice:
     'Elige un valor para cada dado atacante para ver las probabilidades condicionales.',
   die: (n) => `Dado ${n}`,

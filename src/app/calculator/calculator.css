@@ -237,25 +237,10 @@ td {
   padding: 20px 0 0;
   margin-top: 18px;
 }
-.known-roll legend {
+.known-roll > legend {
   font:
     24px Georgia,
     serif;
-}
-.face-selectors label {
-  font-size: 12px;
-  color: var(--muted);
-}
-.face-selectors select {
-  display: block;
-  width: 76px;
-  min-height: 56px;
-  font: 28px var(--mono);
-  margin-top: 6px;
-  border: 1px solid var(--line);
-  background: var(--paper);
-  padding: 6px;
-  color: var(--attack);
 }
 .casualties td {
   font-size: 24px;

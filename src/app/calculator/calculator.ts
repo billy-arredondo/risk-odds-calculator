@@ -26,7 +26,40 @@ export class Calculator {
   protected readonly descendingFaces = signal<readonly (number | null)[]>([null, null, null]);
   protected readonly dieOptions = [1, 2, 3];
   protected readonly defenderOptions = [1, 2];
-  protected readonly faceOptions = [1, 2, 3, 4, 5, 6];
+  protected readonly faceOptions = [6, 5, 4, 3, 2, 1];
+  protected readonly pips = [
+    [[12, 12]],
+    [
+      [6, 6],
+      [18, 18],
+    ],
+    [
+      [6, 6],
+      [12, 12],
+      [18, 18],
+    ],
+    [
+      [6, 6],
+      [18, 6],
+      [6, 18],
+      [18, 18],
+    ],
+    [
+      [6, 6],
+      [18, 6],
+      [12, 12],
+      [6, 18],
+      [18, 18],
+    ],
+    [
+      [6, 6],
+      [18, 6],
+      [6, 12],
+      [18, 12],
+      [6, 18],
+      [18, 18],
+    ],
+  ];
   protected readonly maxArmies = MAX_ARMIES;
   protected readonly armies = computed(() => {
     const a = Number(this.attacker());
@@ -114,20 +147,16 @@ export class Calculator {
     );
   }
 
-  protected setFace(index: number, event: Event): void {
-    const select = event.target;
-    if (!(select instanceof HTMLSelectElement)) return;
-    const value = select.value === '' ? null : Number(select.value);
+  protected setFace(index: number, value: number): void {
     if (this.entryMode() === 'free') {
-      if (value !== null)
-        this.freeFaces.update((faces) => faces.map((face, i) => (i === index ? value : face)));
+      this.freeFaces.update((faces) => faces.map((face, i) => (i === index ? value : face)));
       return;
     }
     this.descendingFaces.update((faces) => {
       const next = [...faces];
       next[index] = value;
       for (let i = index + 1; i < next.length; i++) {
-        if (next[i - 1] === null || (next[i] !== null && next[i]! > next[i - 1]!)) next[i] = null;
+        if (next[i] === null || next[i]! > next[i - 1]!) next[i] = next[i - 1];
       }
       return next;
     });

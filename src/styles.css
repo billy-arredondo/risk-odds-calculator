@@ -55,6 +55,53 @@ button {
   outline: 3px solid var(--focus);
   outline-offset: 4px;
 }
+/* Known-roll dice controls */
+app-calculator .face-column {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+app-calculator .face-column legend {
+  font: 12px var(--mono);
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+app-calculator .face-option {
+  display: block;
+  position: relative;
+  margin-bottom: 6px;
+}
+app-calculator .face-option input {
+  position: absolute;
+  opacity: 0;
+}
+app-calculator .face-option span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--attack);
+  cursor: pointer;
+}
+app-calculator .face-option svg {
+  width: 27px;
+  fill: currentColor;
+}
+app-calculator .face-option input:checked + span {
+  background: var(--attack);
+  color: var(--side-on);
+  border-color: var(--attack);
+}
+app-calculator .face-option input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+app-calculator .face-option input:disabled + span {
+  opacity: 0.35;
+  cursor: default;
+}
 .skip-link {
   position: fixed;
   left: 12px;

@@ -274,23 +274,30 @@
       </div>
       <div class="face-selectors">
         @for (face of displayedFaces(); track $index; let i = $index) {
-          <label [for]="'die-' + i"
-            >{{ t.die(i + 1)
-            }}<select
-              [id]="'die-' + i"
-              [disabled]="entryMode() === 'descending' && i > 0 && displayedFaces()[i - 1] === null"
-              (change)="setFace(i, $event)"
-            >
-              @if (entryMode() === 'descending') {
-                <option value="" [selected]="face === null">{{ t.chooseFace }}</option>
-              }
-              @for (value of faceOptions; track value) {
-                @if (entryMode() === 'free' || i === 0 || value <= (displayedFaces()[i - 1] ?? 0)) {
-                  <option [value]="value" [selected]="face === value">{{ value }}</option>
-                }
-              }
-            </select></label
-          >
+          <fieldset class="face-column">
+            <legend>{{ t.die(i + 1) }}</legend>
+            @for (value of faceOptions; track value) {
+              <label class="face-option">
+                <input
+                  type="radio"
+                  [name]="'die-' + i"
+                  [value]="value"
+                  [checked]="face === value"
+                  [disabled]="
+                    entryMode() === 'descending' && i > 0 && value > (displayedFaces()[i - 1] ?? 0)
+                  "
+                  (change)="setFace(i, value)"
+                  [attr.aria-label]="t.faceValue(value)"
+                />
+                <span
+                  ><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    @for (pip of pips[value - 1]; track $index) {
+                      <circle [attr.cx]="pip[0]" [attr.cy]="pip[1]" r="2" />
+                    }</svg
+                ></span>
+              </label>
+            }
+          </fieldset>
         }
       </div>
       <p class="note">{{ entryMode() === 'descending' ? t.descendingHint : t.sortHint }}</p>
