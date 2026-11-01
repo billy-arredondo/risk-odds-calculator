@@ -61,6 +61,7 @@
         {{ t.freeEntry }}
       </button>
     </div>
+    <p class="note">{{ t.entryModeHint }}</p>
     <div class="roll-body">
       <div class="face-selectors">
         @for (face of displayedFaces(); track $index; let i = $index) {
@@ -97,12 +98,25 @@
       }
     </div>
     <p class="note">{{ entryMode() === 'descending' ? t.descendingHint : t.sortHint }}</p>
+    <p class="note">{{ t.roundingNotice }}</p>
+    <p class="sr-only" aria-live="polite" aria-atomic="true">{{ conditionalAnnouncement() }}</p>
   </fieldset>
   @if (conditional(); as result) {
-    <app-roll-results [distribution]="result" [attackerValues]="knownDice()!" />
+    <details class="breakdown">
+      <summary>{{ t.showBreakdown }}</summary>
+      <app-roll-results [distribution]="result" [attackerValues]="knownDice()!" />
+    </details>
   }
   <div class="pre-roll">
     <h3>{{ t.beforeRoll }}</h3>
+    <h4>{{ t.preRollOutcomes }}</h4>
+    <ul>
+      @for (outcome of preRollResults(); track outcome.attackerLoss) {
+        <li>{{ t.outcomeDescription(outcome.attackerLoss, outcome.defenderLoss) }}: <b>{{ i18n.percentage(outcome.percentage) }}</b></li>
+      }
+    </ul>
+    <p>{{ t.rollWinExplanation }}</p>
+    <p class="note">{{ t.roundingNotice }}</p>
     <p>
       {{
         t.preRoll(

@@ -3,7 +3,6 @@
 <section class="roll-results" aria-labelledby="roll-results-title">
   <h3 id="roll-results-title">{{ t.rollDetailTitle }}</h3>
   <p class="context">{{ t.caption(attackerValues().join(', '), roll.totalOutcomes) }}</p>
-  <p class="context">{{ t.rollWinExplanation }}</p>
   <ol class="results">
     @for (result of results(); track result.attackerLoss; let i = $index) {
       <li [class]="result.kind">

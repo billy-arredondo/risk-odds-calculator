@@ -3,6 +3,7 @@ import { LanguageService } from '../../i18n/language';
 import { conditionalRoll, rollDistribution } from '../../probability/combat';
 import { RollResults } from '../roll-results/roll-results';
 import { RollSummary } from '../roll-summary/roll-summary';
+import { rollResults } from '../shared/roll-outcome';
 
 @Component({
   selector: 'app-individual-roll',
@@ -72,6 +73,14 @@ export class IndividualRoll {
   protected readonly preRoll = computed(() =>
     rollDistribution(this.attackingDice(), this.defendingDice()),
   );
+  protected readonly preRollResults = computed(() => rollResults(this.preRoll()).results);
+  protected readonly conditionalAnnouncement = computed(() => {
+    const result = this.conditional();
+    if (!result) return this.i18n.messages().incompleteDice;
+    return rollResults(result).results
+      .map((outcome) => `${this.i18n.messages().outcomeDescription(outcome.attackerLoss, outcome.defenderLoss)}: ${this.i18n.percentage(outcome.percentage)}`)
+      .join('. ');
+  });
   protected setFace(index: number, value: number): void {
     if (this.entryMode() === 'free') {
       this.freeFaces.update((faces) => faces.map((face, i) => (i === index ? value : face)));

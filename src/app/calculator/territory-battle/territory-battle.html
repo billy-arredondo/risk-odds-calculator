@@ -26,7 +26,7 @@
           [value]="attacker()"
           (input)="updateArmy('attacker', $event)"
           aria-describedby="attacker-hint army-error"
-          [attr.aria-invalid]="!armies()"
+          [attr.aria-invalid]="!attackerValid()"
         />
         <button
           type="button"
@@ -60,7 +60,7 @@
           [value]="defender()"
           (input)="updateArmy('defender', $event)"
           aria-describedby="defender-hint army-error"
-          [attr.aria-invalid]="!armies()"
+          [attr.aria-invalid]="!defenderValid()"
         />
         <button
           type="button"
@@ -116,6 +116,7 @@
     </div>
     <p class="note">
       <b>{{ t.assumptionsTitle }}</b> {{ t.assumptions }}
+      {{ t.forecastScope }} {{ t.roundingNotice }}
     </p>
     @if (recommendation(); as advice) {
       <section class="strategy" aria-labelledby="strategy-title">
@@ -137,6 +138,8 @@
             </p>
           </div>
           <p class="note">{{ t.strategyNote }}</p>
+          <p class="note">{{ t.strategyDetails }}</p>
+          <p class="note">★ {{ t.recommended }}</p>
           <div
             class="table-scroll"
             tabindex="0"

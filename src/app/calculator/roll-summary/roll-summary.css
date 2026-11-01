@@ -1,16 +1,27 @@
 :host {
   display: block;
+  height: 100%;
 }
 .roll-summary {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background: var(--paper);
   border: 1px solid var(--line);
-  padding: 20px 22px;
+  padding: 20px 22px 36px;
+}
+.summary-intro {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 10px;
 }
 .eyebrow {
   color: var(--muted);
   font: 11px/1.5 var(--mono);
   letter-spacing: 0.12em;
-  margin: 0 0 8px;
+  margin: 0;
 }
 h3 {
   font:
@@ -18,10 +29,17 @@ h3 {
     serif;
   margin: 0;
 }
+.explanation {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
 .segments {
   display: flex;
+  flex-shrink: 0;
   height: 10px;
-  margin: 18px 0;
+  margin: 18px 0 14px;
   overflow: hidden;
 }
 .segments span {
@@ -69,6 +87,10 @@ h3 {
   }
 }
 @media (max-width: 760px) {
+  :host,
+  .roll-summary {
+    height: auto;
+  }
   .roll-summary {
     padding: 0;
     background: transparent;
@@ -76,7 +98,9 @@ h3 {
   }
   .eyebrow,
   .segments,
-  .full-label {
+  .full-label,
+  .roll-win-explanation,
+  .rounding-explanation {
     display: none;
   }
   h3 {

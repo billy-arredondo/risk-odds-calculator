@@ -17,10 +17,8 @@ describe('RollResults', () => {
     expect(results[0].textContent).toContain('66.7%');
     expect(results[0].textContent).toContain('The attacker wins the roll');
     expect(results[0].textContent).toContain('Attacker: 0 lost · Defender: 1 lost');
-    expect(results[0].textContent).toContain('4 of 6 possible defender rolls');
     expect(results[1].textContent).toContain('33.3%');
     expect(results[1].textContent).toContain('The defender wins the roll');
-    expect(results[1].textContent).toContain('2 of 6 possible defender rolls');
     expect(root.querySelector('details')?.open).toBe(false);
     expect(root.querySelectorAll('table')).toHaveLength(2);
     expect(root.textContent).toContain('4 / 6');
@@ -29,7 +27,7 @@ describe('RollResults', () => {
     expect(results[0].textContent).toContain('66,7%');
     expect(root.querySelector('h3')?.textContent).toContain('Desglose de resultados');
     expect(results[0].textContent).toContain('El atacante gana la tirada');
-    expect(results[0].textContent).toContain('4 de 6 tiradas defensoras posibles');
+    expect(root.querySelector('details')?.textContent).toContain('4 / 6');
   });
 
   it('shows shared losses separately and zero probability for an impossible victory', async () => {
@@ -44,9 +42,7 @@ describe('RollResults', () => {
       'both',
       'defender',
     ]);
-    expect(root.querySelector('.results li')?.textContent).toContain(
-      '25 of 36 possible defender rolls',
-    );
+    expect(root.querySelector('details')?.textContent).toContain('25 / 36');
     expect(root.querySelector('.results .both')?.textContent).toContain(
       'Attacker: 1 lost · Defender: 1 lost',
     );

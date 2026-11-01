@@ -31,6 +31,8 @@ describe('Calculator', () => {
     expect(element.querySelector('.forecast')?.textContent).toContain('41.7%');
     await input('attacker-armies', '');
     expect(element.querySelector('.forecast')).toBeNull();
+    expect(element.querySelector('#attacker-armies')?.getAttribute('aria-invalid')).toBe('true');
+    expect(element.querySelector('#defender-armies')?.getAttribute('aria-invalid')).toBe('false');
     expect(element.querySelector('#army-error')?.textContent).toContain('Enter whole numbers');
     await input('attacker-armies', '1.5');
     expect(element.querySelector('.forecast')).toBeNull();
@@ -57,6 +59,8 @@ describe('Calculator', () => {
     button('Individual roll').click();
     await fixture.whenStable();
     expect(element.querySelector('.notice')?.textContent).toContain('before seeing');
+    expect(element.querySelectorAll('.pre-roll li')).toHaveLength(3);
+    expect(element.querySelector('.pre-roll')?.textContent).toContain('Possible outcomes');
     button('1 die').click();
     await fixture.whenStable();
     expect(element.querySelectorAll('.face-column').length).toBe(1);

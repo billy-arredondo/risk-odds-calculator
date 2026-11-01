@@ -36,15 +36,18 @@ export const en = {
   assumptionsTitle: 'Forecast assumptions:',
   assumptions:
     'Both sides always roll the maximum legal dice. The attacker continues until conquest or only one army remains. Expected losses are averaged across all wins and losses.',
+  forecastScope: 'The forecast does not necessarily use the recommended opening below.',
+  roundingNotice: 'Percentages are rounded: 0.0% and 100.0% do not necessarily mean impossibility or certainty.',
   opening: 'Your opening move',
   strategy: 'STRATEGY NOTES',
   attack: 'ATTACK',
   defend: 'DEFEND',
   rollDice: (n: number) => `Roll ${n} ${n === 1 ? 'die' : 'dice'}.`,
-  attackAdvice: 'Best worst-case chance of conquest across the defender’s legal opening choices.',
-  defendAdvice: 'Best worst-case chance of holding across the attacker’s legal opening choices.',
+  attackAdvice: 'Choose the strongest chance of conquest even against the defender’s most unfavorable opening.',
+  defendAdvice: 'Choose the strongest chance of holding even against the attacker’s most unfavorable opening.',
   strategyNote:
-    'These are independent, pre-roll choices. Only the opening roll varies below; every later roll uses maximum dice. This is not an optimized policy for every future turn. Equal success odds favor more dice.',
+    'Each recommendation is chosen independently before rolling. Only the opening roll varies; later rolls use the maximum dice.',
+  strategyDetails: 'This does not optimize every future turn. Equal success odds favor more dice.',
   comparisonLabel: 'Opening dice comparison, horizontally scrollable',
   comparison:
     'Compare every legal opening — fewer immediate casualties do not necessarily mean better battle odds.',
@@ -53,7 +56,7 @@ export const en = {
   holdShort: 'Hold',
   rollLoss: 'Roll losses',
   battleLoss: 'Battle losses',
-  sides: 'A / D',
+  sides: 'Attacker / defender',
   recommended: 'Recommended opening',
   alreadyConquered: 'No defenders remain: the territory is already conquered.',
   cannotAttack: 'No attack is possible: the last army must remain in the origin territory.',
@@ -70,6 +73,7 @@ export const en = {
     `Requires at least ${n} defending ${n === 1 ? 'army' : 'armies'}.`,
   known: 'Known attacker results',
   entryMode: 'Dice entry order',
+  entryModeHint: 'Each entry mode remembers its own dice values; switching modes restores its previous values.',
   descending: 'Descending',
   freeEntry: 'Any order',
   faceValue: (n: number) => `Value ${n}`,
@@ -81,6 +85,8 @@ export const en = {
   conditional: 'CONDITIONAL ROLL PROBABILITIES',
   rollResultsTitle: 'Chances of winning the roll',
   rollDetailTitle: 'Outcome breakdown',
+  showBreakdown: 'Show outcome breakdown',
+  preRollOutcomes: 'Possible outcomes before either side rolls',
   rollWinExplanation:
     'A side wins the roll if it inflicts more losses than it takes. Shared losses do not decide the roll. A die tie favors the defender.',
   outcomeDescription: (a: number, d: number) =>
@@ -89,6 +95,7 @@ export const en = {
     a && d ? 'Shared losses' : a ? 'Defender wins' : 'Attacker wins',
   outcomeLosses: (a: number, d: number) => `Attacker: ${a} lost · Defender: ${d} lost`,
   favorableCases: (count: number, total: number) => `${count} of ${total} possible defender rolls`,
+  partitionRounding: 'Percentages are adjusted to total 100%; equally likely outcomes can differ by 0.1 percentage points. The case counts show their exact probabilities.',
   mostLikely: 'Most likely outcome',
   expectedExplanation: 'Expected losses are averages, not a prediction of the losses in one roll.',
   rollDetails: 'Mathematical details',
@@ -161,17 +168,20 @@ export const es: {
   assumptionsTitle: 'Supuestos del pronóstico:',
   assumptions:
     'Ambos bandos siempre tiran el máximo de dados permitido. El atacante continúa hasta conquistar o quedarse con un ejército. Las bajas esperadas promedian victorias y derrotas.',
+  forecastScope: 'El pronóstico no utiliza necesariamente la primera jugada recomendada a continuación.',
+  roundingNotice: 'Los porcentajes están redondeados: 0,0 % y 100,0 % no implican necesariamente imposibilidad o certeza.',
   opening: 'Tu primera jugada',
   strategy: 'NOTAS ESTRATÉGICAS',
   attack: 'ATAQUE',
   defend: 'DEFENSA',
   rollDice: (n) => `Tira ${n} ${n === 1 ? 'dado' : 'dados'}.`,
   attackAdvice:
-    'Mejor probabilidad de conquista en el peor caso frente a las opciones legales iniciales del defensor.',
+    'Elige la mejor probabilidad de conquista incluso ante la primera jugada más desfavorable del defensor.',
   defendAdvice:
-    'Mejor probabilidad de resistir en el peor caso frente a las opciones legales iniciales del atacante.',
+    'Elige la mejor probabilidad de resistir incluso ante la primera jugada más desfavorable del atacante.',
   strategyNote:
-    'Son decisiones independientes tomadas antes de tirar. Solo cambia la primera tirada; en las siguientes se usa el máximo de dados. No es una estrategia optimizada para cada turno futuro. Si la probabilidad es igual, se prefieren más dados.',
+    'Cada recomendación se elige por separado antes de tirar. Solo cambia la primera tirada; en las siguientes se usa el máximo de dados.',
+  strategyDetails: 'No se optimizan todos los turnos futuros. Si la probabilidad es igual, se prefieren más dados.',
   comparisonLabel: 'Comparación de dados iniciales, desplazable horizontalmente',
   comparison:
     'Compara cada primera tirada legal: menos bajas inmediatas no implica necesariamente mejores probabilidades de batalla.',
@@ -180,7 +190,7 @@ export const es: {
   holdShort: 'Resistir',
   rollLoss: 'Bajas en la tirada',
   battleLoss: 'Bajas en la batalla',
-  sides: 'A / D',
+  sides: 'Atacante / defensor',
   recommended: 'Primera jugada recomendada',
   alreadyConquered: 'No quedan defensores: el territorio ya está conquistado.',
   cannotAttack:
@@ -198,6 +208,7 @@ export const es: {
     `Requiere al menos ${n} ${n === 1 ? 'ejército defensor' : 'ejércitos defensores'}.`,
   known: 'Resultados conocidos del atacante',
   entryMode: 'Orden de entrada de dados',
+  entryModeHint: 'Cada modo recuerda sus propios valores; al cambiar se recuperan los valores anteriores de ese modo.',
   descending: 'Descendente',
   freeEntry: 'Orden libre',
   faceValue: (n) => `Valor ${n}`,
@@ -211,6 +222,8 @@ export const es: {
   conditional: 'PROBABILIDADES CONDICIONALES DE LA TIRADA',
   rollResultsTitle: 'Probabilidades de ganar la tirada',
   rollDetailTitle: 'Desglose de resultados',
+  showBreakdown: 'Ver desglose de resultados',
+  preRollOutcomes: 'Resultados posibles antes de tirar',
   rollWinExplanation:
     'Un bando gana la tirada si causa más bajas de las que recibe. Las bajas repartidas no deciden la tirada. En cada comparación, los empates favorecen al defensor.',
   outcomeDescription: (a, d) =>
@@ -218,6 +231,7 @@ export const es: {
   outcomeShort: (a, d) => (a && d ? 'Bajas repartidas' : a ? 'Gana defensor' : 'Gana atacante'),
   outcomeLosses: (a, d) => `Atacante: ${a} bajas · Defensor: ${d} bajas`,
   favorableCases: (count, total) => `${count} de ${total} tiradas defensoras posibles`,
+  partitionRounding: 'Los porcentajes se ajustan para sumar 100 %; resultados igual de probables pueden diferir en 0,1 puntos porcentuales. Los casos muestran sus probabilidades exactas.',
   mostLikely: 'Resultado más probable',
   expectedExplanation:
     'Las bajas esperadas son promedios, no una predicción de las bajas en una tirada.',

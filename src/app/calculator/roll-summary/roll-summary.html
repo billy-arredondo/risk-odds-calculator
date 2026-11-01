@@ -1,7 +1,11 @@
 @let t = i18n.messages();
 <section class="roll-summary" aria-labelledby="roll-summary-title">
-  <p class="eyebrow">{{ t.conditional }}</p>
-  <h3 id="roll-summary-title">{{ t.rollResultsTitle }}</h3>
+  <div class="summary-intro">
+    <p class="eyebrow">{{ t.conditional }}</p>
+    <h3 id="roll-summary-title">{{ t.rollResultsTitle }}</h3>
+    <p class="explanation roll-win-explanation">{{ t.rollWinExplanation }}</p>
+    <p class="explanation rounding-explanation">{{ t.partitionRounding }}</p>
+  </div>
   <div class="segments" aria-hidden="true">
     @for (result of results(); track result.attackerLoss; let i = $index) {
       <span [class]="result.kind" [style.flex-grow]="animatedResults.values()[i]"></span>
@@ -22,6 +26,7 @@
         <span class="short-label">{{
           t.outcomeShort(result.attackerLoss, result.defenderLoss)
         }}</span>
+        <span class="cases">{{ t.favorableCases(result.count, distribution().totalOutcomes) }}</span>
       </li>
     }
   </ul>

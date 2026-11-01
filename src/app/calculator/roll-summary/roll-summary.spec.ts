@@ -47,4 +47,19 @@ describe('RollSummary', () => {
     await fixture.whenStable();
     expect(labels()).toEqual(['Gana atacante', 'Bajas repartidas', 'Gana defensor']);
   });
+
+  it('shows equal case counts even when displayed percentages differ due to rounding', async () => {
+    const fixture = TestBed.createComponent(RollSummary);
+    fixture.componentRef.setInput('distribution', conditionalRoll([3, 3, 1], 2));
+    await fixture.whenStable();
+    const root: HTMLElement = fixture.nativeElement;
+    const items = root.querySelectorAll('.summary-list li');
+    expect(items[1].textContent).toContain('16 of 36 possible defender rolls');
+    expect(items[2].textContent).toContain('16 of 36 possible defender rolls');
+    expect(items[1].textContent).toContain('44.5%');
+    expect(items[2].textContent).toContain('44.4%');
+    TestBed.inject(LanguageService).setLanguage('es');
+    await fixture.whenStable();
+    expect(items[1].textContent).toContain('16 de 36 tiradas defensoras posibles');
+  });
 });
