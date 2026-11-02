@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.army {
+  padding: 22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--side);
+  min-width: 0;
+  height: 100%;
+}
+
+.attacker {
+  --side: var(--attack);
+}
+
+.defender {
+  --side: var(--defend);
+}
+
+.army p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 13px 0 0;
+}
+
+.army .side-label {
+  margin: 0 0 10px;
+  color: var(--side);
+  font-weight: 700;
+}
+
+.dice-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.dice-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 4px;
+  border: 1px solid var(--line);
+  background: transparent;
+}
+
+.dice-buttons button:hover {
+  border-color: var(--side);
+}
+
+.dice-buttons .selected {
+  background: var(--side);
+  color: var(--side-on);
+}
+
+.dice-icons {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.dice-icons svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dice-icons rect {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.dice-icons circle {
+  fill: currentColor;
+}

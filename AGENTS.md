@@ -21,4 +21,5 @@
 - Use signals for state, `computed()` for derived values, `input()`/`output()`, and `inject()`. Prefer `@Service()` for new auto-provided singleton services.
 - Prefer Signal Forms for new forms, otherwise reactive forms. Use native template control flow and class/style bindings instead of `*ngIf`/`*ngFor`, `ngClass`, or `ngStyle`.
 - Use `NgOptimizedImage` for static images (except inline base64), and meet WCAG AA and AXE accessibility requirements.
+- Use SVG icons rather than emojis for UI icons.
 - Write strict TypeScript; prefer `unknown` to `any`. Prettier uses 100-character lines, single quotes, and the Angular parser for HTML.

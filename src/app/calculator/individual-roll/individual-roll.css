@@ -35,36 +35,10 @@ h3 {
   gap: 24px;
 }
 
-.army {
-  padding: 22px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--side);
-  min-width: 0;
-}
-
-.attacker {
-  --side: var(--attack);
-}
-
-.defender {
-  --side: var(--defend);
-}
-
-.army p,
 .note {
   font-size: 13px;
   line-height: 1.7;
   color: var(--muted);
-}
-
-.army p {
-  margin: 13px 0 0;
-}
-
-.dice-buttons {
-  display: flex;
-  gap: 10px;
 }
 
 .roll-body {
@@ -78,44 +52,6 @@ h3 {
   border: 1px dashed var(--line);
   padding: 18px;
   margin: 0;
-}
-
-.dice-buttons button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  min-width: 0;
-  min-height: 44px;
-  padding: 8px 4px;
-  border: 1px solid var(--line);
-  background: transparent;
-}
-
-.dice-icons {
-  display: flex;
-  justify-content: center;
-  gap: 2px;
-}
-
-.dice-icons svg {
-  width: 16px;
-  height: 16px;
-}
-
-.dice-icons rect {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-}
-
-.dice-icons circle {
-  fill: currentColor;
-}
-
-.dice-buttons .selected {
-  background: var(--side);
-  color: var(--side-on);
 }
 
 .mode-switch {

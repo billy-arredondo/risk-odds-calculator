@@ -1,0 +1,312 @@
+:host {
+  display: block;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin: 24px 0 12px;
+}
+
+.eyebrow,
+.side-label {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font: 11px/1.5 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+h2 {
+  font:
+    26px Georgia,
+    serif;
+  margin: 0;
+}
+
+.section-number {
+  font: 38px/1 var(--mono);
+  color: var(--line);
+}
+
+.intro,
+.odds>p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.intro {
+  margin: 0 0 24px;
+}
+
+.army-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.roll-stage {
+  margin-top: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 24px;
+}
+
+.stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px;
+}
+
+.stage-header .eyebrow {
+  margin: 0;
+}
+
+.roll-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  min-height: 48px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 16px;
+  font-weight: 700;
+}
+
+.roll-button:hover:not(:disabled) {
+  background: var(--attack);
+  border-color: var(--attack);
+  color: var(--side-on);
+}
+
+.roll-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.roll-icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.reroll-icon g {
+  transform-box: view-box;
+  transform-origin: center;
+}
+
+.reroll-icon.spinning g {
+  animation: reroll-spin 750ms linear infinite;
+}
+
+@keyframes reroll-spin {
+  to { transform: rotate(360deg); }
+}
+
+.empty {
+  padding: 38px 0 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.dice-board {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 32px 0;
+}
+
+.dice-side {
+  min-width: 0;
+}
+
+.attacker {
+  color: var(--attack);
+}
+
+.defender {
+  color: var(--defend);
+}
+
+.side-label {
+  display: block;
+  color: currentColor;
+  font-weight: 700;
+}
+
+.dice-line,
+.rolling .dice-side {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.die-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.die {
+  display: block;
+  width: clamp(36px, 6vw, 58px);
+  height: auto;
+}
+
+.die rect {
+  fill: currentColor;
+}
+
+.die circle {
+  fill: var(--side-on);
+}
+
+.die-value {
+  color: var(--muted);
+  font: 12px var(--mono);
+}
+
+.die-wrap.unused {
+  opacity: 0.45;
+}
+
+.versus {
+  color: var(--line);
+  font:
+    32px Georgia,
+    serif;
+}
+
+.rolling .die {
+  animation: toss 1400ms ease-in-out both;
+}
+
+.rolling .die:nth-child(2) {
+  animation-delay: 50ms;
+}
+
+.rolling .die:nth-child(3) {
+  animation-delay: 100ms;
+}
+
+@keyframes toss {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+
+  35% {
+    transform: translateY(-18px) rotate(110deg);
+  }
+
+  70% {
+    transform: translateY(4px) rotate(250deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(360deg);
+  }
+}
+
+.result-card {
+  padding: 18px 20px;
+  border-left: 3px solid var(--ink);
+  background: var(--canvas);
+}
+
+.result-card.shared {
+  border-color: var(--shared);
+}
+
+.result-card h3 {
+  margin: 0 0 6px;
+  font:
+    22px Georgia,
+    serif;
+}
+
+.result-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.comparison {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.comparison h3 {
+  font-size: 14px;
+  margin: 0 0 6px;
+}
+
+.comparison ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.comparison li span,
+.comparison p {
+  color: var(--muted);
+}
+
+.comparison p {
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+
+.odds {
+  margin-top: 30px;
+}
+
+.odds>h3 {
+  font:
+    22px Georgia,
+    serif;
+}
+
+@media (max-width: 600px) {
+  .army-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .roll-stage {
+    padding: 18px;
+  }
+
+  .dice-board {
+    gap: 10px;
+  }
+
+  .dice-line,
+  .rolling .dice-side {
+    gap: 5px;
+  }
+
+  .stage-header {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rolling .die,
+  .reroll-icon.spinning g {
+    animation: none;
+  }
+}

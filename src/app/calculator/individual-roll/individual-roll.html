@@ -4,46 +4,8 @@
     <span>{{ messages().hypothetical }}</span>
   </div>
   <div class="army-grid">
-    <fieldset class="army attacker" [attr.aria-label]="messages().attackDice">
-      <div class="dice-buttons">
-        @for (count of dieOptions; track count) {
-        <button type="button" [attr.aria-label]="messages().dice(count)" [attr.aria-pressed]="attackingDice() === count"
-          [class.selected]="attackingDice() === count" (click)="attackingDice.set(count)">
-          <span class="dice-icons" aria-hidden="true">
-            @for (die of dieOptions.slice(0, count); track die) {
-            <svg viewBox="0 0 24 24" focusable="false">
-              <rect x="2" y="2" width="20" height="20" rx="4" />
-              <circle cx="7" cy="7" r="1.5" />
-              <circle cx="12" cy="12" r="1.5" />
-              <circle cx="17" cy="17" r="1.5" />
-            </svg>
-            }
-          </span>
-        </button>
-        }
-      </div>
-      <p>{{ messages().requiresAttack(attackingDice() + 1) }}</p>
-    </fieldset>
-    <fieldset class="army defender" [attr.aria-label]="messages().defendDice">
-      <div class="dice-buttons">
-        @for (count of defenderOptions; track count) {
-        <button type="button" [attr.aria-label]="messages().dice(count)" [attr.aria-pressed]="defendingDice() === count"
-          [class.selected]="defendingDice() === count" (click)="defendingDice.set(count)">
-          <span class="dice-icons" aria-hidden="true">
-            @for (die of dieOptions.slice(0, count); track die) {
-            <svg viewBox="0 0 24 24" focusable="false">
-              <rect x="2" y="2" width="20" height="20" rx="4" />
-              <circle cx="7" cy="7" r="1.5" />
-              <circle cx="12" cy="12" r="1.5" />
-              <circle cx="17" cy="17" r="1.5" />
-            </svg>
-            }
-          </span>
-        </button>
-        }
-      </div>
-      <p>{{ messages().requiresDefense(defendingDice()) }}</p>
-    </fieldset>
+    <app-dice-count-selector side="attacker" [count]="attackingDice()" (countChange)="attackingDice.set($event)" />
+    <app-dice-count-selector side="defender" [count]="defendingDice()" (countChange)="defendingDice.set($event)" />
   </div>
   <section class="known-roll" aria-labelledby="known-roll-title">
     <div class="section-heading">

@@ -5,12 +5,14 @@
 
 .mode-switch {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 30px;
 }
 
 .mode-switch button {
+  min-height: 44px;
   padding: 17px 20px;
   border: 0;
   background: transparent;

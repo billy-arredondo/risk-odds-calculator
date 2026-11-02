@@ -91,7 +91,7 @@ describe('Calculator', () => {
     expect(options(1).every((die) => die.disabled)).toBe(true);
     expect(options(2).every((die) => die.disabled)).toBe(true);
     expect(element.querySelectorAll('.face-option svg').length).toBe(18);
-    expect(element.querySelector('.summary-list')).toBeNull();
+    expect(element.querySelector('app-individual-roll .summary-list')).toBeNull();
     expect(element.textContent).toContain('Choose the required attacking dice values');
     await select(0, '5');
     expect(selected()).toEqual(['5', '5']);
@@ -155,5 +155,30 @@ describe('Calculator', () => {
     await fixture.whenStable();
     expect(dice().map((die) => die.value)).toEqual(['1', '6', '2']);
     expect(button('Any order').getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('preserves the simulator selection and result when switching calculator modes', async () => {
+    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: true }));
+    const { fixture, element, button } = await setup();
+    try {
+      button('03 / Roll dice').click();
+      await fixture.whenStable();
+      const simulator = element.querySelector<HTMLElement>('app-dice-roller')!;
+      simulator.querySelector<HTMLButtonElement>('.attacker button[aria-label="2 dice"]')!.click();
+      await fixture.whenStable();
+      simulator.querySelector<HTMLButtonElement>('.roll-button')!.click();
+      await fixture.whenStable();
+      const result = simulator.querySelector('.result-card')?.textContent;
+      expect(result).toBeTruthy();
+      button('Territory battle').click();
+      await fixture.whenStable();
+      button('03 / Roll dice').click();
+      await fixture.whenStable();
+      expect(simulator.querySelector('.result-card')?.textContent).toBe(result);
+      expect(simulator.querySelector('.attacker button[aria-label="2 dice"]')?.getAttribute('aria-pressed')).toBe('true');
+    } finally {
+      fixture.destroy();
+      vi.unstubAllGlobals();
+    }
   });
 });

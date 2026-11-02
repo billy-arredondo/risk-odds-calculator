@@ -12,6 +12,19 @@ type Messages = {
   mode: string;
   battleMode: string;
   rollMode: string;
+  simulateMode: string;
+  simulateTitle: string;
+  simulateIntro: string;
+  simulateAction: string;
+  simulateAgain: string;
+  simulateRolling: string;
+  simulateEmpty: string;
+  simulateResult: string;
+  simulateCompare: string;
+  simulateUnused: string;
+  simulateTie: string;
+  simulatePair: (a: number, d: number, loser: string) => string;
+  simulateValues: (side: string, values: string) => string;
   balance: string;
   fullBattle: string;
   attackArmies: string;
@@ -73,6 +86,7 @@ type Messages = {
   outcomeShort: (a: number, d: number) => string;
   outcomeLosses: (a: number, d: number) => string;
   favorableCases: (count: number, total: number) => string;
+  allFavorableCases: (count: number, total: number) => string;
   partitionRounding: string;
   mostLikely: string;
   expectedExplanation: string;
@@ -106,6 +120,19 @@ export const en = {
   mode: 'Calculator mode',
   battleMode: '01 / Territory battle',
   rollMode: '02 / Individual roll',
+  simulateMode: '03 / Roll dice',
+  simulateTitle: 'Roll the dice',
+  simulateIntro: 'Choose dice for both sides, then roll once to see the outcome.',
+  simulateAction: 'Roll dice',
+  simulateAgain: 'Roll again',
+  simulateRolling: 'Rolling dice…',
+  simulateEmpty: 'Choose your dice and roll to reveal the outcome.',
+  simulateResult: 'ROLL RESULT',
+  simulateCompare: 'Dice comparisons',
+  simulateUnused: 'Faded dice are not compared; only the highest dice are paired.',
+  simulateTie: 'Tie — defender wins',
+  simulatePair: (a, d, loser) => `${a} vs ${d}: ${loser} loses 1 army`,
+  simulateValues: (side, values) => `${side} dice, highest first: ${values}`,
   balance: 'The balance of forces',
   fullBattle: 'FULL BATTLE',
   attackArmies: 'Attacking armies',
@@ -174,6 +201,7 @@ export const en = {
     a && d ? 'Shared losses' : a ? 'Defender wins' : 'Attacker wins',
   outcomeLosses: (a, d) => `Attacker: ${a} lost · Defender: ${d} lost`,
   favorableCases: (count, total) => `${count} of ${total} possible defender rolls`,
+  allFavorableCases: (count, total) => `${count} of ${total} possible rolls of both sides`,
   partitionRounding: 'Percentages are adjusted to total 100%; equally likely outcomes can differ by 0.1 percentage points. The case counts show their exact probabilities.',
   mostLikely: 'Most likely outcome',
   expectedExplanation: 'Expected losses are averages, not a prediction of the losses in one roll.',
@@ -211,6 +239,19 @@ export const es = {
   mode: 'Modo de calculadora',
   battleMode: '01 / Batalla territorial',
   rollMode: '02 / Tirada individual',
+  simulateMode: '03 / Lanzar dados',
+  simulateTitle: 'Lanza los dados',
+  simulateIntro: 'Elige los dados de ambos bandos y lanza una tirada para ver el resultado.',
+  simulateAction: 'Lanzar dados',
+  simulateAgain: 'Volver a lanzar',
+  simulateRolling: 'Lanzando dados…',
+  simulateEmpty: 'Elige los dados y lánzalos para descubrir el resultado.',
+  simulateResult: 'RESULTADO DE LA TIRADA',
+  simulateCompare: 'Comparaciones de dados',
+  simulateUnused: 'Los dados atenuados no se comparan; solo se emparejan los valores más altos.',
+  simulateTie: 'Empate: gana el defensor',
+  simulatePair: (a, d, loser) => `${a} contra ${d}: ${loser} pierde 1 ejército`,
+  simulateValues: (side, values) => `Dados de ${side}, de mayor a menor: ${values}`,
   balance: 'El balance de fuerzas',
   fullBattle: 'BATALLA COMPLETA',
   attackArmies: 'Ejércitos atacantes',
@@ -283,6 +324,7 @@ export const es = {
   outcomeShort: (a, d) => (a && d ? 'Bajas repartidas' : a ? 'Gana defensor' : 'Gana atacante'),
   outcomeLosses: (a, d) => `Atacante: ${a} bajas · Defensor: ${d} bajas`,
   favorableCases: (count, total) => `${count} de ${total} tiradas defensoras posibles`,
+  allFavorableCases: (count, total) => `${count} de ${total} tiradas posibles de ambos bandos`,
   partitionRounding: 'Los porcentajes se ajustan para sumar 100 %; resultados igual de probables pueden diferir en 0,1 puntos porcentuales. Los casos muestran sus probabilidades exactas.',
   mostLikely: 'Resultado más probable',
   expectedExplanation:

@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
+import { DICE_PIPS } from '../shared/dice-pips';
 
 @Component({
   selector: 'app-dice-face-selector',
@@ -15,12 +16,5 @@ export class DiceFaceSelector {
   protected readonly i18n = inject(LanguageService);
   protected readonly messages = computed(() => this.i18n.messages());
   protected readonly faceOptions = [6, 5, 4, 3, 2, 1];
-  protected readonly pips = [
-    [[12, 12]],
-    [[6, 6], [18, 18]],
-    [[6, 6], [12, 12], [18, 18]],
-    [[6, 6], [18, 6], [6, 18], [18, 18]],
-    [[6, 6], [18, 6], [12, 12], [6, 18], [18, 18]],
-    [[6, 6], [18, 6], [6, 12], [18, 12], [6, 18], [18, 18]],
-  ];
+  protected readonly pips = DICE_PIPS;
 }

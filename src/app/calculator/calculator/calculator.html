@@ -7,6 +7,11 @@
     (click)="mode.set('roll')">
     {{ messages().rollMode }}
   </button>
+  <button type="button" [class.active]="mode() === 'simulate'" [attr.aria-pressed]="mode() === 'simulate'"
+    (click)="mode.set('simulate')">
+    {{ messages().simulateMode }}
+  </button>
 </div>
 <app-territory-battle [style.display]="mode() === 'battle' ? 'block' : 'none'" />
 <app-individual-roll [style.display]="mode() === 'roll' ? 'block' : 'none'" />
+<app-dice-roller [style.display]="mode() === 'simulate' ? 'block' : 'none'" />
