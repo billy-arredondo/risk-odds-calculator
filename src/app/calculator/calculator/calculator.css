@@ -22,7 +22,7 @@
 
 .mode-switch .active {
   color: var(--ink);
-  border-color: var(--attack);
+  border-color: var(--ink);
   font-weight: 700;
 }
 

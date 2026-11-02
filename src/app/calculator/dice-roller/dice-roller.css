@@ -82,9 +82,8 @@ h2 {
 }
 
 .roll-button:hover:not(:disabled) {
-  background: var(--attack);
-  border-color: var(--attack);
-  color: var(--side-on);
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .roll-button:disabled {
@@ -113,7 +112,9 @@ h2 {
 }
 
 @keyframes reroll-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .empty {
@@ -305,6 +306,7 @@ h2 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .rolling .die,
   .reroll-icon.spinning g {
     animation: none;
