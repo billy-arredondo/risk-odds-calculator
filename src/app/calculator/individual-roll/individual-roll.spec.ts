@@ -13,7 +13,7 @@ describe('IndividualRoll', () => {
     const columns = () => [...root.querySelectorAll<HTMLFieldSetElement>('.face-column')];
     const button = (selector: string, text: string) => {
       const match = [...root.querySelectorAll<HTMLButtonElement>(selector)].find(
-        (element) => element.textContent?.trim() === text,
+        (element) => element.textContent?.trim() === text || element.getAttribute('aria-label') === text,
       );
       if (!match) throw new Error(`Missing button: ${text}`);
       return match;

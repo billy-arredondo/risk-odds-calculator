@@ -9,7 +9,7 @@ describe('Calculator', () => {
     const element: HTMLElement = fixture.nativeElement;
     const button = (text: string) => {
       const match = [...element.querySelectorAll('button')].find((b) =>
-        b.textContent?.includes(text),
+        b.textContent?.includes(text) || b.getAttribute('aria-label') === text,
       );
       if (!match) throw new Error(`Button not found: ${text}`);
       return match;
