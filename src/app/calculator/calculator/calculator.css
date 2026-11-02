@@ -28,7 +28,38 @@
 
 @media (max-width: 600px) {
   .mode-switch button {
+    display: inline-flex;
+    align-items: center;
     padding: 14px 10px;
     font-size: 13px;
+  }
+
+  .mode-label {
+    display: inline-grid;
+    grid-template-columns: 0fr;
+    opacity: 0;
+  }
+
+  .mode-label>span {
+    min-width: 0;
+    overflow: hidden;
+    white-space: pre;
+  }
+
+  .active .mode-label {
+    grid-template-columns: 1fr;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mode-switch button {
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  @media (max-width: 600px) {
+    .mode-label {
+      transition: grid-template-columns 200ms ease, opacity 200ms ease;
+    }
   }
 }

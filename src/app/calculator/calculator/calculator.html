@@ -1,15 +1,15 @@
 <div class="mode-switch" role="group" [attr.aria-label]="messages().mode">
   <button type="button" [class.active]="mode() === 'battle'" [attr.aria-pressed]="mode() === 'battle'"
-    (click)="mode.set('battle')">
-    {{ messages().battleMode }}
+    [attr.aria-label]="'01 / ' + messages().battleMode" (click)="mode.set('battle')">
+    <span>01</span><span class="mode-label"><span> / {{ messages().battleMode }}</span></span>
   </button>
   <button type="button" [class.active]="mode() === 'roll'" [attr.aria-pressed]="mode() === 'roll'"
-    (click)="mode.set('roll')">
-    {{ messages().rollMode }}
+    [attr.aria-label]="'02 / ' + messages().rollMode" (click)="mode.set('roll')">
+    <span>02</span><span class="mode-label"><span> / {{ messages().rollMode }}</span></span>
   </button>
   <button type="button" [class.active]="mode() === 'simulate'" [attr.aria-pressed]="mode() === 'simulate'"
-    (click)="mode.set('simulate')">
-    {{ messages().simulateMode }}
+    [attr.aria-label]="'03 / ' + messages().simulateMode" (click)="mode.set('simulate')">
+    <span>03</span><span class="mode-label"><span> / {{ messages().simulateMode }}</span></span>
   </button>
 </div>
 <app-territory-battle [style.display]="mode() === 'battle' ? 'block' : 'none'" />
