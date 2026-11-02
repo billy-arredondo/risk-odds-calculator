@@ -81,6 +81,18 @@ h2 {
   margin-right: 6px;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    animation: dot-pulse 1s ease-in-out infinite;
+  }
+
+  @keyframes dot-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+}
+
 .counter {
   display: flex;
   align-items: center;

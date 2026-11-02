@@ -2,15 +2,16 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
 import { IndividualRoll } from '../individual-roll/individual-roll';
 import { TerritoryBattle } from '../territory-battle/territory-battle';
+import { DiceRoller } from '../dice-roller/dice-roller';
 
 @Component({
   selector: 'app-calculator',
-  imports: [TerritoryBattle, IndividualRoll],
+  imports: [TerritoryBattle, IndividualRoll, DiceRoller],
   templateUrl: './calculator.html',
   styleUrl: './calculator.css',
 })
 export class Calculator {
   protected readonly i18n = inject(LanguageService);
   protected readonly messages = computed(() => this.i18n.messages());
-  protected readonly mode = signal<'battle' | 'roll'>('battle');
+  protected readonly mode = signal<'battle' | 'roll' | 'simulate'>('battle');
 }

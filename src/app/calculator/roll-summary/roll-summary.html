@@ -1,7 +1,7 @@
-<section class="roll-summary" aria-labelledby="roll-summary-title">
+<section class="roll-summary" [attr.aria-label]="messages().rollResultsTitle">
   <div class="summary-intro">
-    <p class="eyebrow">{{ messages().conditional }}</p>
-    <h3 id="roll-summary-title">{{ messages().rollResultsTitle }}</h3>
+    <p class="eyebrow">{{ preRoll() ? messages().beforeRoll : messages().conditional }}</p>
+    <h3>{{ messages().rollResultsTitle }}</h3>
     <p class="explanation roll-win-explanation">{{ messages().rollWinExplanation }}</p>
     <p class="explanation rounding-explanation">{{ messages().partitionRounding }}</p>
   </div>
@@ -22,7 +22,8 @@
       <span class="short-label">{{
         messages().outcomeShort(result.attackerLoss, result.defenderLoss)
         }}</span>
-      <span class="cases">{{ messages().favorableCases(result.count, distribution().totalOutcomes) }}</span>
+      <span class="cases">{{ preRoll() ? messages().allFavorableCases(result.count, distribution().totalOutcomes) :
+        messages().favorableCases(result.count, distribution().totalOutcomes) }}</span>
     </li>
     }
   </ul>

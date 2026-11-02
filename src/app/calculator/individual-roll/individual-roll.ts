@@ -2,13 +2,14 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
 import { conditionalRoll, rollDistribution } from '../../probability/combat';
 import { DiceFaceSelector } from '../dice-face-selector/dice-face-selector';
+import { DiceCountSelector } from '../dice-count-selector/dice-count-selector';
 import { RollSummary } from '../roll-summary/roll-summary';
 import { rollResults } from '../shared/roll-outcome';
 import { updateDescendingFaces } from './descending-faces';
 
 @Component({
   selector: 'app-individual-roll',
-  imports: [DiceFaceSelector, RollSummary],
+  imports: [DiceFaceSelector, DiceCountSelector, RollSummary],
   templateUrl: './individual-roll.html',
   styleUrl: './individual-roll.css',
 })
@@ -20,8 +21,6 @@ export class IndividualRoll {
   protected readonly entryMode = signal<'descending' | 'free'>('descending');
   protected readonly freeFaces = signal<readonly number[]>([6, 4, 2]);
   protected readonly descendingFaces = signal<readonly (number | null)[]>([null, null, null]);
-  protected readonly dieOptions = [1, 2, 3];
-  protected readonly defenderOptions = [1, 2];
   protected readonly editableDice = computed(() =>
     this.entryMode() === 'descending'
       ? Math.min(this.attackingDice(), this.defendingDice())
