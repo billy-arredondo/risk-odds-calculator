@@ -11,6 +11,9 @@
 
 - This is a single Angular application: `src/main.ts` bootstraps `App` with providers from `src/app/app.config.ts`; routes are in `src/app/app.routes.ts`.
 - The home route lazy-loads `calculator/`; keep the framework-independent combat engine in `src/app/probability/`. See `docs/probability-model.md` for army-count semantics and the opening-only recommendation scope.
+- `Calculator` keeps territory battle, individual roll, and dice simulator views mounted when switching modes. The latter two share `DiceCountSelector`; reusable dice graphics and outcome helpers live in `calculator/shared/`.
+- The simulator uses `Math.random` for individual rolls and `compareDice` for casualties; its pre-roll odds come from exact `rollDistribution` enumeration. Changing dice counts clears the result and cancels a pending roll.
+- Respect `prefers-reduced-motion` for animations and preserve complete accessible labels in compact mobile navigation. See `docs/architecture.md` and `docs/development.md` for details and simulator testing.
 - `public/` is copied into build assets. Global CSS imports Tailwind v4 in `src/styles.css`, with PostCSS configured in `.postcssrc.json`.
 - Production builds enforce initial bundle budgets of 500 kB warning / 1 MB error and component-style budgets of 4 kB warning / 8 kB error.
 

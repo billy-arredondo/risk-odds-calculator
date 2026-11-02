@@ -74,7 +74,7 @@ table makes both objectives visible instead of ranking choices by the chance of 
 
 Enumeration uses integer counts, with probabilities and dynamic-programming expectations evaluated
 in double precision. The model is exact combinatorial enumeration, not arbitrary-precision rational
-arithmetic. No Monte Carlo sampling is used.
+arithmetic. Probability estimates do not use Monte Carlo sampling.
 
 Percentages are shown to one decimal. A largest-remainder allocation rounds complete probability
 partitions together so they total 100.0%; expected casualties are shown to two decimals. Displayed
@@ -83,3 +83,14 @@ partitions together so they total 100.0%; expected casualties are shown to two d
 Tests cover all reference distributions above, ties, conditional/unconditional consistency,
 probability normalization, independently expanded small battles, casualty bounds, opening-choice
 consistency, input validation, terminal states, and the maximum supported army counts.
+
+## Dice roll simulator
+
+The simulator generates a single illustrative roll using `Math.random`, independently of the
+territory army inputs. Each side chooses its dice count before rolling. It sorts both sets of dice
+and uses `compareDice` to calculate casualties, including the defender's advantage on ties. Any
+extra dice beyond the smaller dice count are displayed but not compared.
+
+The displayed pre-roll probabilities use `rollDistribution` and exhaustive enumeration, not the
+simulated result or repeated random samples. A single roll does not change those probabilities or
+the territorial battle forecast.

@@ -50,6 +50,9 @@ npx ng test --watch=false
 # Run the mathematical engine tests
 npx ng test --watch=false --include=src/app/probability/combat.spec.ts
 
+# Run the dice simulator tests
+npx ng test --watch=false --include=src/app/calculator/dice-roller/dice-roller.spec.ts
+
 # Filter by suite or test name
 npx ng test --watch=false --filter="matches the reference distribution"
 ```
@@ -62,3 +65,8 @@ The project has no configured lint or end-to-end (e2e) targets.
 TypeScript strict mode and Angular strict template checking are enabled in `tsconfig.json`.
 Run both the test suite and `npm run build` after changing combat logic or the interface. Tests run
 in jsdom; they do not verify real-browser layout or visual accessibility.
+
+For simulator changes, check dice selection, rerolls, shared losses, and cancellation when the dice
+count changes. Its tests stub `Math.random` for reproducible outcomes and use fake timers for the
+delayed reveal. For animation or navigation changes, also check small screens, both themes, keyboard
+navigation, and the browser's reduced-motion preference.
