@@ -61,39 +61,9 @@
   margin-right: 8px;
 }
 
-.edition,
-.eyebrow {
+.edition {
   font: 11px/1.5 var(--mono);
   letter-spacing: 0.12em;
-}
-
-.intro {
-  max-width: 720px;
-  padding: 55px 0 34px;
-}
-
-.eyebrow {
-  color: var(--muted);
-  margin: 0 0 15px;
-}
-
-h1 {
-  font:
-    clamp(42px, 7vw, 70px)/1.05 Georgia,
-    serif;
-  letter-spacing: -0.045em;
-  margin: 0 0 22px;
-}
-
-h1 em {
-  color: var(--attack);
-  font-weight: 400;
-}
-
-.intro>p:last-child {
-  max-width: 550px;
-  color: var(--muted);
-  line-height: 1.7;
 }
 
 footer {
@@ -119,11 +89,4 @@ footer p {
     display: none;
   }
 
-  .intro {
-    padding-top: 35px;
-  }
-
-  .intro>p:last-child {
-    font-size: 14px;
-  }
 }

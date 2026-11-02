@@ -70,7 +70,6 @@ describe('App', () => {
     await fixture.whenStable();
     findButton('02 / Tirada individual').click();
     await fixture.whenStable();
-    expect(root.querySelector('.notice')?.textContent).toContain('antes de ver');
     findButton('1 dado').click();
     await fixture.whenStable();
     root.querySelector<HTMLInputElement>('input[name="die-0"][value="1"]')!.click();

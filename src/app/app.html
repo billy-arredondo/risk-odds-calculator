@@ -33,15 +33,7 @@
     </div>
   </header>
   <main>
-    <section class="intro" aria-labelledby="page-title">
-      <p class="eyebrow">{{ i18n.messages().tagline }}</p>
-      <h1 id="page-title">
-        {{ i18n.messages().title }}<br /><em>{{ i18n.messages().subtitle }}</em>
-      </h1>
-      <p>
-        {{ i18n.messages().intro }}
-      </p>
-    </section>
+    <h1 class="sr-only">{{ i18n.messages().calculatorTitle }}</h1>
     <div id="calculator" tabindex="-1"><router-outlet /></div>
   </main>
   <footer>

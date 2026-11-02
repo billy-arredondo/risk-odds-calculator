@@ -1,18 +1,10 @@
 <div class="mode-switch" role="group" [attr.aria-label]="messages().mode">
-  <button
-    type="button"
-    [class.active]="mode() === 'battle'"
-    [attr.aria-pressed]="mode() === 'battle'"
-    (click)="mode.set('battle')"
-  >
+  <button type="button" [class.active]="mode() === 'battle'" [attr.aria-pressed]="mode() === 'battle'"
+    (click)="mode.set('battle')">
     {{ messages().battleMode }}
   </button>
-  <button
-    type="button"
-    [class.active]="mode() === 'roll'"
-    [attr.aria-pressed]="mode() === 'roll'"
-    (click)="mode.set('roll')"
-  >
+  <button type="button" [class.active]="mode() === 'roll'" [attr.aria-pressed]="mode() === 'roll'"
+    (click)="mode.set('roll')">
     {{ messages().rollMode }}
   </button>
 </div>

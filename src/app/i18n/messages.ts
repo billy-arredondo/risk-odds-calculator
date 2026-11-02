@@ -2,10 +2,7 @@ type Messages = {
   skip: string;
   home: string;
   edition: string;
-  tagline: string;
-  title: string;
-  subtitle: string;
-  intro: string;
+  calculatorTitle: string;
   footer: string;
   fan: string;
   language: string;
@@ -31,9 +28,6 @@ type Messages = {
   hold: string;
   attackLoss: string;
   defendLoss: string;
-  assumptionsTitle: string;
-  assumptions: string;
-  forecastScope: string;
   roundingNotice: string;
   opening: string;
   strategy: string;
@@ -57,8 +51,6 @@ type Messages = {
   cannotAttack: string;
   individual: string;
   hypothetical: string;
-  chooseFirst: string;
-  notice: string;
   attackDice: string;
   defendDice: string;
   dice: (n: number) => string;
@@ -113,11 +105,7 @@ export const en = {
   skip: 'Skip to calculator',
   home: 'Risk Odds Calculator home',
   edition: 'FIELD GUIDE — CLASSIC RULES',
-  tagline: 'LESS GUESSWORK. BETTER BATTLES.',
-  title: 'Know your odds.',
-  subtitle: 'Choose your move.',
-  intro:
-    'Exact probabilities for the next roll or the whole territory. A little intelligence before you commit your armies.',
+  calculatorTitle: 'Risk Odds Calculator',
   footer: 'Probability is intelligence, not a promise.',
   fan: 'Independent fan tool · Classic Risk rules',
   language: 'Language',
@@ -144,10 +132,6 @@ export const en = {
   hold: 'Defender holds',
   attackLoss: 'Expected attacker losses',
   defendLoss: 'Expected defender losses',
-  assumptionsTitle: 'Forecast assumptions:',
-  assumptions:
-    'Both sides always roll the maximum legal dice. The attacker continues until conquest or only one army remains. Expected losses are averaged across all wins and losses.',
-  forecastScope: 'The forecast does not necessarily use the recommended opening below.',
   roundingNotice: 'Percentages are rounded: 0.0% and 100.0% do not necessarily mean impossibility or certainty.',
   opening: 'Your opening move',
   strategy: 'STRATEGY NOTES',
@@ -173,9 +157,6 @@ export const en = {
   cannotAttack: 'No attack is possible: the last army must remain in the origin territory.',
   individual: 'Read an individual roll',
   hypothetical: 'HYPOTHETICAL ANALYSIS',
-  chooseFirst: 'Choose before rolling.',
-  notice:
-    'In a real game, the defender chooses their dice before seeing the attacker’s results. Known attacker values below are for hypothetical analysis, not a legal opportunity to change defense.',
   attackDice: 'Attacking dice',
   defendDice: 'Defending dice',
   dice: (n) => `${n} ${n === 1 ? 'die' : 'dice'}`,
@@ -243,11 +224,7 @@ export const es = {
   skip: 'Ir a la calculadora',
   home: 'Inicio de la calculadora de probabilidades Risk',
   edition: 'GUÍA DE CAMPO — REGLAS CLÁSICAS',
-  tagline: 'MENOS AZAR. MEJORES BATALLAS.',
-  title: 'Conoce tus probabilidades.',
-  subtitle: 'Elige tu movimiento.',
-  intro:
-    'Probabilidades exactas para la próxima tirada o toda la batalla. Analiza tus opciones antes de comprometer tus ejércitos.',
+  calculatorTitle: 'Calculadora de probabilidades Risk',
   footer: 'La probabilidad informa, no garantiza.',
   fan: 'Herramienta independiente de aficionados · Reglas clásicas de Risk',
   language: 'Idioma',
@@ -274,10 +251,6 @@ export const es = {
   hold: 'El defensor resiste',
   attackLoss: 'Bajas esperadas del atacante',
   defendLoss: 'Bajas esperadas del defensor',
-  assumptionsTitle: 'Supuestos del pronóstico:',
-  assumptions:
-    'Ambos bandos siempre tiran el máximo de dados permitido. El atacante continúa hasta conquistar o quedarse con un ejército. Las bajas esperadas promedian victorias y derrotas.',
-  forecastScope: 'El pronóstico no utiliza necesariamente la primera jugada recomendada a continuación.',
   roundingNotice: 'Los porcentajes están redondeados: 0,0 % y 100,0 % no implican necesariamente imposibilidad o certeza.',
   opening: 'Tu primera jugada',
   strategy: 'NOTAS ESTRATÉGICAS',
@@ -306,9 +279,6 @@ export const es = {
     'No es posible atacar: el último ejército debe permanecer en el territorio de origen.',
   individual: 'Analiza una tirada individual',
   hypothetical: 'ANÁLISIS HIPOTÉTICO',
-  chooseFirst: 'Elige antes de tirar.',
-  notice:
-    'En una partida real, el defensor elige sus dados antes de ver los resultados del atacante. Los valores conocidos se usan para análisis hipotético, no permiten cambiar legalmente la defensa.',
   attackDice: 'Dados atacantes',
   defendDice: 'Dados defensores',
   dice: (n) => `${n} ${n === 1 ? 'dado' : 'dados'}`,

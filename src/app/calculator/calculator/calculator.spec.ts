@@ -58,7 +58,6 @@ describe('Calculator', () => {
     const { fixture, element, button } = await setup();
     button('Individual roll').click();
     await fixture.whenStable();
-    expect(element.querySelector('.notice')?.textContent).toContain('before seeing');
     expect(element.querySelectorAll('.pre-roll li')).toHaveLength(3);
     expect(element.querySelector('.pre-roll')?.textContent).toContain('Possible outcomes');
     button('1 die').click();
