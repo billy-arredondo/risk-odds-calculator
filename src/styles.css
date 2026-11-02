@@ -10,10 +10,9 @@
   --shared: #806500;
   --canvas: #f1f0e6;
   --recommended: #e4e9df;
-  --notice: #f0e4ce;
-  --notice-border: #88601c;
   --side-on: #ffffff;
   --focus: #805913;
+  --switch-selected: #252b25;
   --mono: 'Consolas', 'Liberation Mono', monospace;
   font-family: 'Trebuchet MS', 'Verdana', sans-serif;
   color: var(--ink);
@@ -32,31 +31,35 @@
   --shared: #f2d45a;
   --canvas: #171e1a;
   --recommended: #35483d;
-  --notice: #463b27;
-  --notice-border: #e0bd70;
   --side-on: #17201b;
   --focus: #f1cb7c;
+  --switch-selected: #aab7a7;
   color-scheme: dark;
 }
 
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
 }
+
 button,
 input,
 select {
   font: inherit;
 }
+
 button {
   cursor: pointer;
 }
+
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 4px;
 }
+
 .skip-link {
   position: fixed;
   left: 12px;
@@ -66,6 +69,7 @@ button {
   background: var(--paper);
   color: var(--ink);
 }
+
 .skip-link:focus {
   top: 12px;
 }

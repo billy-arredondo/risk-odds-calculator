@@ -4,22 +4,15 @@
     <h2 id="roll-title">{{ t.individual }}</h2>
     <span>{{ t.hypothetical }}</span>
   </div>
-  <p class="notice">
-    <b>{{ t.chooseFirst }}</b> {{ t.notice }}
-  </p>
   <div class="army-grid">
     <fieldset class="army attacker">
       <legend>{{ t.attackDice }}</legend>
       <div class="dice-buttons">
         @for (count of dieOptions; track count) {
-          <button
-            type="button"
-            [attr.aria-pressed]="attackingDice() === count"
-            [class.selected]="attackingDice() === count"
-            (click)="attackingDice.set(count)"
-          >
-            {{ t.dice(count) }}
-          </button>
+        <button type="button" [attr.aria-pressed]="attackingDice() === count"
+          [class.selected]="attackingDice() === count" (click)="attackingDice.set(count)">
+          {{ t.dice(count) }}
+        </button>
         }
       </div>
       <p>{{ t.requiresAttack(attackingDice() + 1) }}</p>
@@ -28,80 +21,62 @@
       <legend>{{ t.defendDice }}</legend>
       <div class="dice-buttons">
         @for (count of defenderOptions; track count) {
-          <button
-            type="button"
-            [attr.aria-pressed]="defendingDice() === count"
-            [class.selected]="defendingDice() === count"
-            (click)="defendingDice.set(count)"
-          >
-            {{ t.dice(count) }}
-          </button>
+        <button type="button" [attr.aria-pressed]="defendingDice() === count"
+          [class.selected]="defendingDice() === count" (click)="defendingDice.set(count)">
+          {{ t.dice(count) }}
+        </button>
         }
       </div>
       <p>{{ t.requiresDefense(defendingDice()) }}</p>
     </fieldset>
   </div>
-  <fieldset class="known-roll">
-    <legend>{{ t.known }}</legend>
+  <section class="known-roll" aria-labelledby="known-roll-title">
+    <div class="section-heading">
+      <h2 id="known-roll-title">{{ t.known }}</h2>
+    </div>
     <div class="mode-switch" role="group" [attr.aria-label]="t.entryMode">
-      <button
-        type="button"
-        [class.active]="entryMode() === 'descending'"
-        [attr.aria-pressed]="entryMode() === 'descending'"
-        (click)="entryMode.set('descending')"
-      >
+      <button type="button" [class.active]="entryMode() === 'descending'"
+        [attr.aria-pressed]="entryMode() === 'descending'" (click)="entryMode.set('descending')">
         {{ t.descending }}
       </button>
-      <button
-        type="button"
-        [class.active]="entryMode() === 'free'"
-        [attr.aria-pressed]="entryMode() === 'free'"
-        (click)="entryMode.set('free')"
-      >
+      <button type="button" [class.active]="entryMode() === 'free'" [attr.aria-pressed]="entryMode() === 'free'"
+        (click)="entryMode.set('free')">
         {{ t.freeEntry }}
       </button>
     </div>
-    <p class="note">{{ t.entryModeHint }}</p>
     <div class="roll-body">
-      <app-dice-face-selector
-        [faces]="displayedFaces()"
-        [descending]="entryMode() === 'descending'"
-        (faceChange)="setFace($event.index, $event.value)"
-      />
+      <app-dice-face-selector [faces]="displayedFaces()" [descending]="entryMode() === 'descending'"
+        [editableDice]="editableDice()" (faceChange)="setFace($event.index, $event.value)" />
       @if (conditional(); as result) {
-        <app-roll-summary [distribution]="result" />
+      <app-roll-summary [distribution]="result" />
       } @else {
-        <p class="note incomplete" role="status">{{ t.incompleteDice }}</p>
+      <p class="note incomplete" role="status">{{ t.incompleteDice }}</p>
       }
     </div>
-    <p class="note">{{ entryMode() === 'descending' ? t.descendingHint : t.sortHint }}</p>
-    <p class="note">{{ t.roundingNotice }}</p>
+    @if (entryMode() === 'free') {
+    <p class="note">{{ t.sortHint }}</p>
+    }
     <p class="sr-only" aria-live="polite" aria-atomic="true">{{ conditionalAnnouncement() }}</p>
-  </fieldset>
-  @if (conditional(); as result) {
-    <details class="breakdown">
-      <summary>{{ t.showBreakdown }}</summary>
-      <app-roll-results [distribution]="result" [attackerValues]="knownDice()!" />
-    </details>
-  }
+  </section>
   <div class="pre-roll">
     <h3>{{ t.beforeRoll }}</h3>
     <h4>{{ t.preRollOutcomes }}</h4>
     <ul>
       @for (outcome of preRollResults(); track outcome.attackerLoss) {
-        <li>{{ t.outcomeDescription(outcome.attackerLoss, outcome.defenderLoss) }}: <b>{{ i18n.percentage(outcome.percentage) }}</b></li>
+      <li>{{ t.outcomeDescription(outcome.attackerLoss, outcome.defenderLoss) }}: <b>{{
+          i18n.percentage(outcome.percentage) }}</b></li>
       }
     </ul>
     <p>{{ t.rollWinExplanation }}</p>
     <p class="note">{{ t.roundingNotice }}</p>
     <p>
       {{
-        t.preRoll(
-          attackingDice(),
-          defendingDice(),
-          i18n.number(preRoll().expectedAttackerLoss),
-          i18n.number(preRoll().expectedDefenderLoss)
-        )
+      t.preRoll(
+      attackingDice(),
+      defendingDice(),
+      i18n.number(preRoll().expectedAttackerLoss),
+      i18n.number(preRoll().expectedDefenderLoss)
+      )
       }}
     </p>
   </div>

@@ -2,10 +2,7 @@ type Messages = {
   skip: string;
   home: string;
   edition: string;
-  tagline: string;
-  title: string;
-  subtitle: string;
-  intro: string;
+  calculatorTitle: string;
   footer: string;
   fan: string;
   language: string;
@@ -31,9 +28,6 @@ type Messages = {
   hold: string;
   attackLoss: string;
   defendLoss: string;
-  assumptionsTitle: string;
-  assumptions: string;
-  forecastScope: string;
   roundingNotice: string;
   opening: string;
   strategy: string;
@@ -57,8 +51,6 @@ type Messages = {
   cannotAttack: string;
   individual: string;
   hypothetical: string;
-  chooseFirst: string;
-  notice: string;
   attackDice: string;
   defendDice: string;
   dice: (n: number) => string;
@@ -66,18 +58,15 @@ type Messages = {
   requiresDefense: (n: number) => string;
   known: string;
   entryMode: string;
-  entryModeHint: string;
   descending: string;
   freeEntry: string;
   faceValue: (n: number) => string;
-  descendingHint: string;
   incompleteDice: string;
   die: (n: number) => string;
   sortHint: string;
   conditional: string;
   rollResultsTitle: string;
   rollDetailTitle: string;
-  showBreakdown: string;
   preRollOutcomes: string;
   rollWinExplanation: string;
   outcomeDescription: (a: number, d: number) => string;
@@ -99,11 +88,6 @@ type Messages = {
   lossNote: (n: number) => string;
   beforeRoll: string;
   preRoll: (a: number, d: number, al: string, dl: string) => string;
-  method: string;
-  methodTitle: string;
-  methodOne: string;
-  methodTwo: string;
-  methodThree: (max: number) => string;
   pageTitle: string;
   description: string;
 };
@@ -112,11 +96,7 @@ export const en = {
   skip: 'Skip to calculator',
   home: 'Risk Odds Calculator home',
   edition: 'FIELD GUIDE — CLASSIC RULES',
-  tagline: 'LESS GUESSWORK. BETTER BATTLES.',
-  title: 'Know your odds.',
-  subtitle: 'Choose your move.',
-  intro:
-    'Exact probabilities for the next roll or the whole territory. A little intelligence before you commit your armies.',
+  calculatorTitle: 'Risk Odds Calculator',
   footer: 'Probability is intelligence, not a promise.',
   fan: 'Independent fan tool · Classic Risk rules',
   language: 'Language',
@@ -143,10 +123,6 @@ export const en = {
   hold: 'Defender holds',
   attackLoss: 'Expected attacker losses',
   defendLoss: 'Expected defender losses',
-  assumptionsTitle: 'Forecast assumptions:',
-  assumptions:
-    'Both sides always roll the maximum legal dice. The attacker continues until conquest or only one army remains. Expected losses are averaged across all wins and losses.',
-  forecastScope: 'The forecast does not necessarily use the recommended opening below.',
   roundingNotice: 'Percentages are rounded: 0.0% and 100.0% do not necessarily mean impossibility or certainty.',
   opening: 'Your opening move',
   strategy: 'STRATEGY NOTES',
@@ -172,9 +148,6 @@ export const en = {
   cannotAttack: 'No attack is possible: the last army must remain in the origin territory.',
   individual: 'Read an individual roll',
   hypothetical: 'HYPOTHETICAL ANALYSIS',
-  chooseFirst: 'Choose before rolling.',
-  notice:
-    'In a real game, the defender chooses their dice before seeing the attacker’s results. Known attacker values below are for hypothetical analysis, not a legal opportunity to change defense.',
   attackDice: 'Attacking dice',
   defendDice: 'Defending dice',
   dice: (n) => `${n} ${n === 1 ? 'die' : 'dice'}`,
@@ -183,19 +156,15 @@ export const en = {
     `Requires at least ${n} defending ${n === 1 ? 'army' : 'armies'}.`,
   known: 'Known attacker results',
   entryMode: 'Dice entry order',
-  entryModeHint: 'Each entry mode remembers its own dice values; switching modes restores its previous values.',
   descending: 'Descending',
   freeEntry: 'Any order',
   faceValue: (n) => `Value ${n}`,
-  descendingHint:
-    'Each die must be no higher than the previous one. Later dice default to the highest allowed value.',
-  incompleteDice: 'Choose a value for each attacking die to see conditional probabilities.',
+  incompleteDice: 'Choose the required attacking dice values to see conditional probabilities.',
   die: (n) => `Die ${n}`,
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
   conditional: 'CONDITIONAL ROLL PROBABILITIES',
   rollResultsTitle: 'Chances of winning the roll',
   rollDetailTitle: 'Outcome breakdown',
-  showBreakdown: 'Show outcome breakdown',
   preRollOutcomes: 'Possible outcomes before either side rolls',
   rollWinExplanation:
     'A side wins the roll if it inflicts more losses than it takes. Shared losses do not decide the roll. A die tie favors the defender.',
@@ -223,14 +192,6 @@ export const en = {
   beforeRoll: 'Before either side rolls',
   preRoll: (a, d, al, dl) =>
     `For ${a} vs ${d} dice, unconditional expected losses are ${al} attacker and ${dl} defender armies. Use Territory battle to compare legal opening choices by conquest and resistance chances.`,
-  method: 'Behind the numbers',
-  methodTitle: 'All outcomes. No simulations.',
-  methodOne:
-    'Each die has six equally likely faces. We enumerate all 6^(A + D) ordered outcomes for an unknown roll, or 6^D defender outcomes when attacker dice are known. Sorted dice are compared in pairs, and ties go to the defender.',
-  methodTwo:
-    'For a battle, each possible loss leads to a smaller battle. Dynamic programming memoizes these states and combines their probabilities until the defender has no armies or the attacker has only one. The origin’s final army is never risked or counted as a casualty.',
-  methodThree: (max) =>
-    `These are exact combinatorial models evaluated with floating-point arithmetic, not arbitrary-precision fractions. Percentages are rounded to one decimal; complete distributions are rounded together to total 100%. A displayed 0.0% or 100.0% may be a rounded value. Army inputs are limited to ${max} per side to keep calculations responsive.`,
   pageTitle: 'Risk Odds Calculator — Know your odds',
   description:
     'Exact dice and territorial battle probabilities for classic Risk. Compare legal dice choices, conquest odds, and expected casualties.',
@@ -240,11 +201,7 @@ export const es = {
   skip: 'Ir a la calculadora',
   home: 'Inicio de la calculadora de probabilidades Risk',
   edition: 'GUÍA DE CAMPO — REGLAS CLÁSICAS',
-  tagline: 'MENOS AZAR. MEJORES BATALLAS.',
-  title: 'Conoce tus probabilidades.',
-  subtitle: 'Elige tu movimiento.',
-  intro:
-    'Probabilidades exactas para la próxima tirada o toda la batalla. Analiza tus opciones antes de comprometer tus ejércitos.',
+  calculatorTitle: 'Calculadora de probabilidades Risk',
   footer: 'La probabilidad informa, no garantiza.',
   fan: 'Herramienta independiente de aficionados · Reglas clásicas de Risk',
   language: 'Idioma',
@@ -271,10 +228,6 @@ export const es = {
   hold: 'El defensor resiste',
   attackLoss: 'Bajas esperadas del atacante',
   defendLoss: 'Bajas esperadas del defensor',
-  assumptionsTitle: 'Supuestos del pronóstico:',
-  assumptions:
-    'Ambos bandos siempre tiran el máximo de dados permitido. El atacante continúa hasta conquistar o quedarse con un ejército. Las bajas esperadas promedian victorias y derrotas.',
-  forecastScope: 'El pronóstico no utiliza necesariamente la primera jugada recomendada a continuación.',
   roundingNotice: 'Los porcentajes están redondeados: 0,0 % y 100,0 % no implican necesariamente imposibilidad o certeza.',
   opening: 'Tu primera jugada',
   strategy: 'NOTAS ESTRATÉGICAS',
@@ -303,9 +256,6 @@ export const es = {
     'No es posible atacar: el último ejército debe permanecer en el territorio de origen.',
   individual: 'Analiza una tirada individual',
   hypothetical: 'ANÁLISIS HIPOTÉTICO',
-  chooseFirst: 'Elige antes de tirar.',
-  notice:
-    'En una partida real, el defensor elige sus dados antes de ver los resultados del atacante. Los valores conocidos se usan para análisis hipotético, no permiten cambiar legalmente la defensa.',
   attackDice: 'Dados atacantes',
   defendDice: 'Dados defensores',
   dice: (n) => `${n} ${n === 1 ? 'dado' : 'dados'}`,
@@ -314,21 +264,17 @@ export const es = {
     `Requiere al menos ${n} ${n === 1 ? 'ejército defensor' : 'ejércitos defensores'}.`,
   known: 'Resultados conocidos del atacante',
   entryMode: 'Orden de entrada de dados',
-  entryModeHint: 'Cada modo recuerda sus propios valores; al cambiar se recuperan los valores anteriores de ese modo.',
   descending: 'Descendente',
   freeEntry: 'Orden libre',
   faceValue: (n) => `Valor ${n}`,
-  descendingHint:
-    'Cada dado debe ser menor o igual al anterior. Los dados siguientes toman el valor máximo permitido por defecto.',
   incompleteDice:
-    'Elige un valor para cada dado atacante para ver las probabilidades condicionales.',
+    'Elige los valores requeridos de los dados atacantes para ver las probabilidades condicionales.',
   die: (n) => `Dado ${n}`,
   sortHint:
     'Introduce los valores en cualquier orden. Los dados se ordenan de mayor a menor; el defensor gana los empates.',
   conditional: 'PROBABILIDADES CONDICIONALES DE LA TIRADA',
   rollResultsTitle: 'Probabilidades de ganar la tirada',
   rollDetailTitle: 'Desglose de resultados',
-  showBreakdown: 'Ver desglose de resultados',
   preRollOutcomes: 'Resultados posibles antes de tirar',
   rollWinExplanation:
     'Un bando gana la tirada si causa más bajas de las que recibe. Las bajas repartidas no deciden la tirada. En cada comparación, los empates favorecen al defensor.',
@@ -356,14 +302,6 @@ export const es = {
   beforeRoll: 'Antes de que cualquiera tire',
   preRoll: (a, d, al, dl) =>
     `Para ${a} contra ${d} dados, las bajas esperadas sin condiciones son ${al} del atacante y ${dl} del defensor. Usa Batalla territorial para comparar opciones iniciales por sus probabilidades de conquista y resistencia.`,
-  method: 'Cómo se calculan',
-  methodTitle: 'Todos los resultados. Sin simulaciones.',
-  methodOne:
-    'Cada dado tiene seis caras equiprobables. Enumeramos los 6^(A + D) resultados ordenados de una tirada desconocida, o los 6^D resultados defensores si se conocen los dados atacantes. Los dados ordenados se comparan por pares y el defensor gana los empates.',
-  methodTwo:
-    'En una batalla, cada resultado conduce a una batalla más pequeña. La programación dinámica memoriza estos estados y combina sus probabilidades hasta que no quedan defensores o queda un solo atacante. El último ejército de origen nunca se arriesga ni se cuenta como baja.',
-  methodThree: (max) =>
-    `Son modelos combinatorios exactos evaluados con aritmética de punto flotante, no fracciones de precisión arbitraria. Los porcentajes se redondean a un decimal; las distribuciones completas se redondean conjuntamente para sumar 100 %. Un valor mostrado de 0,0 % o 100,0 % puede ser redondeado. El límite es de ${max} ejércitos por bando para mantener la agilidad del cálculo.`,
   pageTitle: 'Calculadora de probabilidades Risk — Conoce tus probabilidades',
   description:
     'Probabilidades exactas de dados y batallas territoriales en el Risk clásico. Compara dados, probabilidades de conquista y bajas esperadas.',

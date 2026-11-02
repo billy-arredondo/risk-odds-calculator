@@ -2,14 +2,13 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
 import { conditionalRoll, rollDistribution } from '../../probability/combat';
 import { DiceFaceSelector } from '../dice-face-selector/dice-face-selector';
-import { RollResults } from '../roll-results/roll-results';
 import { RollSummary } from '../roll-summary/roll-summary';
 import { rollResults } from '../shared/roll-outcome';
 import { updateDescendingFaces } from './descending-faces';
 
 @Component({
   selector: 'app-individual-roll',
-  imports: [DiceFaceSelector, RollResults, RollSummary],
+  imports: [DiceFaceSelector, RollSummary],
   templateUrl: './individual-roll.html',
   styleUrl: './individual-roll.css',
 })
@@ -22,14 +21,18 @@ export class IndividualRoll {
   protected readonly descendingFaces = signal<readonly (number | null)[]>([null, null, null]);
   protected readonly dieOptions = [1, 2, 3];
   protected readonly defenderOptions = [1, 2];
+  protected readonly editableDice = computed(() =>
+    this.entryMode() === 'descending'
+      ? Math.min(this.attackingDice(), this.defendingDice())
+      : this.attackingDice(),
+  );
   protected readonly displayedFaces = computed(() =>
-    (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces()).slice(
-      0,
-      this.attackingDice(),
-    ),
+    (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces())
+      .slice(0, this.attackingDice())
+      .map((face, index) => (index < this.editableDice() ? face : null)),
   );
   protected readonly knownDice = computed(() => {
-    const faces = this.displayedFaces();
+    const faces = this.displayedFaces().slice(0, this.editableDice());
     return faces.every((face) => face !== null)
       ? faces.filter((face): face is number => face !== null)
       : null;

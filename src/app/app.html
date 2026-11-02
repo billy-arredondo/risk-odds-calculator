@@ -1,55 +1,39 @@
 <a class="skip-link" href="#calculator">{{ i18n.messages().skip }}</a>
 <div class="page">
   <header class="masthead">
-    <a class="brand" href="/" [attr.aria-label]="i18n.messages().home"
-      ><span aria-hidden="true">⚄</span> RISK / ODDS</a
-    >
+    <a class="brand" href="/" [attr.aria-label]="i18n.messages().home"><span aria-hidden="true">⚄</span> RISK / ODDS</a>
     <span class="edition">{{ i18n.messages().edition }}</span>
     <div class="theme-switch" role="group" [attr.aria-label]="i18n.messages().theme">
-      <button
-        type="button"
-        [attr.aria-pressed]="theme.theme() === 'light'"
-        (click)="theme.setTheme('light')"
-      >
-        <span aria-hidden="true">☀</span> {{ i18n.messages().lightTheme }}
+      <button type="button" [attr.aria-label]="i18n.messages().lightTheme"
+        [attr.aria-pressed]="theme.theme() === 'light'" (click)="theme.setTheme('light')">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+          stroke-linecap="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
       </button>
-      <button
-        type="button"
-        [attr.aria-pressed]="theme.theme() === 'dark'"
-        (click)="theme.setTheme('dark')"
-      >
-        <span aria-hidden="true">☾</span> {{ i18n.messages().darkTheme }}
+      <button type="button" [attr.aria-label]="i18n.messages().darkTheme" [attr.aria-pressed]="theme.theme() === 'dark'"
+        (click)="theme.setTheme('dark')">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" />
+        </svg>
       </button>
     </div>
     <div class="language-switch" role="group" [attr.aria-label]="i18n.messages().language">
-      <button
-        type="button"
-        lang="en"
-        [attr.aria-pressed]="i18n.language() === 'en'"
-        (click)="i18n.setLanguage('en')"
-      >
-        English
+      <button type="button" lang="en" aria-label="English" [attr.aria-pressed]="i18n.language() === 'en'"
+        (click)="i18n.setLanguage('en')">
+        EN
       </button>
-      <button
-        type="button"
-        lang="es"
-        [attr.aria-pressed]="i18n.language() === 'es'"
-        (click)="i18n.setLanguage('es')"
-      >
-        Español
+      <button type="button" lang="es" aria-label="Español" [attr.aria-pressed]="i18n.language() === 'es'"
+        (click)="i18n.setLanguage('es')">
+        ES
       </button>
     </div>
   </header>
   <main>
-    <section class="intro" aria-labelledby="page-title">
-      <p class="eyebrow">{{ i18n.messages().tagline }}</p>
-      <h1 id="page-title">
-        {{ i18n.messages().title }}<br /><em>{{ i18n.messages().subtitle }}</em>
-      </h1>
-      <p>
-        {{ i18n.messages().intro }}
-      </p>
-    </section>
+    <h1 class="sr-only">{{ i18n.messages().calculatorTitle }}</h1>
     <div id="calculator" tabindex="-1"><router-outlet /></div>
   </main>
   <footer>

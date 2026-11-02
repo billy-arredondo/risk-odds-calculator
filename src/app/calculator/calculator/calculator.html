@@ -1,30 +1,12 @@
-@let t = i18n.messages();
-<div class="mode-switch" role="group" [attr.aria-label]="t.mode">
-  <button
-    type="button"
-    [class.active]="mode() === 'battle'"
-    [attr.aria-pressed]="mode() === 'battle'"
-    (click)="mode.set('battle')"
-  >
-    {{ t.battleMode }}
+<div class="mode-switch" role="group" [attr.aria-label]="messages().mode">
+  <button type="button" [class.active]="mode() === 'battle'" [attr.aria-pressed]="mode() === 'battle'"
+    (click)="mode.set('battle')">
+    {{ messages().battleMode }}
   </button>
-  <button
-    type="button"
-    [class.active]="mode() === 'roll'"
-    [attr.aria-pressed]="mode() === 'roll'"
-    (click)="mode.set('roll')"
-  >
-    {{ t.rollMode }}
+  <button type="button" [class.active]="mode() === 'roll'" [attr.aria-pressed]="mode() === 'roll'"
+    (click)="mode.set('roll')">
+    {{ messages().rollMode }}
   </button>
 </div>
 <app-territory-battle [style.display]="mode() === 'battle' ? 'block' : 'none'" />
 <app-individual-roll [style.display]="mode() === 'roll' ? 'block' : 'none'" />
-<details class="method">
-  <summary>{{ t.method }}</summary>
-  <div>
-    <h3>{{ t.methodTitle }}</h3>
-    <p>{{ t.methodOne }}</p>
-    <p>{{ t.methodTwo }}</p>
-    <p>{{ t.methodThree(maxArmies) }}</p>
-  </div>
-</details>

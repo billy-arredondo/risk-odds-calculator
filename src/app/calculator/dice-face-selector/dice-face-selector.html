@@ -1,26 +1,20 @@
 @let t = i18n.messages();
 @for (face of faces(); track $index; let i = $index) {
-  <fieldset class="face-column">
-    <legend>{{ t.die(i + 1) }}</legend>
-    @for (value of faceOptions; track value) {
-      <label class="face-option">
-        <input
-          type="radio"
-          [name]="'die-' + i"
-          [value]="value"
-          [checked]="face === value"
-          [disabled]="descending() && i > 0 && value > (faces()[i - 1] ?? 0)"
-          (change)="faceChange.emit({ index: i, value: value })"
-          [attr.aria-label]="t.faceValue(value)"
-        />
-        <span>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            @for (pip of pips[value - 1]; track $index) {
-              <circle [attr.cx]="pip[0]" [attr.cy]="pip[1]" r="2" />
-            }
-          </svg>
-        </span>
-      </label>
-    }
-  </fieldset>
+<fieldset class="face-column" [disabled]="i >= editableDice()">
+  <legend>{{ t.die(i + 1) }}</legend>
+  @for (value of faceOptions; track value) {
+  <label class="face-option">
+    <input type="radio" [name]="'die-' + i" [value]="value" [checked]="face === value"
+      [disabled]="descending() && i > 0 && value > (faces()[i - 1] ?? 0)"
+      (change)="faceChange.emit({ index: i, value: value })" [attr.aria-label]="t.faceValue(value)" />
+    <span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        @for (pip of pips[value - 1]; track $index) {
+        <circle [attr.cx]="pip[0]" [attr.cy]="pip[1]" r="2" />
+        }
+      </svg>
+    </span>
+  </label>
+  }
+</fieldset>
 }

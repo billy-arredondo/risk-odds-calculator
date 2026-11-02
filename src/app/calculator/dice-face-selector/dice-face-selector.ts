@@ -9,6 +9,7 @@ import { LanguageService } from '../../i18n/language';
 export class DiceFaceSelector {
   readonly faces = input.required<readonly (number | null)[]>();
   readonly descending = input.required<boolean>();
+  readonly editableDice = input.required<number>();
   readonly faceChange = output<{ index: number; value: number }>();
 
   protected readonly i18n = inject(LanguageService);
