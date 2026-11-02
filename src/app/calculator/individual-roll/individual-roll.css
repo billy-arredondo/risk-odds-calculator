@@ -84,13 +84,6 @@ h3 {
   margin: 0;
 }
 
-.ignored-dice {
-  border-left: 3px solid var(--notice-border);
-  background: var(--notice);
-  color: var(--ink);
-  padding: 10px 14px;
-}
-
 .dice-buttons button {
   min-height: 44px;
   padding: 8px 14px;
@@ -103,18 +96,6 @@ h3 {
   color: var(--side-on);
 }
 
-.known-roll {
-  border: 0;
-  padding: 20px 0 0;
-  margin-top: 18px;
-}
-
-.known-roll>legend {
-  font:
-    24px Georgia,
-    serif;
-}
-
 .mode-switch {
   display: flex;
   gap: 6px;
@@ -123,7 +104,8 @@ h3 {
 }
 
 .mode-switch button {
-  padding: 17px 20px;
+  min-height: 44px;
+  padding: 0 20px 17px;
   border: 0;
   background: transparent;
   color: var(--muted);
@@ -136,18 +118,13 @@ h3 {
   font-weight: 700;
 }
 
+.pre-roll {
+  margin-top: 30px;
+}
+
 .pre-roll p {
   line-height: 1.7;
   font-size: 14px;
-}
-
-.breakdown {
-  margin-top: 16px;
-}
-
-.breakdown>summary {
-  cursor: pointer;
-  font-weight: 700;
 }
 
 .pre-roll h4 {
@@ -196,7 +173,7 @@ h3 {
   }
 
   .mode-switch button {
-    padding: 14px 10px;
+    padding: 0 10px 14px;
     font-size: 13px;
   }
 }

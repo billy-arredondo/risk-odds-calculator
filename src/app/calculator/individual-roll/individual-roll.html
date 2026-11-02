@@ -30,8 +30,10 @@
       <p>{{ t.requiresDefense(defendingDice()) }}</p>
     </fieldset>
   </div>
-  <fieldset class="known-roll">
-    <legend>{{ t.known }}</legend>
+  <section class="known-roll" aria-labelledby="known-roll-title">
+    <div class="section-heading">
+      <h2 id="known-roll-title">{{ t.known }}</h2>
+    </div>
     <div class="mode-switch" role="group" [attr.aria-label]="t.entryMode">
       <button type="button" [class.active]="entryMode() === 'descending'"
         [attr.aria-pressed]="entryMode() === 'descending'" (click)="entryMode.set('descending')">
@@ -42,29 +44,20 @@
         {{ t.freeEntry }}
       </button>
     </div>
-    <p class="note">{{ t.entryModeHint }}</p>
-    @if (editableDice() < attackingDice()) { <p class="note ignored-dice" id="ignored-dice-notice">{{ t.ignoredDice }}
-      </p>
+    <div class="roll-body">
+      <app-dice-face-selector [faces]="displayedFaces()" [descending]="entryMode() === 'descending'"
+        [editableDice]="editableDice()" (faceChange)="setFace($event.index, $event.value)" />
+      @if (conditional(); as result) {
+      <app-roll-summary [distribution]="result" />
+      } @else {
+      <p class="note incomplete" role="status">{{ t.incompleteDice }}</p>
       }
-      <div class="roll-body">
-        <app-dice-face-selector [faces]="displayedFaces()" [descending]="entryMode() === 'descending'"
-          [editableDice]="editableDice()" (faceChange)="setFace($event.index, $event.value)" />
-        @if (conditional(); as result) {
-        <app-roll-summary [distribution]="result" />
-        } @else {
-        <p class="note incomplete" role="status">{{ t.incompleteDice }}</p>
-        }
-      </div>
-      <p class="note">{{ entryMode() === 'descending' ? t.descendingHint : t.sortHint }}</p>
-      <p class="note">{{ t.roundingNotice }}</p>
-      <p class="sr-only" aria-live="polite" aria-atomic="true">{{ conditionalAnnouncement() }}</p>
-  </fieldset>
-  @if (conditional(); as result) {
-  <details class="breakdown">
-    <summary>{{ t.showBreakdown }}</summary>
-    <app-roll-results [distribution]="result" [attackerValues]="knownDice()!" />
-  </details>
-  }
+    </div>
+    @if (entryMode() === 'free') {
+    <p class="note">{{ t.sortHint }}</p>
+    }
+    <p class="sr-only" aria-live="polite" aria-atomic="true">{{ conditionalAnnouncement() }}</p>
+  </section>
   <div class="pre-roll">
     <h3>{{ t.beforeRoll }}</h3>
     <h4>{{ t.preRollOutcomes }}</h4>

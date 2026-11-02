@@ -2,14 +2,13 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
 import { conditionalRoll, rollDistribution } from '../../probability/combat';
 import { DiceFaceSelector } from '../dice-face-selector/dice-face-selector';
-import { RollResults } from '../roll-results/roll-results';
 import { RollSummary } from '../roll-summary/roll-summary';
 import { rollResults } from '../shared/roll-outcome';
 import { updateDescendingFaces } from './descending-faces';
 
 @Component({
   selector: 'app-individual-roll',
-  imports: [DiceFaceSelector, RollResults, RollSummary],
+  imports: [DiceFaceSelector, RollSummary],
   templateUrl: './individual-roll.html',
   styleUrl: './individual-roll.css',
 })

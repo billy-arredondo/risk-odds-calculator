@@ -5,7 +5,7 @@ import { IndividualRoll } from './individual-roll';
 describe('IndividualRoll', () => {
   afterEach(() => localStorage.removeItem('risk-odds-language'));
 
-  it('disables only unmatched descending dice and explains why without changing pre-roll odds', async () => {
+  it('disables only unmatched descending dice without changing pre-roll odds', async () => {
     const fixture = TestBed.createComponent(IndividualRoll);
     TestBed.inject(LanguageService).setLanguage('en');
     await fixture.whenStable();
@@ -20,29 +20,24 @@ describe('IndividualRoll', () => {
     };
 
     expect(columns().map((column) => column.disabled)).toEqual([false, false, true]);
-    expect(columns()[2].getAttribute('aria-describedby')).toBe('ignored-dice-notice');
-    expect(root.querySelector('#ignored-dice-notice')?.textContent).toContain(
-      'They still count toward the dice rolled',
-    );
     root.querySelector<HTMLInputElement>('input[name="die-0"][value="6"]')!.click();
     await fixture.whenStable();
     root.querySelector<HTMLInputElement>('input[name="die-1"][value="4"]')!.click();
     await fixture.whenStable();
     expect(root.querySelector('.pre-roll')?.textContent).toContain('For 3 vs 2 dice');
     const summary = root.querySelector('.summary-list')!.textContent;
-    expect(root.querySelector('.roll-results .context')?.textContent).toContain('6, 4');
+    expect(root.querySelector('.summary-list')).toBeTruthy();
 
     button('.attacker button', '2 dice').click();
     await fixture.whenStable();
     expect(columns().map((column) => column.disabled)).toEqual([false, false]);
-    expect(root.querySelector('#ignored-dice-notice')).toBeNull();
     expect(root.querySelector('.summary-list')?.textContent).toBe(summary);
     expect(root.querySelector('.pre-roll')?.textContent).toContain('For 2 vs 2 dice');
 
     button('.defender button', '1 die').click();
     await fixture.whenStable();
     expect(columns().map((column) => column.disabled)).toEqual([false, true]);
-    expect(root.querySelector('.roll-results .context')?.textContent).toContain('values 6, over');
+    expect(root.querySelector('.summary-list')?.textContent).toContain('5 of 6');
 
     button('.attacker button', '3 dice').click();
     await fixture.whenStable();
@@ -50,18 +45,12 @@ describe('IndividualRoll', () => {
     button('.mode-switch button', 'Any order').click();
     await fixture.whenStable();
     expect(columns().map((column) => column.disabled)).toEqual([false, false, false]);
-    expect(root.querySelector('#ignored-dice-notice')).toBeNull();
-    expect(root.querySelector('.roll-results .context')?.textContent).toContain('6, 4, 2');
+    expect(root.querySelector('.summary-list')).toBeTruthy();
 
     button('.mode-switch button', 'Descending').click();
     button('.defender button', '2 dice').click();
     await fixture.whenStable();
     expect(columns().map((column) => column.disabled)).toEqual([false, false, true]);
     expect(root.querySelector<HTMLInputElement>('input[name="die-1"]:checked')?.value).toBe('4');
-    TestBed.inject(LanguageService).setLanguage('es');
-    await fixture.whenStable();
-    expect(root.querySelector('#ignored-dice-notice')?.textContent).toContain(
-      'Los dados atacantes inhabilitados no se comparan',
-    );
   });
 });

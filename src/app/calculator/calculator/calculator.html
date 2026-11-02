@@ -10,12 +10,3 @@
 </div>
 <app-territory-battle [style.display]="mode() === 'battle' ? 'block' : 'none'" />
 <app-individual-roll [style.display]="mode() === 'roll' ? 'block' : 'none'" />
-<details class="method">
-  <summary>{{ messages().method }}</summary>
-  <div>
-    <h3>{{ messages().methodTitle }}</h3>
-    <p>{{ messages().methodOne }}</p>
-    <p>{{ messages().methodTwo }}</p>
-    <p>{{ messages().methodThree(maxArmies) }}</p>
-  </div>
-</details>
