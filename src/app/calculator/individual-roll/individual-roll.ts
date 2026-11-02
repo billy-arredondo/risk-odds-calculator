@@ -22,14 +22,18 @@ export class IndividualRoll {
   protected readonly descendingFaces = signal<readonly (number | null)[]>([null, null, null]);
   protected readonly dieOptions = [1, 2, 3];
   protected readonly defenderOptions = [1, 2];
+  protected readonly editableDice = computed(() =>
+    this.entryMode() === 'descending'
+      ? Math.min(this.attackingDice(), this.defendingDice())
+      : this.attackingDice(),
+  );
   protected readonly displayedFaces = computed(() =>
-    (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces()).slice(
-      0,
-      this.attackingDice(),
-    ),
+    (this.entryMode() === 'free' ? this.freeFaces() : this.descendingFaces())
+      .slice(0, this.attackingDice())
+      .map((face, index) => (index < this.editableDice() ? face : null)),
   );
   protected readonly knownDice = computed(() => {
-    const faces = this.displayedFaces();
+    const faces = this.displayedFaces().slice(0, this.editableDice());
     return faces.every((face) => face !== null)
       ? faces.filter((face): face is number => face !== null)
       : null;

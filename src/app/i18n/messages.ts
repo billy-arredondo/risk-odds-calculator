@@ -71,6 +71,7 @@ type Messages = {
   freeEntry: string;
   faceValue: (n: number) => string;
   descendingHint: string;
+  ignoredDice: string;
   incompleteDice: string;
   die: (n: number) => string;
   sortHint: string;
@@ -188,8 +189,10 @@ export const en = {
   freeEntry: 'Any order',
   faceValue: (n) => `Value ${n}`,
   descendingHint:
-    'Each die must be no higher than the previous one. Later dice default to the highest allowed value.',
-  incompleteDice: 'Choose a value for each attacking die to see conditional probabilities.',
+    'Each die must be no higher than the previous one. Later available dice default to the highest allowed value.',
+  ignoredDice:
+    'The disabled attacking dice are not compared: only the highest attacking dice are used, up to the number of defending dice. They still count toward the dice rolled.',
+  incompleteDice: 'Choose the required attacking dice values to see conditional probabilities.',
   die: (n) => `Die ${n}`,
   sortHint: 'Enter in any order. Dice are sorted highest first; the defender wins ties.',
   conditional: 'CONDITIONAL ROLL PROBABILITIES',
@@ -319,9 +322,11 @@ export const es = {
   freeEntry: 'Orden libre',
   faceValue: (n) => `Valor ${n}`,
   descendingHint:
-    'Cada dado debe ser menor o igual al anterior. Los dados siguientes toman el valor máximo permitido por defecto.',
+    'Cada dado debe ser menor o igual al anterior. Los dados disponibles siguientes toman el valor máximo permitido por defecto.',
+  ignoredDice:
+    'Los dados atacantes inhabilitados no se comparan: solo se usan los más altos, hasta la cantidad de dados defensores. Siguen contando como dados lanzados.',
   incompleteDice:
-    'Elige un valor para cada dado atacante para ver las probabilidades condicionales.',
+    'Elige los valores requeridos de los dados atacantes para ver las probabilidades condicionales.',
   die: (n) => `Dado ${n}`,
   sortHint:
     'Introduce los valores en cualquier orden. Los dados se ordenan de mayor a menor; el defensor gana los empates.',

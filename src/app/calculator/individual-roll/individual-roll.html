@@ -62,10 +62,14 @@
       </button>
     </div>
     <p class="note">{{ t.entryModeHint }}</p>
+    @if (editableDice() < attackingDice()) {
+      <p class="note ignored-dice" id="ignored-dice-notice">{{ t.ignoredDice }}</p>
+    }
     <div class="roll-body">
       <app-dice-face-selector
         [faces]="displayedFaces()"
         [descending]="entryMode() === 'descending'"
+        [editableDice]="editableDice()"
         (faceChange)="setFace($event.index, $event.value)"
       />
       @if (conditional(); as result) {

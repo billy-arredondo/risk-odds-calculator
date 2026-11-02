@@ -97,25 +97,25 @@ describe('Calculator', () => {
     expect(options(2).every((die) => die.disabled)).toBe(true);
     expect(element.querySelectorAll('.face-option svg').length).toBe(18);
     expect(element.querySelector('.casualties')).toBeNull();
-    expect(element.textContent).toContain('Choose a value for each attacking die');
+    expect(element.textContent).toContain('Choose the required attacking dice values');
     await select(0, '5');
-    expect(selected()).toEqual(['5', '5', '5']);
+    expect(selected()).toEqual(['5', '5']);
     expect(
       options(1)
         .filter((die) => die.disabled)
         .map((die) => die.value),
     ).toEqual(['6']);
-    await select(2, '4');
-    expect(element.querySelector('app-roll-results .context')?.textContent).toContain('5, 5, 4');
+    await select(1, '4');
+    expect(element.querySelector('app-roll-results .context')?.textContent).toContain('5, 4');
     await select(0, '6');
-    expect(selected()).toEqual(['6', '5', '4']);
+    expect(selected()).toEqual(['6', '4']);
     await select(1, '3');
-    expect(selected()).toEqual(['6', '3', '3']);
-    expect(element.querySelector('app-roll-results .context')?.textContent).toContain('6, 3, 3');
+    expect(selected()).toEqual(['6', '3']);
+    expect(element.querySelector('app-roll-results .context')?.textContent).toContain('6, 3');
     await select(0, '2');
-    expect(selected()).toEqual(['2', '2', '2']);
+    expect(selected()).toEqual(['2', '2']);
     expect(
-      options(2)
+      options(1)
         .filter((die) => !die.disabled)
         .map((die) => die.value),
     ).toEqual(['2', '1']);
@@ -136,14 +136,13 @@ describe('Calculator', () => {
     };
     await select(0, '4');
     await select(1, '3');
-    await select(2, '2');
     button('1 die').click();
     await fixture.whenStable();
     expect(dice().map((die) => die.value)).toEqual(['4']);
     expect(element.querySelector('.casualties')).toBeTruthy();
     button('3 dice').click();
     await fixture.whenStable();
-    expect(dice().map((die) => die.value)).toEqual(['4', '3', '2']);
+    expect(dice().map((die) => die.value)).toEqual(['4', '3']);
     button('Any order').click();
     await fixture.whenStable();
     expect(dice().map((die) => die.value)).toEqual(['6', '4', '2']);
@@ -152,7 +151,7 @@ describe('Calculator', () => {
     expect(element.querySelector('app-roll-results .context')?.textContent).toContain('1, 6, 2');
     button('Descending').click();
     await fixture.whenStable();
-    expect(dice().map((die) => die.value)).toEqual(['4', '3', '2']);
+    expect(dice().map((die) => die.value)).toEqual(['4', '3']);
     button('Any order').click();
     await fixture.whenStable();
     expect(dice().map((die) => die.value)).toEqual(['1', '6', '2']);

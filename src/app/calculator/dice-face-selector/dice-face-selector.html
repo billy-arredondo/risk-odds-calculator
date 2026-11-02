@@ -1,6 +1,10 @@
 @let t = i18n.messages();
 @for (face of faces(); track $index; let i = $index) {
-  <fieldset class="face-column">
+  <fieldset
+    class="face-column"
+    [disabled]="i >= editableDice()"
+    [attr.aria-describedby]="i >= editableDice() ? 'ignored-dice-notice' : null"
+  >
     <legend>{{ t.die(i + 1) }}</legend>
     @for (value of faceOptions; track value) {
       <label class="face-option">

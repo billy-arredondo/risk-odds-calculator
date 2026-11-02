@@ -76,6 +76,12 @@ h3 {
   padding: 18px;
   margin: 0;
 }
+.ignored-dice {
+  border-left: 3px solid var(--notice-border);
+  background: var(--notice);
+  color: var(--ink);
+  padding: 10px 14px;
+}
 .dice-buttons button {
   min-height: 44px;
   padding: 8px 14px;
