@@ -11,6 +11,7 @@ import { rollResults } from '../shared/roll-outcome';
 })
 export class RollSummary {
   protected readonly i18n = inject(LanguageService);
+  protected readonly messages = computed(() => this.i18n.messages());
   readonly distribution = input.required<RollDistribution>();
 
   protected readonly results = computed(() => rollResults(this.distribution()).results);

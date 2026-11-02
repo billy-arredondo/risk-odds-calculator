@@ -14,6 +14,7 @@ import { updateDescendingFaces } from './descending-faces';
 })
 export class IndividualRoll {
   protected readonly i18n = inject(LanguageService);
+  protected readonly messages = computed(() => this.i18n.messages());
   protected readonly attackingDice = signal(3);
   protected readonly defendingDice = signal(2);
   protected readonly entryMode = signal<'descending' | 'free'>('descending');

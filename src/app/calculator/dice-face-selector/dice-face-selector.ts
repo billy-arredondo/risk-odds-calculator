@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
 
 @Component({
@@ -13,6 +13,7 @@ export class DiceFaceSelector {
   readonly faceChange = output<{ index: number; value: number }>();
 
   protected readonly i18n = inject(LanguageService);
+  protected readonly messages = computed(() => this.i18n.messages());
   protected readonly faceOptions = [6, 5, 4, 3, 2, 1];
   protected readonly pips = [
     [[12, 12]],

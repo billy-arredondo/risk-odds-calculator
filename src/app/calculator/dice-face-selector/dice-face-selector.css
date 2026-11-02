@@ -7,6 +7,50 @@
   border: 0;
   padding: 0;
   margin: 0;
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .face-enter {
+    animation: face-in 200ms ease-out both;
+  }
+
+  .face-leave {
+    pointer-events: none;
+    animation: face-out 200ms ease-in both;
+  }
+
+  @keyframes face-in {
+    from {
+      width: 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      overflow: clip;
+    }
+
+    to {
+      width: 48px;
+      opacity: 1;
+      transform: translateX(0);
+      overflow: clip;
+    }
+  }
+
+  @keyframes face-out {
+    from {
+      width: 48px;
+      opacity: 1;
+      transform: translateX(0);
+      overflow: clip;
+    }
+
+    to {
+      width: 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      overflow: clip;
+    }
+  }
 }
 
 .face-column legend {

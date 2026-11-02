@@ -1,33 +1,29 @@
-@let t = i18n.messages();
 <section class="roll-summary" aria-labelledby="roll-summary-title">
   <div class="summary-intro">
-    <p class="eyebrow">{{ t.conditional }}</p>
-    <h3 id="roll-summary-title">{{ t.rollResultsTitle }}</h3>
-    <p class="explanation roll-win-explanation">{{ t.rollWinExplanation }}</p>
-    <p class="explanation rounding-explanation">{{ t.partitionRounding }}</p>
+    <p class="eyebrow">{{ messages().conditional }}</p>
+    <h3 id="roll-summary-title">{{ messages().rollResultsTitle }}</h3>
+    <p class="explanation roll-win-explanation">{{ messages().rollWinExplanation }}</p>
+    <p class="explanation rounding-explanation">{{ messages().partitionRounding }}</p>
   </div>
   <div class="segments" aria-hidden="true">
     @for (result of results(); track result.attackerLoss; let i = $index) {
-      <span [class]="result.kind" [style.flex-grow]="animatedResults.values()[i]"></span>
+    <span [class]="result.kind" [style.flex-grow]="animatedResults.values()[i]"></span>
     }
   </div>
   <ul class="summary-list">
     @for (result of results(); track result.attackerLoss; let i = $index) {
-      <li [class]="result.kind">
-        <strong
-          ><span class="sr-only">{{ i18n.percentage(result.percentage) }}</span
-          ><span aria-hidden="true">{{
-            i18n.percentage(animatedResults.percentages()[i])
-          }}</span></strong
-        >
-        <span class="full-label">{{
-          t.outcomeDescription(result.attackerLoss, result.defenderLoss)
+    <li [class]="result.kind">
+      <strong><span class="sr-only">{{ i18n.percentage(result.percentage) }}</span><span aria-hidden="true">{{
+          i18n.percentage(animatedResults.percentages()[i])
+          }}</span></strong>
+      <span class="full-label">{{
+        messages().outcomeDescription(result.attackerLoss, result.defenderLoss)
         }}</span>
-        <span class="short-label">{{
-          t.outcomeShort(result.attackerLoss, result.defenderLoss)
+      <span class="short-label">{{
+        messages().outcomeShort(result.attackerLoss, result.defenderLoss)
         }}</span>
-        <span class="cases">{{ t.favorableCases(result.count, distribution().totalOutcomes) }}</span>
-      </li>
+      <span class="cases">{{ messages().favorableCases(result.count, distribution().totalOutcomes) }}</span>
+    </li>
     }
   </ul>
 </section>
