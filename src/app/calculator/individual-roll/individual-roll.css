@@ -51,10 +51,6 @@ h3 {
   --side: var(--defend);
 }
 
-.army legend {
-  font-weight: 700;
-}
-
 .army p,
 .note {
   font-size: 13px;
@@ -85,10 +81,36 @@ h3 {
 }
 
 .dice-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
   min-height: 44px;
-  padding: 8px 14px;
+  padding: 8px 4px;
   border: 1px solid var(--line);
   background: transparent;
+}
+
+.dice-icons {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.dice-icons svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dice-icons rect {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.dice-icons circle {
+  fill: currentColor;
 }
 
 .dice-buttons .selected {

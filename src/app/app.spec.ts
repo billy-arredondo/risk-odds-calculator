@@ -70,7 +70,7 @@ describe('App', () => {
     await fixture.whenStable();
     findButton('02 / Tirada individual').click();
     await fixture.whenStable();
-    findButton('1 dado').click();
+    root.querySelector<HTMLButtonElement>('.attacker button[aria-label="1 dado"]')!.click();
     await fixture.whenStable();
     root.querySelector<HTMLInputElement>('input[name="die-0"][value="1"]')!.click();
     await fixture.whenStable();
@@ -78,6 +78,7 @@ describe('App', () => {
     findButton('EN').click();
     await fixture.whenStable();
     expect(document.documentElement.lang).toBe('en');
+    expect(root.querySelector('.attacker button[aria-label="1 die"]')).toBeTruthy();
     expect(root.querySelector('.summary-list .defender')?.textContent).toContain('Defender wins');
     expect(root.querySelector<HTMLInputElement>('input[name="die-0"]:checked')?.value).toBe('1');
     expect(root.querySelector('.summary-list .defender')?.textContent).toContain('100.0%');

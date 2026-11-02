@@ -10,6 +10,7 @@ import { AnimatedPartition } from '../shared/animated-partition';
 })
 export class TerritoryBattle {
   protected readonly i18n = inject(LanguageService);
+  protected readonly messages = computed(() => this.i18n.messages());
   protected readonly attacker = signal('5');
   protected readonly defender = signal('3');
   protected readonly maxArmies = MAX_ARMIES;

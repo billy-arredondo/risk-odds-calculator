@@ -1,85 +1,84 @@
-@let t = i18n.messages();
 @let roll = distribution();
 <section class="roll-results" aria-labelledby="roll-results-title">
-  <h3 id="roll-results-title">{{ t.rollDetailTitle }}</h3>
-  <p class="context">{{ t.caption(attackerValues().join(', '), roll.totalOutcomes) }}</p>
+  <h3 id="roll-results-title">{{ messages().rollDetailTitle }}</h3>
+  <p class="context">{{ messages().caption(attackerValues().join(', '), roll.totalOutcomes) }}</p>
   <ol class="results">
     @for (result of results(); track result.attackerLoss; let i = $index) {
-      <li [class]="result.kind">
-        <span class="marker" aria-hidden="true">{{ i + 1 }}</span>
-        <div>
-          <span class="percentage">{{ i18n.percentage(result.percentage) }}</span>
-          <span class="description">{{
-            t.outcomeDescription(result.attackerLoss, result.defenderLoss)
+    <li [class]="result.kind">
+      <span class="marker" aria-hidden="true">{{ i + 1 }}</span>
+      <div>
+        <span class="percentage">{{ i18n.percentage(result.percentage) }}</span>
+        <span class="description">{{
+          messages().outcomeDescription(result.attackerLoss, result.defenderLoss)
           }}</span>
-          <span class="losses">{{
-            t.outcomeLosses(result.attackerLoss, result.defenderLoss)
+        <span class="losses">{{
+          messages().outcomeLosses(result.attackerLoss, result.defenderLoss)
           }}</span>
-          <span class="losses">{{ t.favorableCases(result.count, roll.totalOutcomes) }}</span>
-          @if (result.mostLikely) {
-            <span class="most-likely">{{ t.mostLikely }}</span>
-          }
-        </div>
-      </li>
+        <span class="losses">{{ messages().favorableCases(result.count, roll.totalOutcomes) }}</span>
+        @if (result.mostLikely) {
+        <span class="most-likely">{{ messages().mostLikely }}</span>
+        }
+      </div>
+    </li>
     }
   </ol>
   <div class="expected">
     <p>
-      {{ t.attackLoss }} <b>{{ i18n.number(roll.expectedAttackerLoss) }}</b>
+      {{ messages().attackLoss }} <b>{{ i18n.number(roll.expectedAttackerLoss) }}</b>
     </p>
     <p>
-      {{ t.defendLoss }} <b>{{ i18n.number(roll.expectedDefenderLoss) }}</b>
+      {{ messages().defendLoss }} <b>{{ i18n.number(roll.expectedDefenderLoss) }}</b>
     </p>
   </div>
-  <p class="context">{{ t.expectedExplanation }}</p>
+  <p class="context">{{ messages().expectedExplanation }}</p>
   <details>
-    <summary>{{ t.rollDetails }}</summary>
-    <p>{{ t.lossNote(comparisons()) }}</p>
+    <summary>{{ messages().rollDetails }}</summary>
+    <p>{{ messages().lossNote(comparisons()) }}</p>
     <table class="casualties">
       <caption>
         {{
-          t.marginalCaption
+        messages().marginalCaption
         }}
       </caption>
       <thead>
         <tr>
-          <th scope="col">{{ t.armiesLost }}</th>
-          <th scope="col">{{ t.attacker }}</th>
-          <th scope="col">{{ t.defender }}</th>
+          <th scope="col">{{ messages().armiesLost }}</th>
+          <th scope="col">{{ messages().attacker }}</th>
+          <th scope="col">{{ messages().defender }}</th>
         </tr>
       </thead>
       <tbody>
         @for (row of casualtyRows(); track row.loss) {
-          <tr>
-            <th scope="row">{{ row.loss }}</th>
-            <td>{{ i18n.percentage(row.attacker) }}</td>
-            <td>{{ i18n.percentage(row.defender) }}</td>
-          </tr>
+        <tr>
+          <th scope="row">{{ row.loss }}</th>
+          <td>{{ i18n.percentage(row.attacker) }}</td>
+          <td>{{ i18n.percentage(row.defender) }}</td>
+        </tr>
         }
       </tbody>
     </table>
     <table>
       <caption>
         {{
-          t.jointCaption
+        messages().jointCaption
         }}
       </caption>
       <thead>
         <tr>
-          <th scope="col">{{ t.attacker }}</th>
-          <th scope="col">{{ t.defender }}</th>
-          <th scope="col">{{ t.outcomeCount }}</th>
-          <th scope="col">{{ t.probability }}</th>
+          <th scope="col">{{ messages().attacker }}</th>
+          <th scope="col">{{ messages().defender }}</th>
+          <th scope="col">{{ messages().outcomeCount }}</th>
+          <th scope="col">{{ messages().probability }}</th>
         </tr>
       </thead>
       <tbody>
         @for (result of results(); track result.attackerLoss) {
-          <tr>
-            <td>{{ result.attackerLoss }}</td>
-            <td>{{ result.defenderLoss }}</td>
-            <td>{{ result.count }} / {{ roll.totalOutcomes }}</td>
-            <td>{{ i18n.percentage(result.percentage) }}</td>
-          </tr>
+        <tr>
+          <td>{{ result.attackerLoss }}</td>
+          <td>{{ result.defenderLoss }}</td>
+          <td>{{ result.count }} / {{ roll.totalOutcomes }}</td>
+          <td>{{ i18n.percentage(result.percentage) }}</td>
+        </tr>
         }
       </tbody>
     </table>
