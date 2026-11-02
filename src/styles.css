@@ -42,21 +42,26 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
 }
+
 button,
 input,
 select {
   font: inherit;
 }
+
 button {
   cursor: pointer;
 }
+
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 4px;
 }
+
 .skip-link {
   position: fixed;
   left: 12px;
@@ -66,6 +71,7 @@ button {
   background: var(--paper);
   color: var(--ink);
 }
+
 .skip-link:focus {
   top: 12px;
 }
