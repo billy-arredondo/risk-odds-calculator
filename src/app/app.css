@@ -29,6 +29,7 @@
   border: 0;
   padding: 10px 12px;
   min-height: 44px;
+  min-width: 44px;
   background: transparent;
   color: var(--ink);
   font-size: 13px;
@@ -36,8 +37,15 @@
 
 .language-switch button[aria-pressed='true'],
 .theme-switch button[aria-pressed='true'] {
-  background: var(--ink);
+  background: var(--switch-selected);
   color: var(--paper);
+}
+
+.theme-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
 }
 
 .brand {

@@ -51,11 +51,11 @@ describe('App', () => {
     defender.value = '1';
     defender.dispatchEvent(new Event('input'));
     await fixture.whenStable();
-    findButton('Español').click();
+    findButton('ES').click();
     await fixture.whenStable();
     expect(document.documentElement.lang).toBe('es');
     expect(document.title).toContain('Calculadora de probabilidades');
-    expect(findButton('Español').getAttribute('aria-pressed')).toBe('true');
+    expect(findButton('ES').getAttribute('aria-pressed')).toBe('true');
     expect(root.querySelector('#attacker-armies')?.getAttribute('aria-invalid')).toBe('false');
     expect(root.querySelector<HTMLInputElement>('#attacker-armies')?.value).toBe('2');
     expect(root.querySelector('.forecast')?.textContent).toContain('41,7%');
@@ -76,7 +76,7 @@ describe('App', () => {
     root.querySelector<HTMLInputElement>('input[name="die-0"][value="1"]')!.click();
     await fixture.whenStable();
     expect(root.textContent).toContain('exactamente 1 ejército');
-    findButton('English').click();
+    findButton('EN').click();
     await fixture.whenStable();
     expect(document.documentElement.lang).toBe('en');
     expect(root.textContent).toContain('exactly 1 army');
@@ -109,6 +109,8 @@ describe('App', () => {
     await fixture.whenStable();
     const themeGroup = root.querySelector<HTMLElement>('[aria-label="Color theme"]')!;
     const [light, dark] = themeGroup.querySelectorAll('button');
+    expect(light.getAttribute('aria-label')).toBe('Light');
+    expect(dark.getAttribute('aria-label')).toBe('Dark');
     expect(light.getAttribute('aria-pressed')).toBe('true');
     dark.click();
     await fixture.whenStable();
@@ -119,12 +121,12 @@ describe('App', () => {
     expect(attacker.value).toBe('2');
     expect(root.querySelector('.forecast')?.textContent).toContain('Attacker conquers');
     const spanish = [...root.querySelectorAll('button')].find(
-      (button) => button.textContent?.trim() === 'Español',
+      (button) => button.textContent?.trim() === 'ES',
     )!;
     spanish.click();
     await fixture.whenStable();
     expect(themeGroup.getAttribute('aria-label')).toBe('Tema de color');
-    expect(dark.textContent).toContain('Oscuro');
+    expect(dark.getAttribute('aria-label')).toBe('Oscuro');
     expect(dark.getAttribute('aria-pressed')).toBe('true');
     light.click();
     await fixture.whenStable();

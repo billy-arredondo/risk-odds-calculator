@@ -14,6 +14,7 @@
   --notice-border: #88601c;
   --side-on: #ffffff;
   --focus: #805913;
+  --switch-selected: #252b25;
   --mono: 'Consolas', 'Liberation Mono', monospace;
   font-family: 'Trebuchet MS', 'Verdana', sans-serif;
   color: var(--ink);
@@ -36,6 +37,7 @@
   --notice-border: #e0bd70;
   --side-on: #17201b;
   --focus: #f1cb7c;
+  --switch-selected: #aab7a7;
   color-scheme: dark;
 }
 
