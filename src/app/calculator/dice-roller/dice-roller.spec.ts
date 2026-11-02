@@ -31,6 +31,7 @@ describe('DiceRoller', () => {
     vi.advanceTimersByTime(1);
     fixture.detectChanges();
     expect(root.querySelector('.result-card')?.textContent).toContain('Shared losses');
+    expect(root.querySelector('.result-card.shared')).toBeTruthy();
     expect(root.querySelector('.reroll-icon:not(.spinning)')).toBeTruthy();
     expect(root.querySelector('.result-card')?.textContent).toContain('Attacker: 1 lost');
     expect(root.querySelector('.comparison')?.textContent).toContain('6 vs 6: Attacker loses');
@@ -56,11 +57,26 @@ describe('DiceRoller', () => {
     fixture.detectChanges();
     expect(root.querySelector('.rolling')).toBeNull();
     expect(root.querySelector('.result-card')?.textContent).toContain('El defensor gana la tirada');
+    expect(root.querySelector('.result-card.defender-win')).toBeTruthy();
     expect(root.querySelector('.comparison')?.textContent).toContain('Empate: gana el defensor');
     root.querySelector<HTMLButtonElement>('.attacker button[aria-label="2 dados"]')!.click();
     fixture.detectChanges();
     expect(root.querySelector('.result-card')).toBeNull();
     expect(root.querySelector('.empty')?.textContent).toContain('Elige los dados');
+    fixture.destroy();
+  });
+
+  it('marks an attacker win when the defender takes all losses', async () => {
+    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: true }));
+    const fixture = TestBed.createComponent(DiceRoller);
+    const random = vi.spyOn(Math, 'random');
+    [0.99, 0.99, 0.99, 0, 0].forEach((value) => random.mockReturnValueOnce(value));
+    await fixture.whenStable();
+    const root: HTMLElement = fixture.nativeElement;
+    root.querySelector<HTMLButtonElement>('.roll-button')!.click();
+    fixture.detectChanges();
+    expect(root.querySelector('.result-card.attacker-win')).toBeTruthy();
+    expect(root.querySelector('.result-card.defender-win, .result-card.shared')).toBeNull();
     fixture.destroy();
   });
 

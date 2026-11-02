@@ -21,8 +21,11 @@
       <button type="button" class="roll-button" (click)="roll()" [disabled]="rolling()">
         {{ rolling() ? t.simulateRolling : result() ? t.simulateAgain : t.simulateAction }}
         @if (result() || rolling()) {
-        <svg class="roll-icon reroll-icon" [class.spinning]="rolling()" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <g><path d="M20 11a8 8 0 1 0-2.3 6.7M20 4v7h-7" /></g>
+        <svg class="roll-icon reroll-icon" [class.spinning]="rolling()" viewBox="0 0 24 24" aria-hidden="true"
+          focusable="false">
+          <g>
+            <path d="M20 11a8 8 0 1 0-2.3 6.7M20 4v7h-7" />
+          </g>
         </svg>
         } @else {
         <svg class="roll-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -92,7 +95,8 @@
         </div>
       </div>
     </div>
-    <div class="result-card" [class.shared]="result.attackerLoss && result.defenderLoss">
+    <div class="result-card" [class.attacker-win]="result.attackerLoss === 0"
+      [class.defender-win]="result.defenderLoss === 0" [class.shared]="result.attackerLoss && result.defenderLoss">
       <h3>{{ t.outcomeDescription(result.attackerLoss, result.defenderLoss) }}</h3>
       <p>{{ t.outcomeLosses(result.attackerLoss, result.defenderLoss) }}</p>
     </div>

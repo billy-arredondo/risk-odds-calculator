@@ -229,6 +229,14 @@ h2 {
   background: var(--canvas);
 }
 
+.result-card.attacker-win {
+  border-color: var(--attack);
+}
+
+.result-card.defender-win {
+  border-color: var(--defend);
+}
+
 .result-card.shared {
   border-color: var(--shared);
 }
