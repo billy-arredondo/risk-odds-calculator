@@ -35,6 +35,10 @@ export interface Strategy {
 // Bound synchronous work and memoization to a predictable size on mobile devices.
 export const MAX_ARMIES = 200;
 
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
 function integer(value: number, min: number, max: number, name: string): void {
   if (!Number.isInteger(value) || value < min || value > max) {
     throw new RangeError(`${name} must be an integer from ${min} to ${max}.`);
@@ -144,7 +148,7 @@ function continuation(a: number, d: number, roll: RollDistribution): BattleResul
     expectedDefenderLoss +=
       outcome.probability * (outcome.defenderLoss + next.expectedDefenderLoss);
   }
-  conquest = Math.max(0, Math.min(1, conquest));
+  conquest = clamp(conquest, 0, 1);
   return { conquest, resistance: 1 - conquest, expectedAttackerLoss, expectedDefenderLoss };
 }
 
@@ -224,7 +228,7 @@ export function percentagePartition(probabilities: readonly number[]): readonly 
   ) {
     throw new RangeError('A probability partition must contain values from 0 to 1 summing to 1.');
   }
-  const scaled = probabilities.map((p) => Math.max(0, Math.min(1, p)) * 1000);
+  const scaled = probabilities.map((p) => clamp(p, 0, 1) * 1000);
   const units = scaled.map(Math.floor);
   const order = scaled
     .map((p, i) => i)
