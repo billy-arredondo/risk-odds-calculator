@@ -3,7 +3,7 @@ import { LanguageService } from '../../i18n/language';
 import { IndividualRoll } from './individual-roll';
 
 describe('IndividualRoll', () => {
-  afterEach(() => localStorage.removeItem('risk-odds-language'));
+  afterEach(() => localStorage.clear());
 
   it('disables only unmatched descending dice without changing pre-roll odds', async () => {
     const fixture = TestBed.createComponent(IndividualRoll);

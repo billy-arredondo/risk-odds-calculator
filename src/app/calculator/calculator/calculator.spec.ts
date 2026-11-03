@@ -2,14 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { Calculator } from './calculator';
 
 describe('Calculator', () => {
+  afterEach(() => localStorage.clear());
+
   async function setup() {
     await TestBed.configureTestingModule({ imports: [Calculator] }).compileComponents();
     const fixture = TestBed.createComponent(Calculator);
     await fixture.whenStable();
     const element: HTMLElement = fixture.nativeElement;
     const button = (text: string) => {
-      const match = [...element.querySelectorAll('button')].find((b) =>
-        b.textContent?.includes(text) || b.getAttribute('aria-label') === text,
+      const match = [...element.querySelectorAll('button')].find(
+        (b) => b.textContent?.includes(text) || b.getAttribute('aria-label') === text,
       );
       if (!match) throw new Error(`Button not found: ${text}`);
       return match;
@@ -23,6 +25,110 @@ describe('Calculator', () => {
     };
     return { fixture, element, button, input };
   }
+
+  it('saves the selected mode and restores it in a new calculator', async () => {
+    const first = await setup();
+    for (const [label, mode] of [
+      ['Individual roll', 'roll'],
+      ['03 / Roll dice', 'simulate'],
+      ['Territory battle', 'battle'],
+      ['03 / Roll dice', 'simulate'],
+    ]) {
+      first.button(label).click();
+      await first.fixture.whenStable();
+      expect(localStorage.getItem('risk-odds-mode')).toBe(mode);
+    }
+    first.fixture.destroy();
+    const restored = TestBed.createComponent(Calculator);
+    await restored.whenStable();
+    const element: HTMLElement = restored.nativeElement;
+    expect(
+      element.querySelector('[aria-label="03 / Roll dice"]')?.getAttribute('aria-pressed'),
+    ).toBe('true');
+    expect(element.querySelector<HTMLElement>('app-dice-roller')?.style.display).toBe('block');
+  });
+
+  it('defaults to battle for an invalid saved mode', async () => {
+    localStorage.setItem('risk-odds-mode', 'invalid');
+    const { button } = await setup();
+    expect(button('Territory battle').getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('restores army counts, individual roll choices and simulator counts independently', async () => {
+    const { fixture, element, input } = await setup();
+    await input('attacker-armies', '12');
+    await input('defender-armies', '4');
+    const individual = element.querySelector<HTMLElement>('app-individual-roll')!;
+    const simulator = element.querySelector<HTMLElement>('app-dice-roller')!;
+    individual.querySelector<HTMLButtonElement>('.attacker button[aria-label="2 dice"]')!.click();
+    individual.querySelector<HTMLButtonElement>('.defender button[aria-label="1 die"]')!.click();
+    await fixture.whenStable();
+    individual.querySelector<HTMLInputElement>('input[name="die-0"][value="5"]')!.click();
+    await fixture.whenStable();
+    [...individual.querySelectorAll('button')]
+      .find((button) => button.textContent?.includes('Any order'))!
+      .click();
+    await fixture.whenStable();
+    individual.querySelector<HTMLInputElement>('input[name="die-0"][value="3"]')!.click();
+    simulator.querySelector<HTMLButtonElement>('.attacker button[aria-label="1 die"]')!.click();
+    simulator.querySelector<HTMLButtonElement>('.defender button[aria-label="1 die"]')!.click();
+    await fixture.whenStable();
+    fixture.destroy();
+
+    const restored = TestBed.createComponent(Calculator);
+    await restored.whenStable();
+    const root: HTMLElement = restored.nativeElement;
+    expect(root.querySelector<HTMLInputElement>('#attacker-armies')?.value).toBe('12');
+    expect(root.querySelector<HTMLInputElement>('#defender-armies')?.value).toBe('4');
+    const roll = root.querySelector<HTMLElement>('app-individual-roll')!;
+    const roller = root.querySelector<HTMLElement>('app-dice-roller')!;
+    expect(
+      roll.querySelector('.attacker button[aria-label="2 dice"]')?.getAttribute('aria-pressed'),
+    ).toBe('true');
+    expect(
+      roll.querySelector('.defender button[aria-label="1 die"]')?.getAttribute('aria-pressed'),
+    ).toBe('true');
+    expect(roll.querySelector<HTMLInputElement>('input[name="die-0"][value="3"]')?.checked).toBe(
+      true,
+    );
+    expect(
+      roller.querySelector('.attacker button[aria-label="1 die"]')?.getAttribute('aria-pressed'),
+    ).toBe('true');
+    expect(
+      roller.querySelector('.defender button[aria-label="1 die"]')?.getAttribute('aria-pressed'),
+    ).toBe('true');
+    [...roll.querySelectorAll('button')]
+      .find((button) => button.textContent?.includes('Descending'))!
+      .click();
+    await restored.whenStable();
+    expect(roll.querySelector<HTMLInputElement>('input[name="die-0"][value="5"]')?.checked).toBe(
+      true,
+    );
+  });
+
+  it('ignores invalid saved values and keeps the last valid army input', async () => {
+    localStorage.setItem('risk-odds-individual-attacking-dice', '99');
+    localStorage.setItem('risk-odds-simulator-defender-dice', 'bad json');
+    const { fixture, element, input } = await setup();
+    await input('attacker-armies', '8');
+    await input('attacker-armies', '');
+    expect(localStorage.getItem('risk-odds-battle-attacker')).toBe('8');
+    fixture.destroy();
+    const restored = TestBed.createComponent(Calculator);
+    await restored.whenStable();
+    const root: HTMLElement = restored.nativeElement;
+    expect(root.querySelector<HTMLInputElement>('#attacker-armies')?.value).toBe('8');
+    expect(
+      root
+        .querySelector('app-individual-roll .attacker button[aria-label="3 dice"]')
+        ?.getAttribute('aria-pressed'),
+    ).toBe('true');
+    expect(
+      root
+        .querySelector('app-dice-roller .defender button[aria-label="2 dice"]')
+        ?.getAttribute('aria-pressed'),
+    ).toBe('true');
+  });
 
   it('updates battle odds and blocks invalid army inputs', async () => {
     const { element, input } = await setup();
@@ -175,7 +281,11 @@ describe('Calculator', () => {
       button('03 / Roll dice').click();
       await fixture.whenStable();
       expect(simulator.querySelector('.result-card')?.textContent).toBe(result);
-      expect(simulator.querySelector('.attacker button[aria-label="2 dice"]')?.getAttribute('aria-pressed')).toBe('true');
+      expect(
+        simulator
+          .querySelector('.attacker button[aria-label="2 dice"]')
+          ?.getAttribute('aria-pressed'),
+      ).toBe('true');
     } finally {
       fixture.destroy();
       vi.unstubAllGlobals();

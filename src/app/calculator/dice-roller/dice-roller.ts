@@ -4,6 +4,7 @@ import { compareDice, rollDistribution } from '../../probability/combat';
 import { DiceCountSelector } from '../dice-count-selector/dice-count-selector';
 import { RollSummary } from '../roll-summary/roll-summary';
 import { DICE_PIPS } from '../shared/dice-pips';
+import { CalculatorStorage, integerBetween } from '../shared/calculator-storage';
 
 interface GeneratedRoll {
   readonly attacker: readonly number[];
@@ -19,11 +20,16 @@ interface GeneratedRoll {
   styleUrl: './dice-roller.css',
 })
 export class DiceRoller {
+  private readonly storage = inject(CalculatorStorage);
   private readonly i18n = inject(LanguageService);
   private timer: ReturnType<typeof setTimeout> | undefined;
   protected readonly messages = computed(() => this.i18n.messages());
-  protected readonly attackingDice = signal(3);
-  protected readonly defendingDice = signal(2);
+  protected readonly attackingDice = signal(
+    this.storage.read('simulator-attacker-dice', 3, integerBetween(1, 3)),
+  );
+  protected readonly defendingDice = signal(
+    this.storage.read('simulator-defender-dice', 2, integerBetween(1, 2)),
+  );
   protected readonly rolling = signal(false);
   protected readonly result = signal<GeneratedRoll | null>(null);
   protected readonly pips = DICE_PIPS;
@@ -61,6 +67,7 @@ export class DiceRoller {
     this.rolling.set(false);
     this.result.set(null);
     (side === 'attacker' ? this.attackingDice : this.defendingDice).set(count);
+    this.storage.write(`simulator-${side}-dice`, count);
   }
 
   protected roll(): void {

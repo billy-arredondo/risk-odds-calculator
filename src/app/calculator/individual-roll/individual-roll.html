@@ -4,8 +4,8 @@
     <span>{{ messages().hypothetical }}</span>
   </div>
   <div class="army-grid">
-    <app-dice-count-selector side="attacker" [count]="attackingDice()" (countChange)="attackingDice.set($event)" />
-    <app-dice-count-selector side="defender" [count]="defendingDice()" (countChange)="defendingDice.set($event)" />
+    <app-dice-count-selector side="attacker" [count]="attackingDice()" (countChange)="setCount('attacking', $event)" />
+    <app-dice-count-selector side="defender" [count]="defendingDice()" (countChange)="setCount('defending', $event)" />
   </div>
   <section class="known-roll" aria-labelledby="known-roll-title">
     <div class="section-heading">
@@ -13,11 +13,11 @@
     </div>
     <div class="mode-switch" role="group" [attr.aria-label]="messages().entryMode">
       <button type="button" [class.active]="entryMode() === 'descending'"
-        [attr.aria-pressed]="entryMode() === 'descending'" (click)="entryMode.set('descending')">
+        [attr.aria-pressed]="entryMode() === 'descending'" (click)="setEntryMode('descending')">
         {{ messages().descending }}
       </button>
       <button type="button" [class.active]="entryMode() === 'free'" [attr.aria-pressed]="entryMode() === 'free'"
-        (click)="entryMode.set('free')">
+        (click)="setEntryMode('free')">
         {{ messages().freeEntry }}
       </button>
     </div>

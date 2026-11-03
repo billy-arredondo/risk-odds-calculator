@@ -1,14 +1,14 @@
 <div class="mode-switch" role="group" [attr.aria-label]="messages().mode">
   <button type="button" [class.active]="mode() === 'battle'" [attr.aria-pressed]="mode() === 'battle'"
-    [attr.aria-label]="'01 / ' + messages().battleMode" (click)="mode.set('battle')">
+    [attr.aria-label]="'01 / ' + messages().battleMode" (click)="setMode('battle')">
     <span>01</span><span class="mode-label"><span> / {{ messages().battleMode }}</span></span>
   </button>
   <button type="button" [class.active]="mode() === 'roll'" [attr.aria-pressed]="mode() === 'roll'"
-    [attr.aria-label]="'02 / ' + messages().rollMode" (click)="mode.set('roll')">
+    [attr.aria-label]="'02 / ' + messages().rollMode" (click)="setMode('roll')">
     <span>02</span><span class="mode-label"><span> / {{ messages().rollMode }}</span></span>
   </button>
   <button type="button" [class.active]="mode() === 'simulate'" [attr.aria-pressed]="mode() === 'simulate'"
-    [attr.aria-label]="'03 / ' + messages().simulateMode" (click)="mode.set('simulate')">
+    [attr.aria-label]="'03 / ' + messages().simulateMode" (click)="setMode('simulate')">
     <span>03</span><span class="mode-label"><span> / {{ messages().simulateMode }}</span></span>
   </button>
 </div>

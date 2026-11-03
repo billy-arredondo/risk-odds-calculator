@@ -8,6 +8,8 @@ describe('DiceRoller', () => {
     vi.unstubAllGlobals();
     vi.useRealTimers();
     localStorage.removeItem('risk-odds-language');
+    localStorage.removeItem('risk-odds-simulator-attacker-dice');
+    localStorage.removeItem('risk-odds-simulator-defender-dice');
   });
 
   it('reveals sorted dice, tie rules, and shared losses after the animation', async () => {

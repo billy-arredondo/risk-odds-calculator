@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { LanguageService } from '../../i18n/language';
 import { battle, MAX_ARMIES, percentagePartition, strategy } from '../../probability/combat';
 import { AnimatedPartition } from '../shared/animated-partition';
+import { CalculatorStorage, integerBetween } from '../shared/calculator-storage';
 
 @Component({
   selector: 'app-territory-battle',
@@ -9,10 +10,15 @@ import { AnimatedPartition } from '../shared/animated-partition';
   styleUrl: './territory-battle.css',
 })
 export class TerritoryBattle {
+  private readonly storage = inject(CalculatorStorage);
   protected readonly i18n = inject(LanguageService);
   protected readonly messages = computed(() => this.i18n.messages());
-  protected readonly attacker = signal('5');
-  protected readonly defender = signal('3');
+  protected readonly attacker = signal(
+    String(this.storage.read('battle-attacker', 5, integerBetween(1, MAX_ARMIES))),
+  );
+  protected readonly defender = signal(
+    String(this.storage.read('battle-defender', 3, integerBetween(0, MAX_ARMIES))),
+  );
   protected readonly maxArmies = MAX_ARMIES;
   protected readonly attackerValid = computed(() => this.validArmy(this.attacker(), 1));
   protected readonly defenderValid = computed(() => this.validArmy(this.defender(), 0));
@@ -62,7 +68,12 @@ export class TerritoryBattle {
   });
   protected updateArmy(side: 'attacker' | 'defender', event: Event): void {
     const input = event.target;
-    if (input instanceof HTMLInputElement) this[side].set(input.value);
+    if (input instanceof HTMLInputElement) {
+      this[side].set(input.value);
+      if (this.validArmy(input.value, side === 'attacker' ? 1 : 0)) {
+        this.storage.write(`battle-${side}`, Number(input.value));
+      }
+    }
   }
   protected step(side: 'attacker' | 'defender', delta: number): void {
     const min = side === 'attacker' ? 1 : 0;
@@ -72,5 +83,7 @@ export class TerritoryBattle {
         Math.max(min, Math.min(MAX_ARMIES, (Number.isFinite(current) ? current : min) + delta)),
       ),
     );
+    if (this.validArmy(this[side](), min))
+      this.storage.write(`battle-${side}`, Number(this[side]()));
   }
 }
