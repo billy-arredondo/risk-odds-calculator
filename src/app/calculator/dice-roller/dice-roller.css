@@ -10,7 +10,6 @@
   margin: 24px 0 12px;
 }
 
-.eyebrow,
 .side-label {
   margin: 0 0 8px;
   color: var(--muted);
@@ -31,15 +30,10 @@ h2 {
   color: var(--line);
 }
 
-.intro,
 .odds>p {
   font-size: 14px;
   line-height: 1.7;
   color: var(--muted);
-}
-
-.intro {
-  margin: 0 0 24px;
 }
 
 .army-grid {
@@ -58,14 +52,10 @@ h2 {
 .stage-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 16px;
   border-bottom: 1px solid var(--line);
   padding-bottom: 18px;
-}
-
-.stage-header .eyebrow {
-  margin: 0;
 }
 
 .roll-button {

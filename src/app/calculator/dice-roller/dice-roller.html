@@ -1,13 +1,9 @@
 @let t = messages();
 <section aria-labelledby="simulator-title">
   <div class="section-heading">
-    <div>
-      <p class="eyebrow">{{ t.simulateResult }}</p>
-      <h2 id="simulator-title">{{ t.simulateTitle }}</h2>
-    </div>
+    <h2 id="simulator-title">{{ t.simulateTitle }}</h2>
     <span class="section-number" aria-hidden="true">03</span>
   </div>
-  <p class="intro">{{ t.simulateIntro }}</p>
   <div class="army-grid">
     <app-dice-count-selector side="attacker" [count]="attackingDice()"
       (countChange)="changeCount('attacker', $event)" />
@@ -17,7 +13,6 @@
 
   <div class="roll-stage">
     <div class="stage-header">
-      <span class="eyebrow">{{ t.simulateResult }}</span>
       <button type="button" class="roll-button" (click)="roll()" [disabled]="rolling()">
         {{ rolling() ? t.simulateRolling : result() ? t.simulateAgain : t.simulateAction }}
         @if (result() || rolling()) {
