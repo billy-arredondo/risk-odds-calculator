@@ -38,21 +38,33 @@
     @if (rolling()) {
     <div class="dice-board rolling" aria-hidden="true">
       <div class="dice-side attacker">
-        @for (die of diceSlots.slice(0, attackingDice()); track die) {
-        <svg class="die" viewBox="0 0 24 24" focusable="false">
-          <rect x="1" y="1" width="22" height="22" rx="4" />
-          <circle cx="12" cy="12" r="2" />
-        </svg>
-        }
+        <span class="side-label">{{ t.attacker }}</span>
+        <div class="dice-line">
+          @for (die of diceSlots.slice(0, attackingDice()); track die) {
+          <span class="die-wrap">
+            <svg class="die" viewBox="0 0 24 24" focusable="false">
+              <rect x="1" y="1" width="22" height="22" rx="4" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
+            <span class="die-value placeholder">0</span>
+          </span>
+          }
+        </div>
       </div>
       <span class="versus">/</span>
       <div class="dice-side defender">
-        @for (die of diceSlots.slice(0, defendingDice()); track die) {
-        <svg class="die" viewBox="0 0 24 24" focusable="false">
-          <rect x="1" y="1" width="22" height="22" rx="4" />
-          <circle cx="12" cy="12" r="2" />
-        </svg>
-        }
+        <span class="side-label">{{ t.defender }}</span>
+        <div class="dice-line">
+          @for (die of diceSlots.slice(0, defendingDice()); track die) {
+          <span class="die-wrap">
+            <svg class="die" viewBox="0 0 24 24" focusable="false">
+              <rect x="1" y="1" width="22" height="22" rx="4" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
+            <span class="die-value placeholder">0</span>
+          </span>
+          }
+        </div>
       </div>
     </div>
     } @else if (result(); as result) {
@@ -95,11 +107,34 @@
         </div>
       </div>
     </div>
+    } @else {
+    <p class="empty">{{ t.simulateEmpty }}</p>
+    }
+    @if (rolling()) {
+    <div class="result-card skeleton" aria-hidden="true">
+      <h3><span class="skeleton-line skeleton-title">&nbsp;</span></h3>
+      <p><span class="skeleton-line skeleton-text">&nbsp;</span></p>
+    </div>
+    } @else if (result(); as result) {
     <div class="result-card" [class.attacker-win]="result.attackerLoss === 0"
       [class.defender-win]="result.defenderLoss === 0" [class.shared]="result.attackerLoss && result.defenderLoss">
       <h3>{{ t.outcomeDescription(result.attackerLoss, result.defenderLoss) }}</h3>
       <p>{{ t.outcomeLosses(result.attackerLoss, result.defenderLoss) }}</p>
     </div>
+    }
+    @if (rolling()) {
+    <div class="comparison skeleton-comparison" aria-hidden="true">
+      <h3><span class="skeleton-line skeleton-comparison-title">&nbsp;</span></h3>
+      <ol>
+        @for (die of diceSlots.slice(0, attackingDice() < defendingDice() ? attackingDice() : defendingDice()); track
+          die) { <li><span class="skeleton-line skeleton-comparison-line">&nbsp;</span></li>
+          }
+      </ol>
+      @if (attackingDice() !== defendingDice()) {
+      <p><span class="skeleton-line skeleton-comparison-note">&nbsp;</span></p>
+      }
+    </div>
+    } @else if (result(); as result) {
     <div class="comparison">
       <h3>{{ t.simulateCompare }}</h3>
       <ol>
@@ -122,12 +157,9 @@
       <p>{{ t.simulateUnused }}</p>
       }
     </div>
-    } @else {
-    <p class="empty">{{ t.simulateEmpty }}</p>
     }
   </div>
   <div class="odds">
-    <h3>{{ t.beforeRoll }}</h3>
     <app-roll-summary [distribution]="odds()" [preRoll]="true" />
     <p>{{ t.rollWinExplanation }}</p>
   </div>

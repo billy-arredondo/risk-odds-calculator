@@ -70,7 +70,6 @@ export class DiceRoller {
     const attacker = dice(this.attackingDice());
     const defender = dice(this.defendingDice());
     const result: GeneratedRoll = { attacker, defender, ...compareDice(attacker, defender) };
-    this.result.set(null);
     const reducedMotion =
       typeof window !== 'undefined' &&
       window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
