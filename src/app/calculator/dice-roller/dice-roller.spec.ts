@@ -8,6 +8,8 @@ describe('DiceRoller', () => {
     vi.unstubAllGlobals();
     vi.useRealTimers();
     localStorage.removeItem('risk-odds-language');
+    localStorage.removeItem('risk-odds-simulator-attacker-dice');
+    localStorage.removeItem('risk-odds-simulator-defender-dice');
   });
 
   it('reveals sorted dice, tie rules, and shared losses after the animation', async () => {
@@ -23,11 +25,11 @@ describe('DiceRoller', () => {
     fixture.detectChanges();
     expect(root.querySelector('.rolling')).toBeTruthy();
     expect(root.querySelector('[role="status"]')?.textContent).toContain('Rolling dice');
-    expect(root.querySelector('.result-card')).toBeNull();
+    expect(root.querySelector('.result-card.skeleton')).toBeTruthy();
     expect(root.querySelector('.reroll-icon.spinning')).toBeTruthy();
     vi.advanceTimersByTime(1499);
     fixture.detectChanges();
-    expect(root.querySelector('.result-card')).toBeNull();
+    expect(root.querySelector('.result-card.skeleton')).toBeTruthy();
     vi.advanceTimersByTime(1);
     fixture.detectChanges();
     expect(root.querySelector('.result-card')?.textContent).toContain('Shared losses');
@@ -77,6 +79,34 @@ describe('DiceRoller', () => {
     fixture.detectChanges();
     expect(root.querySelector('.result-card.attacker-win')).toBeTruthy();
     expect(root.querySelector('.result-card.defender-win, .result-card.shared')).toBeNull();
+    fixture.destroy();
+  });
+
+  it('shows placeholders and side labels until a reroll finishes', async () => {
+    const fixture = TestBed.createComponent(DiceRoller);
+    TestBed.inject(LanguageService).setLanguage('en');
+    const random = vi.spyOn(Math, 'random');
+    [0, 0, 0, 0, 0, 0.99, 0.99, 0.99, 0, 0].forEach((value) =>
+      random.mockReturnValueOnce(value),
+    );
+    await fixture.whenStable();
+    const root: HTMLElement = fixture.nativeElement;
+    vi.useFakeTimers();
+    root.querySelector<HTMLButtonElement>('.roll-button')!.click();
+    vi.advanceTimersByTime(1500);
+    fixture.detectChanges();
+    expect(root.querySelector('.result-card.defender-win')).toBeTruthy();
+    root.querySelector<HTMLButtonElement>('.roll-button')!.click();
+    fixture.detectChanges();
+    expect(root.querySelector('.rolling .attacker .side-label')?.textContent).toContain('Attacker');
+    expect(root.querySelector('.rolling .defender .side-label')?.textContent).toContain('Defender');
+    expect(root.querySelector('.result-card.skeleton')).toBeTruthy();
+    expect(root.querySelectorAll('.skeleton-comparison ol li')).toHaveLength(2);
+    expect(root.querySelector('.comparison')?.textContent).not.toContain('Attacker loses');
+    vi.advanceTimersByTime(1500);
+    fixture.detectChanges();
+    expect(root.querySelector('.skeleton-comparison')).toBeNull();
+    expect(root.querySelector('.result-card.attacker-win')).toBeTruthy();
     fixture.destroy();
   });
 

@@ -6,6 +6,20 @@ import { DiceCountSelector } from '../dice-count-selector/dice-count-selector';
 import { RollSummary } from '../roll-summary/roll-summary';
 import { rollResults } from '../shared/roll-outcome';
 import { updateDescendingFaces } from './descending-faces';
+import { CalculatorStorage, integerBetween } from '../shared/calculator-storage';
+
+const isFace = integerBetween(1, 6);
+const isFreeFaces = (value: unknown): value is number[] =>
+  Array.isArray(value) && value.length === 3 && value.every(isFace);
+const isDescendingFaces = (value: unknown): value is (number | null)[] =>
+  Array.isArray(value) &&
+  value.length === 3 &&
+  value.every(
+    (face, index) =>
+      (face === null || isFace(face)) &&
+      (index === 0 ||
+        (value[index - 1] === null ? face === null : face === null || face <= value[index - 1])),
+  );
 
 @Component({
   selector: 'app-individual-roll',
@@ -14,13 +28,28 @@ import { updateDescendingFaces } from './descending-faces';
   styleUrl: './individual-roll.css',
 })
 export class IndividualRoll {
+  private readonly storage = inject(CalculatorStorage);
   protected readonly i18n = inject(LanguageService);
   protected readonly messages = computed(() => this.i18n.messages());
-  protected readonly attackingDice = signal(3);
-  protected readonly defendingDice = signal(2);
-  protected readonly entryMode = signal<'descending' | 'free'>('descending');
-  protected readonly freeFaces = signal<readonly number[]>([6, 4, 2]);
-  protected readonly descendingFaces = signal<readonly (number | null)[]>([null, null, null]);
+  protected readonly attackingDice = signal(
+    this.storage.read('individual-attacking-dice', 3, integerBetween(1, 3)),
+  );
+  protected readonly defendingDice = signal(
+    this.storage.read('individual-defending-dice', 2, integerBetween(1, 2)),
+  );
+  protected readonly entryMode = signal<'descending' | 'free'>(
+    this.storage.read(
+      'individual-entry-mode',
+      'descending',
+      (value): value is 'descending' | 'free' => value === 'descending' || value === 'free',
+    ),
+  );
+  protected readonly freeFaces = signal<readonly number[]>(
+    this.storage.read('individual-free-faces', [6, 4, 2], isFreeFaces),
+  );
+  protected readonly descendingFaces = signal<readonly (number | null)[]>(
+    this.storage.read('individual-descending-faces', [null, null, null], isDescendingFaces),
+  );
   protected readonly editableDice = computed(() =>
     this.entryMode() === 'descending'
       ? Math.min(this.attackingDice(), this.defendingDice())
@@ -48,15 +77,30 @@ export class IndividualRoll {
   protected readonly conditionalAnnouncement = computed(() => {
     const result = this.conditional();
     if (!result) return this.i18n.messages().incompleteDice;
-    return rollResults(result).results
-      .map((outcome) => `${this.i18n.messages().outcomeDescription(outcome.attackerLoss, outcome.defenderLoss)}: ${this.i18n.percentage(outcome.percentage)}`)
+    return rollResults(result)
+      .results.map(
+        (outcome) =>
+          `${this.i18n.messages().outcomeDescription(outcome.attackerLoss, outcome.defenderLoss)}: ${this.i18n.percentage(outcome.percentage)}`,
+      )
       .join('. ');
   });
   protected setFace(index: number, value: number): void {
     if (this.entryMode() === 'free') {
       this.freeFaces.update((faces) => faces.map((face, i) => (i === index ? value : face)));
+      this.storage.write('individual-free-faces', this.freeFaces());
       return;
     }
     this.descendingFaces.update((faces) => updateDescendingFaces(faces, index, value));
+    this.storage.write('individual-descending-faces', this.descendingFaces());
+  }
+
+  protected setCount(side: 'attacking' | 'defending', count: number): void {
+    (side === 'attacking' ? this.attackingDice : this.defendingDice).set(count);
+    this.storage.write(`individual-${side}-dice`, count);
+  }
+
+  protected setEntryMode(mode: 'descending' | 'free'): void {
+    this.entryMode.set(mode);
+    this.storage.write('individual-entry-mode', mode);
   }
 }
